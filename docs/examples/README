@@ -6,3 +6,8 @@ These tests are executed as part of nameko's CI process.
 The `testing` subdirectory contains examples demonstrating best practice use
 of the test utilities that ship with nameko. They are self-contained modules
 that are also run as part of nameko's CI process.
+
+该目录（nameko/docs/examples）包含用于参考或文档中的示例服务和代码片段。
+`test` 子目录包含基于 pytest 的测试，用于检查示例是否按预期工作。这些测试是 nameko CI 过程的一部分。
+
+`testing` 子目录包含展示最佳实践的测试工具使用示例。这些是自包含的模块，也会作为 nameko CI 过程的一部分运行。

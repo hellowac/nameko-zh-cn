@@ -12,7 +12,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sphinx_nameko_theme
+# import sphinx_nameko_theme
 import pkg_resources
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -29,36 +29,36 @@ import pkg_resources
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx',
-    'sphinxcontrib.spelling',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.todo",
+    "sphinx.ext.coverage",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+    "sphinxcontrib.spelling",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = u'nameko'
-copyright = u'2015'
+project = "nameko"
+copyright = "2015"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = pkg_resources.get_distribution('nameko').version
+version = pkg_resources.get_distribution("nameko").version
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -74,6 +74,7 @@ release = version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
+# exclude_patterns = ["examples"]
 exclude_patterns = []
 
 # The reST default role (used for this markup: `text`) to use for all
@@ -92,10 +93,10 @@ exclude_patterns = []
 # show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # A list of ignored prefixes for module index sorting.
-modindex_common_prefix = ['nameko.']
+modindex_common_prefix = ["nameko."]
 
 # If true, keep warnings as "system message" paragraphs in the built documents.
 # keep_warnings = False
@@ -105,27 +106,32 @@ modindex_common_prefix = ['nameko.']
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'nameko'
+html_theme = "furo"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 # html_theme_options = {}
+html_theme_options = {
+    "sidebar_hide_name": True,  # 隐藏侧边栏顶部的项目名称
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # Travis doesn't support the sphinx_themes setuptools entry point
-html_theme_path = [sphinx_nameko_theme.get_html_theme_path()]
+# html_theme_path = [sphinx_nameko_theme.get_html_theme_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 # html_title = None
+html_title = "Python 的微服务框架"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
+html_short_title = "Python 的微服务框架"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-# html_logo = None
+html_logo = "logo.svg"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -151,10 +157,16 @@ html_theme_path = [sphinx_nameko_theme.get_html_theme_path()]
 # html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-html_sidebars = {
-    '**': ['localtoc.html', 'relations.html', 'sourcelink.html',
-           'sidebarlinks.html', 'searchbox.html']
-}
+# html_sidebars = {}
+# html_sidebars = {
+#     "**": [
+#         "localtoc.html",
+#         "relations.html",
+#         "sourcelink.html",
+#         "sidebarlinks.html",
+#         "searchbox.html",
+#     ]
+# }
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
@@ -187,7 +199,7 @@ html_sidebars = {
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'namekodoc'
+htmlhelp_basename = "namekodoc"
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -195,10 +207,8 @@ htmlhelp_basename = 'namekodoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     # 'preamble': '',
 }
@@ -268,16 +278,16 @@ latex_elements = {
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 # texinfo_no_detailmenu = False
 
-intersphinx_mapping = {
-    'python': ('http://docs.python.org/2.7', None),
-    'eventlet': ('http://eventlet.net/doc', None),
-    'mock': ('http://www.voidspace.org.uk/python/mock/', None),
-    'werkzeug': ('http://werkzeug.pocoo.org/docs', None),
-}
-autoclass_content = 'both'
+# intersphinx_mapping = {
+#     "python": ("http://docs.python.org/2.7", None),
+#     "eventlet": ("http://eventlet.net/doc", None),
+#     "mock": ("http://www.voidspace.org.uk/python/mock/", None),
+#     "werkzeug": ("http://werkzeug.pocoo.org/docs", None),
+# }
+# autoclass_content = "both"
 
 # -- sphinxcontrib.spelling ------------------------------------------------
 
-spelling_lang = 'en_GB'
+spelling_lang = "en_GB"
 
-spelling_word_list_filename = 'spelling_wordlist.txt'
+spelling_word_list_filename = "spelling_wordlist.txt"

@@ -73,7 +73,7 @@ This section covers most things you need to know to create and run your own Name
    community_extensions
    testing
    writing_extensions
-
+   examples/index
 
 
 More Information

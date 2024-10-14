@@ -5,12 +5,11 @@ Nameko
 
 *[nah-meh-koh]*
 
-.. pull-quote ::
+.. pull-quote::
 
-    A microservices framework for Python that lets service developers concentrate on application logic and encourages testability.
+    一个为 Python 设计的微服务框架，让服务开发者专注于应用逻辑并鼓励可测试性。
 
-
-A nameko service is just a class:
+Nameko 服务只是一个类：
 
 .. code-block:: python
 
@@ -25,8 +24,7 @@ A nameko service is just a class:
         def hello(self, name):
             return "Hello, {}!".format(name)
 
-
-You can run it in a shell:
+你可以在 shell 中运行它：
 
 .. code-block:: shell
 
@@ -34,7 +32,7 @@ You can run it in a shell:
     starting services: greeting_service
     ...
 
-And play with it from another:
+并在另一个 shell 中与它交互：
 
 .. code-block:: pycon
 
@@ -42,49 +40,53 @@ And play with it from another:
     >>> n.rpc.greeting_service.hello(name="ナメコ")
     'Hello, ナメコ!'
 
-
-Features
+功能
 --------
 
-* AMQP RPC and Events (pub-sub)
-* HTTP GET, POST & websockets
-* CLI for easy and rapid development
-* Utilities for unit and integration testing
+* AMQP RPC 和事件（发布-订阅模式）
+* HTTP GET、POST 和 websockets
+* 提供易于快速开发的命令行工具
+* 单元测试和集成测试的工具
 
-
-Getting Started
+入门指南
 ---------------
 
-* Check out the `documentation <http://nameko.readthedocs.io>`_.
+* 查看 `文档 <http://nameko.readthedocs.io>`_ 。
 
 
-Support
+编辑文档
+_____________________
+
+要在浏览器中快速查看文档，请尝试：
+
+.. code-block:: bash
+
+    nox -s docs -- serve
+
+支持
 -------
 
-For help, comments or questions, please go to `<https://discourse.nameko.io/>`_.
+如需帮助、评论或有疑问，请访问 `<https://discourse.nameko.io/>`_ 。
 
-For enterprise
+企业支持
 ---------------------
 
-Available as part of the Tidelift Subscription.
+可作为 Tidelift 订阅的一部分。
 
-The maintainers of Nameko and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. `Learn more. <https://tidelift.com/subscription/pkg/pypi-nameko?utm_source=pypi-nameko&utm_medium=referral&utm_campaign=enterprise&utm_term=repo>`_
+Nameko 的维护者和成千上万的其他开源包维护者与 Tidelift 合作，提供您用于构建应用程序的开源依赖项的商业支持和维护服务。节省时间、降低风险、改善代码健康状况，同时支持您实际使用的依赖项的维护者。`了解更多。<https://tidelift.com/subscription/pkg/pypi-nameko?utm_source=pypi-nameko&utm_medium=referral&utm_campaign=enterprise&utm_term=repo>`_
 
-
-Security contact information
+安全联系人信息
 ----------------------------
 
-To report a security vulnerability, please use the `Tidelift security contact <https://tidelift.com/security>`_. Tidelift will coordinate the fix and disclosure.
+如需报告安全漏洞，请使用 `Tidelift 安全联系 <https://tidelift.com/security>`_ 。Tidelift 将协调修复和披露。
 
-
-Contribute
+贡献
 ----------
 
-* Fork the repository
-* Raise an issue or make a feature request
+* Fork 代码仓库
+* 提出问题或功能请求
 
-
-License
+许可证
 -------
 
-Apache 2.0. See LICENSE for details.
+Apache 2.0。详情请参阅 LICENSE 文件。

@@ -19,58 +19,66 @@ except ImportError:  # pragma: no cover
     has_regex_module = False
     ENV_VAR_MATCHER = re.compile(
         r"""
-            \$\{       # match characters `${` literally
-            ([^}:\s]+) # 1st group: matches any character except `}` or `:`
-            :?         # matches the literal `:` character zero or one times
-            ([^}]+)?   # 2nd group: matches any character except `}`
-            \}         # match character `}` literally
+            \$\{       # 字符 `${` 的字面匹配
+            ([^}:\s]+) # 第一个分组：匹配除 `}` 或 `:` 外的任何字符
+            :?         # 零次或一次匹配字面量 `:` 字符
+            ([^}]+)?   # 第二个分组：匹配除 `}` 外的任何字符
+            \}         # 字符 `}` 的字面匹配
         """, re.VERBOSE
     )
 else:  # pragma: no cover
     has_regex_module = True
     ENV_VAR_MATCHER = regex.compile(
         r"""
-        \$\{                #  match ${
-        (                   #  first capturing group: variable name
-            [^{}:\s]+       #  variable name without {,},: or spaces
+        \$\{                # 匹配 ${
+        (                   # 第一个捕获组：变量名
+            [^{}:\s]+       # 变量名，不包含 {,},: 或空格
         )
-        (?:                 # non capturing optional group for value
-            :               # match :
-            (               # 2nd capturing group: default value
-                (?:         # non capturing group for OR
-                    [^{}]   # any non bracket
-                |           # OR
-                    \{      # literal {
-                    (?2)    # recursive 2nd capturing group aka ([^{}]|{(?2)})
-                    \}      # literal }
+        (?:                 # 非捕获的可选组，用于值
+            :               # 匹配 :
+            (               # 第二个捕获组：默认值
+                (?:         # 非捕获组，表示 OR
+                    [^{}]   # 任何非括号字符
+                |           # 或
+                    \{      # 字面量 {
+                    (?2)    # 递归的第二个捕获组，即 ([^{}]|{(?2)})
+                    \}      # 字面量 }
                 )*          #
             )
         )?
-        \}                  # end of macher }
+        \}                  # 匹配结束 }
         """,
         regex.VERBOSE
     )
 
+    ### 代码功能说明：
+    # - **模块导入**：尝试导入 `regex` 模块，如果导入失败，则使用标准库中的 `re` 模块。
+    # - **正则表达式匹配**：定义了一个名为 `ENV_VAR_MATCHER` 的正则表达式，用于匹配环境变量的格式，支持可选的默认值。
+
+
 IMPLICIT_ENV_VAR_MATCHER = re.compile(
     r"""
-        .*          # matches any number of any characters
-        \$\{.*\}    # matches any number of any characters
-                    # between `${` and `}` literally
-        .*          # matches any number of any characters
+        .*          # 匹配任意数量的任意字符
+        \$\{.*\}    # 匹配 `${` 和 `}` 之间的任意数量的任意字符，字面匹配
+        .*          # 匹配任意数量的任意字符
     """, re.VERBOSE
 )
 
-
 RECURSIVE_ENV_VAR_MATCHER = re.compile(
     r"""
-        \$\{       # match characters `${` literally
-        ([^}]+)?   # matches any character except `}`
-        \}         # match character `}` literally
-        ([^$}]+)?  # matches any character except `}` or `$`
-        \}         # match character `}` literally
+        \$\{       # 字面匹配字符 `${`
+        ([^}]+)?   # 匹配除 `}` 外的任何字符
+        \}         # 字面匹配字符 `}`
+        ([^$}]+)?  # 匹配除 `}` 或 `$` 外的任何字符
+        \}         # 字面匹配字符 `}`
     """,
     re.VERBOSE,
 )
+
+
+    # ### 代码功能说明：
+    # - **IMPLICIT_ENV_VAR_MATCHER**：定义了一个正则表达式，用于匹配环境变量格式的字符串，包括 `${...}`，在这个模式中，`${` 和 `}` 之间可以包含任意数量的字符。
+    # - **RECURSIVE_ENV_VAR_MATCHER**：定义了一个正则表达式，用于匹配嵌套的环境变量格式。它可以匹配形式如 `${...}`，并且支持在 `${...}` 结构内存在额外的 `${...}` 结构。
 
 
 def setup_parser():
@@ -95,10 +103,9 @@ def _replace_env_var(match):
     env_var, default = match.groups()
     value = os.environ.get(env_var, None)
     if value is None:
-        # expand default using other vars
+        # 使用其他变量扩展默认值
         if default is None:
-            # regex module return None instead of
-            #  '' if engine didn't entered default capture group
+            # 如果引擎没有进入默认捕获组，regex模块返回None而不是空字符串
             default = ''
 
         value = default
@@ -110,7 +117,7 @@ def _replace_env_var(match):
 def env_var_constructor(loader, node, raw=False):
     raw_value = loader.construct_scalar(node)
 
-    # detect and error on recursive environment variables
+    # 检测并对递归环境变量报错
     if not has_regex_module and RECURSIVE_ENV_VAR_MATCHER.match(
         raw_value
     ):  # pragma: no cover

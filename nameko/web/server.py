@@ -40,11 +40,8 @@ def parse_address(address_string):
 
 
 class HttpOnlyProtocol(HttpProtocol):
-    # identical to HttpProtocol.finish, except greenio.shutdown_safe
-    # is removed. it's only needed to ssl sockets which we don't support
-    # this is a workaround until
-    # https://bitbucket.org/eventlet/eventlet/pull-request/42
-    # or something like it lands
+    # 与 `HttpProtocol.finish` 完全相同，但移除了 `greenio.shutdown_safe`。
+    # 该函数仅在 SSL 套接字中需要，而我们不支持 SSL。这是一个权宜之计，直到 `此处 <https://bitbucket.org/eventlet/eventlet/pull-request/42`_ 或类似的功能被合并。
     def finish(self):
         try:
             # patched in depending on python version; confuses pylint
@@ -58,11 +55,9 @@ class HttpOnlyProtocol(HttpProtocol):
 
 
 class WebServer(ProviderCollector, SharedExtension):
-    """A SharedExtension that wraps a WSGI interface for processing HTTP
-    requests.
+    """一个 `SharedExtension`，用于包装 WSGI 接口以处理 HTTP 请求。
 
-    WebServer can be subclassed to add additional WSGI functionality through
-    overriding the get_wsgi_server and get_wsgi_app methods.
+    `WebServer` 可以被子类化，通过重写 `get_wsgi_server` 和 `get_wsgi_app` 方法来添加额外的 WSGI 功能。
     """
 
     def __init__(self):
@@ -115,10 +110,9 @@ class WebServer(ProviderCollector, SharedExtension):
             self._gt = self.container.spawn_managed_thread(self.run)
 
     def get_wsgi_app(self):
-        """Get the WSGI application used to process requests.
+        """获取用于处理请求的 WSGI 应用程序。
 
-        This method can be overriden to apply WSGI middleware or replace
-        the WSGI application all together.
+        此方法可以被重写，以应用 WSGI 中间件或完全替换 WSGI 应用程序。
         """
         return WsgiApp(self)
 
@@ -160,16 +154,12 @@ class WsgiApp(object):
         self.url_map = server.make_url_map()
 
     def __call__(self, environ, start_response):
-        # set to shallow mode so that nobody can read request data in
-        # until unset.  This allows the connection to be upgraded into
-        # a bidirectional websocket connection later if we need in all
-        # cases.  The regular request handling code unsets this flag
-        # automatically.
-        #
-        # If we would not do this and some code would access the form data
-        # before that point, we might deadlock outselves because the
-        # browser is no longer reading from our socket at this point in
-        # time.
+        # 设置为浅模式，以便在未取消之前，任何人都无法读取请求数据。
+        # 这使得在所有情况下，如果需要，可以将连接升级为双向 WebSocket 连接。
+        # 常规请求处理代码会自动取消此标志。
+        # 
+        # 如果我们不这样做，某些代码可能会在此之前访问表单数据，
+        # 这可能导致死锁，因为此时浏览器不再从我们的套接字读取数据。
         request = Request(environ, shallow=True)
         adapter = self.url_map.bind_to_environ(environ)
         try:

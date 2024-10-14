@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from code import InteractiveConsole
 
 
-# This class is covered by tests run in subprocess hence the no cover
+# 该类由在子进程中运行的测试覆盖，因此不包含在覆盖范围内 (`no cover`)。
 class RaisingInteractiveConsole(InteractiveConsole):  # pragma: no cover
     """ Custom InterativeConsole class that allows raising exception if needed.
     """
@@ -25,7 +25,7 @@ class RaisingInteractiveConsole(InteractiveConsole):  # pragma: no cover
                 raise
 
 
-# This function is covered by tests run in subprocess hence the no cover
+# 该函数由在子进程中运行的测试覆盖，因此不包含在覆盖范围内 (`no cover`)。
 def interact(
     banner=None, local=None, raise_expections=False
 ):  # pragma: no cover

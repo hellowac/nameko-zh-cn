@@ -5,19 +5,15 @@ from eventlet.queue import LightQueue
 
 
 def fail_fast_imap(pool, call, items):
-    """ Run a function against each item in a given list, yielding each
-    function result in turn, where the function call is handled in a
-    :class:`~eventlet.greenthread.GreenThread` spawned by the provided pool.
+    """对给定列表中的每个项运行一个函数，逐个生成每个函数结果，其中函数调用在由提供的池生成的 :class:`~eventlet.greenthread.GreenThread` 中处理。
 
-    If any function raises an exception, all other ongoing threads are killed,
-    and the exception is raised to the caller.
+    如果任何函数引发异常，则所有其他正在进行的线程将被终止，并将异常抛给调用者。
 
-    This function is similar to :meth:`~eventlet.greenpool.GreenPool.imap`.
+    此函数类似于 :meth:`~eventlet.greenpool.GreenPool.imap`。
 
-    :param pool: Pool to spawn function threads from
-    :type pool: eventlet.greenpool.GreenPool
-    :param call: Function call to make, expecting to receive an item from the
-        given list
+    :param pool: 用于生成函数线程的池  
+    :type pool: eventlet.greenpool.GreenPool  
+    :param call: 要调用的函数，期望从给定列表中接收一个项  
     """
     result_queue = LightQueue(maxsize=len(items))
     spawned_threads = set()
@@ -51,16 +47,14 @@ def fail_fast_imap(pool, call, items):
 
 class SpawningProxy(object):
     def __init__(self, items, abort_on_error=False):
-        """ Wraps an iterable set of items such that a call on the returned
-        SpawningProxy instance will spawn a call in a
-        :class:`~eventlet.greenthread.GreenThread` for each item.
+        """ 
+        
+        将一组可迭代项封装，使得对返回的 `SpawningProxy` 实例的调用将在每个项上生成一个 :class:`~eventlet.greenthread.GreenThread` 。
 
-        Returns when every spawned thread has completed.
+        当每个生成的线程完成时返回。
 
-        :param items: Iterable item set to process
-        :param abort_on_error: If True, any exceptions raised on an individual
-            item call will cause all peer item call threads to be killed, and
-            for the exception to be propagated to the caller immediately.
+        :param items: 要处理的可迭代项集  
+        :param abort_on_error: 如果为 True, 任何在单个项调用中引发的异常将导致所有同级项调用线程被终止，并立即将异常传播给调用者。
         """
         self._items = items
         self.abort_on_error = abort_on_error
@@ -83,8 +77,7 @@ class SpawningProxy(object):
 
 
 class SpawningSet(set):
-    """ A set with an ``.all`` property that will spawn a method call on each
-    item in the set into its own (parallel) greenthread.
+    """ 一个具有 ``.all`` 属性的集合，该属性将在集合中的每个项上生成一个方法调用，每个调用都会在其自己的（并行）绿色线程中执行。
     """
     @property
     def all(self):

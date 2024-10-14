@@ -11,8 +11,8 @@ from nameko.constants import (
 
 
 class UndeliverableMessage(Exception):
-    """ Raised when publisher confirms are enabled and a message could not
-    be routed or persisted """
+    """ 当启用了发布者确认并且消息无法路由或持久存储时抛出的异常。
+    """
     pass
 
 
@@ -47,82 +47,71 @@ def get_producer(
 
 class Publisher(object):
     """
-    Utility helper for publishing messages to RabbitMQ.
+    用于向 RabbitMQ 发布消息的工具助手。
     """
 
     use_confirms = True
     """
-    Enable `confirms <http://www.rabbitmq.com/confirms.html>`_ for this
-    publisher.
+    为该发布者启用 `confirms <http://www.rabbitmq.com/confirms.html>`_ 。
 
-    The publisher will wait for an acknowledgement from the broker that
-    the message was receieved and processed appropriately, and otherwise
-    raise. Confirms have a performance penalty but guarantee that messages
-    aren't lost, for example due to stale connections.
+    发布者将等待来自代理的确认，以确保消息已被接收并适当处理，否则将抛出异常。启用确认会带来性能损耗，但可以保证消息不会丢失，例如由于连接过期导致的丢失。
     """
 
     transport_options = DEFAULT_TRANSPORT_OPTIONS.copy()
-    """
-    A dict of additional connection arguments to pass to alternate kombu
-    channel implementations. Consult the transport documentation for
-    available options.
+    """一个用于传递给其他 Kombu 通道实现的附加连接参数的字典。请参考传输文档以了解可用的选项。
     """
 
     delivery_mode = PERSISTENT
     """
-    Default delivery mode for messages published by this Publisher.
+    此发布者发布消息的默认投递模式。
     """
 
     mandatory = False
     """
-    Require `mandatory <https://www.rabbitmq.com/amqp-0-9-1-reference.html
-    #basic.publish.mandatory>`_ delivery for published messages.
+    要求为发布的消息启用 `mandatory <https://www.rabbitmq.com/amqp-0-9-1-reference.html#basic.publish.mandatory>`_ 投递。
     """
 
     priority = 0
     """
-    Priority value for published messages, to be used in conjunction with
-    `consumer priorities <https://www.rabbitmq.com/priority.html>_`.
+    发布消息的优先级值，与 `消费者优先级 <https://www.rabbitmq.com/priority.html>`_ 配合使用 。
     """
 
     expiration = None
     """
-    `Per-message TTL <https://www.rabbitmq.com/ttl.html>`_, in milliseconds.
+    每条消息的 TTL(存活时间), 单位为毫秒。详见 `每条消息 TTL <https://www.rabbitmq.com/ttl.html>`_ 。
     """
 
     serializer = "json"
-    """ Name of the serializer to use when publishing messages.
+    """
+    发布消息时使用的序列化器名称。
 
-    Must be registered as a
-    `kombu serializer <http://bit.do/kombu_serialization>`_.
+    必须注册为 `kombu 序列化器 <http://bit.do/kombu_serialization>`_ 。
     """
 
     compression = None
-    """ Name of the compression to use when publishing messages.
+    """
+    发布消息时使用的压缩方式名称。
 
-    Must be registered as a
-    `kombu compression utility <http://bit.do/kombu-compression>`_.
+    必须注册为 `kombu 压缩工具 <http://bit.do/kombu-compression>`_ 。
     """
 
     retry = True
     """
-    Enable automatic retries when publishing a message that fails due
-    to a connection error.
+    启用自动重试，当由于连接错误导致消息发布失败时。
 
-    Retries according to :attr:`self.retry_policy`.
+    根据 :attr:`self.retry_policy` 执行重试。
     """
 
     retry_policy = DEFAULT_RETRY_POLICY
     """
-    Policy to apply when retrying message publishes, if requested.
+    重试发布消息时应用的策略（如果请求重试）。
 
-    See :attr:`self.retry`.
+    参见 :attr:`self.retry` 。
     """
 
     declare = []
     """
-    Kombu :class:`~kombu.messaging.Queue` or :class:`~kombu.messaging.Exchange`
-    objects to (re)declare before publishing a message.
+    在发布消息前需要（重新）声明的 Kombu 对象，如 :class:`~kombu.messaging.Queue` 或 :class:`~kombu.messaging.Exchange` 。
     """
 
     def __init__(
@@ -135,11 +124,11 @@ class Publisher(object):
         self.ssl = ssl
         self.login_method = login_method
 
-        # publish confirms
+        # 发布确认
         if use_confirms is not None:
             self.use_confirms = use_confirms
 
-        # delivery options
+        # 投递选项
         if delivery_mode is not None:
             self.delivery_mode = delivery_mode
         if mandatory is not None:
@@ -149,32 +138,31 @@ class Publisher(object):
         if expiration is not None:
             self.expiration = expiration
 
-        # message options
+        # 消息选项
         if serializer is not None:
             self.serializer = serializer
         if compression is not None:
             self.compression = compression
 
-        # retry policy
+        # 重试策略
         if retry is not None:
             self.retry = retry
         if retry_policy is not None:
             self.retry_policy = retry_policy
 
-        # declarations
+        # 声明
         if declare is not None:
             self.declare = declare
 
-        # other publish arguments
+        # 其他发布参数
         self.publish_kwargs = publish_kwargs
 
     def publish(self, payload, **kwargs):
-        """ Publish a message.
+        """ 发布一条消息
         """
         publish_kwargs = self.publish_kwargs.copy()
 
-        # merge headers from when the publisher was instantiated
-        # with any provided now; "extra" headers always win
+        # 合并发布者实例化时的头信息与现在提供的任何头信息；“额外”的头信息总是优先。
         headers = publish_kwargs.pop('headers', {}).copy()
         headers.update(kwargs.pop('headers', {}))
         headers.update(kwargs.pop('extra_headers', {}))
@@ -197,7 +185,7 @@ class Publisher(object):
         declare = self.declare[:]
         declare.extend(kwargs.pop('declare', ()))
 
-        publish_kwargs.update(kwargs)  # remaining publish-time kwargs win
+        publish_kwargs.update(kwargs)  # 剩余的在发布时传递的关键字参数优先。
 
         with get_producer(self.amqp_uri,
                           use_confirms,

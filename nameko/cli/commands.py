@@ -1,6 +1,5 @@
-"""Commands are defined in here, with imports inline, to avoid triggering
-imports from other subcommands (e.g. `run` will cause an eventlet monkey-patch
-which we don't want for `shell`)
+"""命令在此处定义，并且导入语句内联，以避免触发其他子命令的导入
+（例如，`run` 将导致 eventlet 的猴子补丁，而我们不希望在 `shell` 中发生这种情况）。
 
 """
 from .actions import FlagAction
@@ -15,15 +14,14 @@ class Command(object):
 
     @staticmethod
     def main(args, *unknown_args):
-        # import inline to avoid triggering imports from other subcommands
+        # 使用内联导入以避免触发其他子命令的导入。
         raise NotImplementedError  # pragma: no cover
 
 
 class Backdoor(Command):
-    """Connect to a nameko backdoor.
+    """连接到 Nameko 后门。
 
-    If a backdoor is running this will connect to a remote shell.  The
-    runner is generally available as `runner`.
+    如果后门正在运行，这将连接到远程 shell。运行器通常可用作 `runner` 。
     """
 
     name = 'backdoor'
@@ -47,11 +45,9 @@ class Backdoor(Command):
 
 
 class ShowConfig(Command):
-    """ Output as YAML string the configuration that would be passed to a
-    service.
+    """以 YAML 字符串的形式输出将传递给服务的配置。
 
-    Useful for viewing config files that load values from environement
-    variables.
+    这对于查看从环境变量加载值的配置文件非常有用。
     """
 
     name = 'show-config'
@@ -72,11 +68,9 @@ class ShowConfig(Command):
 
 
 class Run(Command):
-    """Run nameko services.  Given a python path to a module containing one or
-    more nameko services, will host and run them. By default this will try to
-    find classes that look like services (anything with nameko entrypoints),
-    but a specific service can be specified via
-    ``nameko run module:ServiceClass``.
+    """运行 Nameko 服务。给定一个 Python 模块的路径，该模块包含一个或多个 Nameko 服务，将会托管并运行它们。
+    
+    默认情况下，这将尝试找到看起来像服务的类（任何具有 Nameko 入口点的内容），但可以通过 ``nameko run module:ServiceClass`` 指定特定的服务。
     """
 
     name = 'run'
@@ -114,12 +108,9 @@ class Run(Command):
 
 
 class Shell(Command):
-    """Launch an interactive python shell for working with remote nameko
-    services.
+    """启动一个交互式 Python shell, 以便与远程 Nameko 服务进行交互。
 
-    This is a regular interactive interpreter, with a special module ``n``
-    added to the built-in namespace, providing ``n.rpc`` and
-    ``n.dispatch_event``.
+    这是一个常规的交互式解释器，内置命名空间中添加了一个特殊模块 ``n``，提供 ``n.rpc`` 和 ``n.dispatch_event``。
     """
 
     name = 'shell'

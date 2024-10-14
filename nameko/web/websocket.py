@@ -20,12 +20,11 @@ from nameko.extensions import (
 from nameko.web.server import WebServer
 
 
-# in version 2.0.0, werkzeug started correctly identifying incoming websocket
-# requests, and only matching them to rules that are marked as being websocket targets.
-# see https://github.com/pallets/werkzeug/issues/2052.
-# all versions of werkzeug throw a 400 Bad Request error if no rules match, so we need
-# to make the explicit identification of a rule as a websocket target conditional
-# on the version of werkzeug.
+# 在 2.0.0 版本中，Werkzeug 开始正确识别传入的 WebSocket 请求，
+# 并仅将其匹配到标记为 WebSocket 目标的规则。
+# 请参见 `GitHub issue #2052 <https://github.com/pallets/werkzeug/issues/2052>`_ 。
+# 所有版本的 Werkzeug 在没有规则匹配时都会抛出 400 Bad Request 错误，
+# 因此我们需要根据 Werkzeug 的版本对规则的显式标识作为 WebSocket 目标进行条件判断。
 IDENTIFY_WEBSOCKET_RULES = version.parse(werkzeug.__version__) >= version.parse("2.0.0")
 
 
@@ -198,20 +197,20 @@ class WebSocketHub(object):
         return rv
 
     def get_subscriptions(self, socket_id):
-        """Returns a list of all the subscriptions of a socket."""
+        """返回套接字的所有订阅列表。"""
         con = self._get_connection(socket_id, create=False)
         if con is None:
             return []
         return sorted(con.subscriptions)
 
     def subscribe(self, socket_id, channel):
-        """Subscribes a socket to a channel."""
+        """将套接字订阅到频道。"""
         con = self._get_connection(socket_id)
         self.subscriptions.setdefault(channel, set()).add(socket_id)
         con.subscriptions.add(channel)
 
     def unsubscribe(self, socket_id, channel):
-        """Unsubscribes a socket from a channel."""
+        """将套接字从频道中取消订阅。"""
         con = self._get_connection(socket_id, create=False)
         if con is not None:
             con.subscriptions.discard(channel)
@@ -221,7 +220,7 @@ class WebSocketHub(object):
             pass
 
     def broadcast(self, channel, event, data):
-        """Broadcasts an event to all sockets listening on a channel."""
+        """向所有在频道上监听的套接字广播事件。"""
         payload = self._server.serialize_event(event, data)
         for socket_id in self.subscriptions.get(channel, ()):
             rv = self._server.sockets.get(socket_id)
@@ -229,8 +228,7 @@ class WebSocketHub(object):
                 rv.socket.send(payload)
 
     def unicast(self, socket_id, event, data):
-        """Sends an event to a single socket.  Returns `True` if that
-        worked or `False` if not.
+        """向单个套接字发送事件。如果成功则返回 `True`，否则返回 `False`。
         """
         payload = self._server.serialize_event(event, data)
         rv = self._server.sockets.get(socket_id)

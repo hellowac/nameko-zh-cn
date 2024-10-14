@@ -1,25 +1,23 @@
 """
-Nameko components that can be used as standalone tools, without being hosted
-inside a nameko-managed service.
+Nameko 组件可以作为独立工具使用，而无需托管在 Nameko 管理的服务内部。
 
-Intended to be used as test utilities and external controls, for example to
-initiate some action inside a nameko cluster.
+旨在作为测试工具和外部控制使用，例如在 Nameko 集群中发起某些操作。
 
 .. Example:
 
-    Use the RPC proxy to perform some addition on "mathsservice"::
+    使用 RPC 代理对 "mathsservice" 执行加法运算::
 
         >>> from nameko.standalone.rpc import rpc_proxy
         >>>
         >>> with rpc_proxy("mathsservice", config) as proxy:
         ...     result = proxy.add(2, 2)
         ...
-        >>> print result
+        >>> print(result)
         4
 
 .. Example:
 
-    Dispatch a ``custom_event`` as ``srcservice``::
+    作为 ``srcservice`` 派发 ``custom_event``::
 
     >>> from nameko.standalone.events import event_dispatcher
     >>>

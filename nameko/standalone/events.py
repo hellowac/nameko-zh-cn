@@ -9,7 +9,7 @@ from nameko.constants import (
 
 
 def get_event_exchange(service_name, config):
-    """ Get an exchange for ``service_name`` events.
+    """ 获取 ``service_name`` 事件的交换机。
     """
     auto_delete = config.get("AUTO_DELETE_EVENT_EXCHANGES")
     disable_exchange_declaration = config.get("DECLARE_EVENT_EXCHANGES") is False
@@ -28,7 +28,7 @@ def get_event_exchange(service_name, config):
 
 
 def event_dispatcher(nameko_config, **kwargs):
-    """ Return a function that dispatches nameko events.
+    """ 返回一个用于分发 Nameko 事件的函数。
     """
     amqp_uri = nameko_config[AMQP_URI_CONFIG_KEY]
 
@@ -46,8 +46,7 @@ def event_dispatcher(nameko_config, **kwargs):
     )
 
     def dispatch(service_name, event_type, event_data):
-        """ Dispatch an event claiming to originate from `service_name` with
-        the given `event_type` and `event_data`.
+        """ 分发一个声称来自 `service_name` 的事件，带有给定的 `event_type` 和 `event_data`。
         """
         exchange = get_event_exchange(service_name, nameko_config)
 

@@ -22,7 +22,7 @@ _logger = logging.getLogger(__name__)
 
 
 class ConsumeEvent(object):
-    """ Event for the RPC consumer with the same interface as eventlet.Event.
+    """ 具有与 eventlet.Event 相同接口的 RPC 消费者的事件。
     """
     exception = None
 
@@ -37,16 +37,13 @@ class ConsumeEvent(object):
         self.exception = exc
 
     def wait(self):
-        """ Makes a blocking call to its queue_consumer until the message
-        with the given correlation_id has been processed.
+        """ 对其 `queue_consumer` 进行阻塞调用，直到处理完具有给定 `correlation_id` 的消息。
 
-        By the time the blocking call exits, self.send() will have been called
-        with the body of the received message
-        (see :meth:`~nameko.rpc.ReplyListener.handle_message`).
+        在阻塞调用退出时， `self.send()` 将被调用，并传入接收到的消息的主体（参见 :meth:`~nameko.rpc.ReplyListener.handle_message` ）。
 
-        Exceptions are raised directly.
+        异常将被直接引发。
         """
-        # disconnected before starting to wait
+        # 在开始等待之前已断开连接。
         if self.exception:
             raise self.exception
 
@@ -55,10 +52,9 @@ class ConsumeEvent(object):
                 "This consumer has been stopped, and can no longer be used"
             )
         if self.queue_consumer.connection.connected is False:
-            # we can't just reconnect here. the consumer (and its exclusive,
-            # auto-delete reply queue) must be re-established _before_ sending
-            # any request, otherwise the reply queue may not exist when the
-            # response is published.
+            # 我们不能在这里直接重连。
+            # 消费者（及其独占的、自动删除的回复队列）必须在发送任何请求之前重新建立，
+            # 否则在响应发布时回复队列可能不存在。
             raise RuntimeError(
                 "This consumer has been disconnected, and can no longer "
                 "be used"
@@ -76,10 +72,8 @@ class ConsumeEvent(object):
 
 
 class PollingQueueConsumer(object):
-    """ Implements a minimum interface of the
-    :class:`~messaging.QueueConsumer`. Instead of processing messages in a
-    separate thread it provides a polling method to block until a message with
-    the same correlation ID of the RPC-proxy call arrives.
+    """ 实现了 :class:`~messaging.QueueConsumer` 的最小接口。
+    它不是在单独的线程中处理消息，而是提供了一种轮询方法，以阻塞直到到达具有相同关联 ID 的 RPC 代理调用的消息。
     """
     consumer = None
 
@@ -93,12 +87,10 @@ class PollingQueueConsumer(object):
             try:
                 self.consumer.cancel()
             except (socket.error, IOError):  # pragma: no cover
-                # On some systems (e.g. os x) we need to explicitly cancel the
-                # consumer here. However, e.g. on ubuntu 14.04, the
-                # disconnection has already closed the socket. We try to
-                # cancel, and ignore any socket errors.
-                # If the socket has been closed, an IOError is raised, ignore
-                # it and assume the consumer is already cancelled.
+                # 在某些系统上（例如 macOS），我们需要在这里显式地取消消费者。
+                # 然而，例如在 Ubuntu 14.04 上，断开连接已经关闭了套接字。
+                # 我们尝试取消，并忽略任何套接字错误。
+                # 如果套接字已关闭，则会引发 IOError，忽略它并假设消费者已经被取消。
                 pass
 
         channel = self.connection.channel()
@@ -153,20 +145,16 @@ class PollingQueueConsumer(object):
             self.provider.handle_message(body, message)
 
         except socket.timeout:
-            # TODO: this conflates an rpc timeout with a socket read timeout.
-            # a better rpc proxy implementation would recover from a socket
-            # timeout if the rpc timeout had not yet been reached
+            # TODO: 这将RPC超时与套接字读取超时混淆。如果RPC超时尚未达到，更好的RPC代理实现应该能够从套接字超时中恢复。
             timeout_error = RpcTimeout(self.timeout)
             event = self.provider._reply_events.pop(correlation_id)
             event.send_exception(timeout_error)
 
-            # timeout is implemented using socket timeout, so when it
-            # fires the connection is closed and must be re-established
+            # 超时是通过套接字超时实现的，因此当超时发生时，连接会被关闭并必须重新建立。
             self._setup_consumer()
 
         except (IOError, ConnectionError):
-            # in case this was a temporary error, attempt to reconnect
-            # and try again. if we fail to reconnect, the error will bubble
+            # 如果这是一个临时错误，尝试重新连接并重试。如果我们无法重新连接，错误将被抛出。
             self._setup_consumer()
             self.get_message(correlation_id)
 
@@ -178,7 +166,7 @@ class PollingQueueConsumer(object):
 
 
 class SingleThreadedReplyListener(ReplyListener):
-    """ A ReplyListener which uses a custom queue consumer and ConsumeEvent.
+    """ 一个使用自定义队列消费者和 `ConsumeEvent` 的 `ReplyListener` 。
     """
     queue_consumer = None
 
@@ -194,9 +182,7 @@ class SingleThreadedReplyListener(ReplyListener):
 
 class StandaloneProxyBase(object):
     class ServiceContainer(object):
-        """ Implements a minimum interface of the
-        :class:`~containers.ServiceContainer` to be used by the subclasses
-        and rpc imports in this module.
+        """ 实现了 :class:`~containers.ServiceContainer` 的最小接口，以供该模块中的子类和 RPC 导入使用。
         """
         service_name = "standalone_rpc_proxy"
 
@@ -237,34 +223,27 @@ class StandaloneProxyBase(object):
 
 class ServiceRpcProxy(StandaloneProxyBase):
     """
-    A single-threaded RPC proxy to a named service. Method calls on the
-    proxy are converted into RPC calls to the service, with responses
-    returned directly.
+    一个单线程的 RPC 代理，用于命名服务。代理上的方法调用会转换为对服务的 RPC 调用，并直接返回响应。
 
-    Enables services not hosted by nameko to make RPC requests to a nameko
-    cluster. It is commonly used as a context manager but may also be manually
-    started and stopped.
+    允许未托管在 Nameko 中的服务向 Nameko 集群发出 RPC 请求。通常用作上下文管理器，但也可以手动启动和停止。
 
-    *Usage*
+    *用法*
 
-    As a context manager::
+    作为上下文管理器使用::
 
         with ServiceRpcProxy('targetservice', config) as proxy:
             proxy.method()
 
-    The equivalent call, manually starting and stopping::
+    等效的调用，手动启动和停止::
 
         targetservice_proxy = ServiceRpcProxy('targetservice', config)
         proxy = targetservice_proxy.start()
         proxy.method()
         targetservice_proxy.stop()
 
-    If you call ``start()`` you must eventually call ``stop()`` to close the
-    connection to the broker.
+    如果调用了 ``start()`` ，则必须最终调用 ``stop()`` 以关闭与代理的连接。
 
-    You may also supply ``context_data``, a dictionary of data to be
-    serialised into the AMQP message headers, and specify custom worker
-    context class to serialise them.
+    您还可以提供 ``context_data`` ，这是一个数据字典，将被序列化到 AMQP 消息头中，并指定自定义的工作上下文类以序列化它们。
     """
     def __init__(self, service_name, *args, **kwargs):
         super(ServiceRpcProxy, self).__init__(*args, **kwargs)
@@ -274,28 +253,21 @@ class ServiceRpcProxy(StandaloneProxyBase):
 
 class ClusterProxy(object):
     """
-    A single-threaded RPC proxy to a cluster of services. Individual services
-    are accessed via attributes, which return service proxies. Method calls on
-    the proxies are converted into RPC calls to the service, with responses
-    returned directly.
+    一个单线程的 RPC 代理，用于服务集群。可以通过属性访问各个服务，这些属性返回服务代理。代理上的方法调用会转换为对服务的 RPC 调用，并直接返回响应。
 
-    Enables services not hosted by nameko to make RPC requests to a nameko
-    cluster. It is commonly used as a context manager but may also be manually
-    started and stopped.
+    允许未托管在 Nameko 中的服务向 Nameko 集群发出 RPC 请求。通常用作上下文管理器，但也可以手动启动和停止。
 
-    This is similar to the service proxy, but may be uses a single reply queue
-    for calls to all services, where a collection of service proxies would have
-    one reply queue per proxy.
+    这类似于服务代理，但可以为所有服务的调用使用一个单独的回复队列，而一组服务代理则会为每个代理拥有一个回复队列。
 
-    *Usage*
+    *用法*
 
-    As a context manager::
+    作为上下文管理器使用::
 
         with ClusterRpcProxy(config) as proxy:
             proxy.service.method()
             proxy.other_service.method()
 
-    The equivalent call, manually starting and stopping::
+    等效的调用，手动启动和停止::
 
         proxy = ClusterRpcProxy(config)
         proxy = proxy.start()
@@ -303,20 +275,15 @@ class ClusterProxy(object):
         proxy.other_service.method()
         proxy.stop()
 
-    If you call ``start()`` you must eventually call ``stop()`` to close the
-    connection to the broker.
+    如果调用了 ``start()`` ，则必须最终调用 ``stop()`` 以关闭与代理的连接。
 
-    You may also supply ``context_data``, a dictionary of data to be
-    serialised into the AMQP message headers, and specify custom worker
-    context class to serialise them.
+    您还可以提供 ``context_data`` ，这是一个数据字典，将被序列化到 AMQP 消息头中，并指定自定义的工作上下文类以序列化它们。
 
-    When the name of the service is not legal in Python, you can also
-    use a dict-like syntax::
+    当服务名称在 Python 中不合法时，您也可以使用类似字典的语法::
 
         with ClusterRpcProxy(config) as proxy:
             proxy['service-name'].method()
             proxy['other-service'].method()
-
     """
     def __init__(self, worker_ctx, reply_listener):
         self._worker_ctx = worker_ctx

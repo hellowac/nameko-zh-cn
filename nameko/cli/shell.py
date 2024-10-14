@@ -39,8 +39,7 @@ class ShellRunner(object):
         else:
             available_shells = [name] if name else Shell.SHELLS
 
-        # Support the regular Python interpreter startup script if someone
-        # is using it.
+        # 支持常规的 Python 解释器启动脚本，以便在有人使用时能够正常运行。
         startup = os.environ.get('PYTHONSTARTUP')
         if startup and os.path.isfile(startup):
             with open(startup, 'r') as f:
@@ -56,14 +55,13 @@ class ShellRunner(object):
 
 
 def make_nameko_helper(config):
-    """Create a fake module that provides some convenient access to nameko
-    standalone functionality for interactive shell usage.
+    """创建一个虚拟模块，以便为交互式 shell 使用提供一些便捷的 Nameko 独立功能访问。
     """
     module = ModuleType('nameko')
-    module.__doc__ = """Nameko shell helper for making rpc calls and dispatching
-events.
+    module.__doc__ = """Nameko shell 辅助工具，用于进行 RPC 调用和分发事件。
 
-Usage:
+用法:
+
     >>> n.rpc.service.method()
     "reply"
 

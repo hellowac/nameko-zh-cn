@@ -51,20 +51,19 @@ def import_service(module_name):
             )
 
         missing_module_re = MISSING_MODULE_TEMPLATE.format(module_name)
-        # is there a better way to do this?
+        # 有没有更好的方法来做到这一点？
 
         if re.match(missing_module_re, str(exc)):
             raise CommandError(exc)
 
-        # found module, but importing it raised an import error elsewhere
-        # let this bubble (resulting in a full stacktrace being printed)
+        # 找到模块，但在其他地方导入时引发了导入错误，让它冒泡（导致打印完整的堆栈跟踪）。
         raise
 
     module = sys.modules[module_name]
 
     if obj is None:
         found_services = []
-        # find top-level objects with entrypoints
+        # 查找具有入口点的顶级对象。
         for _, potential_service in inspect.getmembers(module, is_type):
             if inspect.getmembers(potential_service, is_entrypoint):
                 found_services.append(potential_service)
@@ -117,8 +116,7 @@ def run(services, config, backdoor_port=None):
         service_runner.add_service(service_cls)
 
     def shutdown(signum, frame):
-        # signal handlers are run by the MAINLOOP and cannot use eventlet
-        # primitives, so we have to call `stop` in a greenlet
+        # 信号处理程序由主循环运行，无法使用 eventlet 原语，因此我们必须在绿色线程中调用 `stop`。
         eventlet.spawn_n(service_runner.stop)
 
     signal.signal(signal.SIGTERM, shutdown)
@@ -128,11 +126,10 @@ def run(services, config, backdoor_port=None):
 
     service_runner.start()
 
-    # if the signal handler fires while eventlet is waiting on a socket,
-    # the __main__ greenlet gets an OSError(4) "Interrupted system call".
-    # This is a side-effect of the eventlet hub mechanism. To protect nameko
-    # from seeing the exception, we wrap the runner.wait call in a greenlet
-    # spawned here, so that we can catch (and silence) the exception.
+    # 如果信号处理程序在 eventlet 正在等待套接字时触发，
+    # `__main__` 绿色线程会收到一个 OSError(4) "Interrupted system call"。
+    # 这是 eventlet hub 机制的副作用。为了保护 nameko 不受该异常的影响，
+    # 我们将 `runner.wait` 调用包装在此处生成的绿色线程中，以便捕获（并静默）该异常。
     runnlet = eventlet.spawn(service_runner.wait)
 
     while True:
@@ -140,12 +137,12 @@ def run(services, config, backdoor_port=None):
             runnlet.wait()
         except OSError as exc:
             if exc.errno == errno.EINTR:
-                # this is the OSError(4) caused by the signalhandler.
-                # ignore and go back to waiting on the runner
+                # 这是由信号处理程序引起的 OSError(4)。  
+                # 忽略它并返回继续等待 runner。
                 continue
             raise
         except KeyboardInterrupt:
-            print()  # looks nicer with the ^C e.g. bash prints in the terminal
+            print()  # 在终端中显示类似于 bash 的 ^C 形式，看起来更好。
             try:
                 service_runner.stop()
             except KeyboardInterrupt:

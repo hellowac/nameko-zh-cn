@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, annotations
 
 import inspect
 import types
@@ -6,6 +6,7 @@ import warnings
 import weakref
 from functools import partial
 from logging import getLogger
+from typing import Any, Type
 
 from eventlet.event import Event
 
@@ -65,6 +66,10 @@ class Extension(object):
     def bind(self, container):
         """获取当前扩展的实例绑定到 `container`."""
 
+        import nameko.containers
+
+        container: nameko.containers.ServiceContainer
+
         def clone(prototype):
             if prototype.is_bound():
                 raise RuntimeError("无法从一个已绑定的扩展进行 `bind`。")
@@ -118,8 +123,10 @@ class SharedExtension(Extension):
 class DependencyProvider(Extension):
     attr_name = None
 
-    def bind(self, container, attr_name):
+
+    def bind(self, container, attr_name: str):
         """获取一个依赖项的实例，以便与 `container` 和 `attr_name` 绑定。"""
+        
         instance = super(DependencyProvider, self).bind(container)
         instance.attr_name = attr_name
         self.attr_name = attr_name
@@ -298,15 +305,15 @@ class Entrypoint(Extension):
         )
 
 
-def is_extension(obj):
+def is_extension(obj: Any):
     return isinstance(obj, Extension)
 
 
-def is_dependency(obj):
+def is_dependency(obj: Any):
     return isinstance(obj, DependencyProvider)
 
 
-def is_entrypoint(obj):
+def is_entrypoint(obj: Any):
     return isinstance(obj, Entrypoint)
 
 

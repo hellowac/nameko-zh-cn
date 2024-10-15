@@ -33,11 +33,13 @@ def is_type(obj: Any):
 
 
 def is_entrypoint(method: Any):
-    """"""
+    """判断某个函数是否为入口点"""
     return hasattr(method, ENTRYPOINT_EXTENSIONS_ATTR)
 
 
 def import_service(module_name: str):
+    """ 导入基于字符串路径的服务类 """
+
     # module[:class_name]
     parts = module_name.split(":", 1)
     if len(parts) == 1:
@@ -125,6 +127,8 @@ def setup_backdoor(runner: ServiceRunner, port: int):
 
 
 def run(services: List[Type], config: dict, backdoor_port: Optional[int] = None):
+    """ 基于配置，运行指定的服务类列表 """
+
     service_runner = ServiceRunner(config)
     for service_cls in services:
         service_runner.add_service(service_cls)

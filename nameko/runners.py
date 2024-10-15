@@ -5,7 +5,7 @@ from logging import getLogger
 
 from typing import Type, Dict, Any, List
 
-from nameko.containers import get_container_cls, get_service_name
+from nameko.containers import get_container_cls, get_service_name, ServiceContainer
 from nameko.utils.concurrency import SpawningProxy
 
 
@@ -38,10 +38,10 @@ class ServiceRunner(object):
         :type config: dict
         """
 
-        self.service_map: Dict[str, Type] = {}
+        self.service_map: Dict[str, ServiceContainer] = {}
         self.config: Dict[str, Any] = config
 
-        self.container_cls: Type = get_container_cls(config)
+        self.container_cls: Type[ServiceContainer] = get_container_cls(config)
 
     @property
     def service_names(self):
@@ -57,21 +57,20 @@ class ServiceRunner(object):
         服务类必须在调用 start() 之前注册。
         """
         service_name = get_service_name(cls)
-        container = self.container_cls(cls, self.config)
+        container = self.container_cls(cls, self.config)  # 用容器类封装一层service类
         self.service_map[service_name] = container
 
     def start(self):
         """启动所有注册的服务。
 
-        每个服务都会使用 __init__ 方法中提供的容器
-        类创建一个新容器。
+        每个服务都会使用 __init__ 方法中提供的容器类创建一个新容器。
 
-        所有容器将并发启动，该方法将在所有容器完成
-        启动例程之前阻塞。
+        所有容器将并发启动，该方法将在所有容器完成启动例程之前阻塞。
         """
         service_names = ", ".join(self.service_names)
         _log.info("启动服务: %s", service_names)
 
+        # 批量调用容器类的 start 方法.
         SpawningProxy(self.containers).start()
 
         _log.debug("服务已启动: %s", service_names)
@@ -83,6 +82,7 @@ class ServiceRunner(object):
         service_names = ", ".join(self.service_names)
         _log.info("停止服务: %s", service_names)
 
+        # 批量调用容器类的 stop 方法.
         SpawningProxy(self.containers).stop()
 
         _log.debug("服务已停止: %s", service_names)
@@ -94,6 +94,7 @@ class ServiceRunner(object):
         service_names = ", ".join(self.service_names)
         _log.info("杀死服务: %s", service_names)
 
+        # 批量调用容器类的 kill 方法.
         SpawningProxy(self.containers).kill()
 
         _log.debug("服务已被杀死: %s ", service_names)

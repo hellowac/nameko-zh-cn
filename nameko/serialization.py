@@ -10,7 +10,8 @@ from nameko.exceptions import ConfigurationError
 from nameko.utils import import_from_path
 
 
-def setup(config):
+def setup(config: dict):
+    """ 启用序列化, 并向kombu.serialization 注册 """
 
     serializers = deepcopy(config.get(SERIALIZERS_CONFIG_KEY, {}))
     for name, kwargs in serializers.items():
@@ -23,6 +24,7 @@ def setup(config):
 
     accept = config.get(ACCEPT_CONFIG_KEY, [serializer])
 
+    # 校验已知的序列化名称是否都已注册
     for name in [serializer] + accept:
         try:
             kombu.serialization.registry.name_to_type[name]

@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import sys
 
 from typing import List, Type, Iterable, Iterator, Callable, Sized, Generator
 
+import nameko.containers
 import eventlet
 from eventlet.queue import LightQueue
 
@@ -49,8 +52,8 @@ def fail_fast_imap(
 
 
 class SpawningProxy(object):
-    def __init__(self, items: Iterable[Type], abort_on_error: bool = False):
-        """
+    def __init__(self, items: Iterable[nameko.containers.ServiceContainer], abort_on_error: bool = False):
+        """并行代理类
 
         将一组可迭代项封装，使得对返回的 `SpawningProxy` 实例的调用将在每个项上生成一个 :class:`~eventlet.greenthread.GreenThread` 。
 
@@ -58,23 +61,41 @@ class SpawningProxy(object):
 
         :param items: 要处理的可迭代项集
         :param abort_on_error: 如果为 True, 任何在单个项调用中引发的异常将导致所有同级项调用线程被终止，并立即将异常传播给调用者。
+
+
+        chatGPT回答:
+
+        SpawningProxy 的主要功能是并行调用一组对象的方法。
+        它使用 eventlet 提供的协程池来管理并发，并支持错误传播机制。
+        如果有多个对象需要并行执行某个相同的操作，此类可以有效封装该逻辑。
         """
         self._items: Iterable[Type] = items
         self.abort_on_error: bool = abort_on_error
 
     def __getattr__(self, name: str):
         def spawning_method(*args, **kwargs) -> List[eventlet.greenthread.GreenThread]:
+            """ 
+            
+            该方法接收任意参数 (*args, **kwargs)，这些参数将传递给 items 中每个对象的对应方法(name 指定)。
+            """
             items = self._items
+
             if items:
+
+                # 创建一个协程池，池的大小等于 items 的数量。
                 pool = eventlet.GreenPool(len(items))  # type: ignore
 
                 def call(item: Type):
+                    """内部定义了一个小函数 call, 它用于在每个 item 对象上调用对应的方法 name, 并传入之前的参数。"""
                     return getattr(item, name)(*args, **kwargs)
 
                 if self.abort_on_error:
+                    # 如果其中一个对象的调用过程中发生异常，所有并行线程会立即终止，异常会传播。
                     return list(fail_fast_imap(pool, call, self._items))
+                
                 else:
-                    return list(pool.imap(call, self._items))
+                    # 通过 GreenPool 对 items 集合进行并行处理。
+                    return list(pool.imap(call, self._items)) 
 
             # 应该永远不会走到这，除非在服务（Service）为 0 的情况下启动该命令
             return []

@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from contextlib import contextmanager
 from logging import getLogger
 
-from typing import Type, Dict, Any, Union
+from typing import Type, Dict, Any, List
 
 from nameko.containers import get_container_cls, get_service_name
 from nameko.utils.concurrency import SpawningProxy
@@ -109,7 +109,7 @@ class ServiceRunner(object):
 
 
 @contextmanager
-def run_services(config, *services, **kwargs):
+def run_services(config: dict, *services: Type, **kwargs):
     """为上下文块提供多个服务。
     调用者可以指定多个服务类，然后在退出上下文块时
     停止（默认）或杀死它们。

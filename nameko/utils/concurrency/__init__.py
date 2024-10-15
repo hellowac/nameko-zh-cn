@@ -62,7 +62,7 @@ class SpawningProxy(object):
         self._items: Iterable[Type] = items
         self.abort_on_error: bool = abort_on_error
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str):
         def spawning_method(*args, **kwargs) -> List[eventlet.greenthread.GreenThread]:
             items = self._items
             if items:

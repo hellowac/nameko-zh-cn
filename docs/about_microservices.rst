@@ -1,64 +1,64 @@
-About Microservices
+关于微服务
 ===================
 
-    An approach to designing software as a suite of small services, each running in its own process and communicating with lightweight mechanisms.
+    一种将软件设计为一组小服务的方法，每个服务在其自己的进程中运行，并通过轻量级机制进行通信。
 
-    -- Martin Fowler, `Microservices Architecture <http://martinfowler.com/articles/microservices.html>`_
+    -- Martin Fowler, `微服务架构 <http://martinfowler.com/articles/microservices.html>`_
 
-Microservices are usually described in contrast to a "monolith" -- an application built as a single unit where changes to any part of it require building and deploying the whole thing.
+微服务通常是与“单体”进行对比来描述的——单体是一个作为单个单元构建的应用程序，对其任何部分的更改都需要构建和部署整个应用程序。
 
-With microservices, functionality is instead split into "services" with well defined boundaries. Each of these services can be developed and deployed individually.
+而在微服务中，功能被拆分成具有明确定义边界的“服务”。每个服务可以单独开发和部署。
 
-There are many benefits as well as drawbacks to using microservices, eloquently explained in Martin Fowler's `paper <http://martinfowler.com/articles/microservices.html>`_. Not all of them always apply, so below we'll outline some that are relevant to Nameko.
+使用微服务有许多好处和缺点，这些在马丁·福勒的 `论文 <http://martinfowler.com/articles/microservices.html>`_ 中被详细解释。并不是所有这些优缺点都总是适用，因此下面我们将概述一些与 Nameko 相关的内容。
 
-Benefits
+好处
 --------
 
 .. _single_purpose:
 
-* Small and single-purpose
+* 小而专一
 
-    Breaking a large application into smaller loosely-coupled chunks reduces the cognitive burden of working with it. A developer working on one service isn't required to understand the internals of the rest of the application; they can rely on a higher-level interface of the other services.
+  将大型应用程序拆分为较小的松耦合模块减少了开发者的认知负担。专注于一个服务的开发者无需理解其余应用程序的内部细节；他们可以依赖其他服务的高层接口。
 
-    This is harder to achieve in a monolithic application where the boundaries and interfaces between "chunks" are fuzzier.
+  在单体应用中更难实现这一点，因为“模块”之间的边界和接口更模糊。
 
-* Explicit `published interface <http://martinfowler.com/bliki/PublishedInterface.html>`_
+* 明确的 `发布接口 <http://martinfowler.com/bliki/PublishedInterface.html>`_
 
-    The entrypoints for a Nameko service explicitly declare its published interface. This is the boundary between the service and its callers, and thus the point beyond which backwards compatibility must be considered or maintained.
+  Nameko 服务的入口点明确声明其发布接口。这是服务与调用者之间的边界，因此必须考虑或维护向后兼容性。
 
-* Individually deployable
+* 可单独部署
 
-    Unlike a monolith which can only be released all at once, Nameko services can be individually deployed. A change in one service can be made and rolled out without touching any of the others. Long running and highly considered release cycles can be broken into smaller, faster iterations.
+  与只能一次性发布的单体应用不同，Nameko 服务可以单独部署。对一个服务的更改可以在不影响其他服务的情况下进行和推出。长时间运行和深思熟虑的发布周期可以分解为更小、更快速的迭代。
 
-* Specialization
+* 专业化
 
-    Decoupled chunks of application are free to use specialized libraries and dependencies. Where a monolith might be forced to choose a one-size-fits-all library, microservices are unshackled from the choices made by the rest of the application.
+  解耦的应用模块可以自由使用专业的库和依赖项。在单体应用中，可能被迫选择一种通用库，而微服务不受其他应用选择的限制。
 
 
-Drawbacks
+缺点
 ---------
 
-* Overhead
+* 开销
 
-    RPC calls are more expensive than in-process method calls. Processes will spend a lot of time waiting on I/O. Nameko mitigates wastage of CPU cycles with concurrency and eventlet, but the latency of each call will be longer than in a monolithic application.
+  RPC 调用的开销高于进程内方法调用。进程将花费大量时间等待 I/O。虽然 Nameko 通过并发和 eventlet 减少 CPU 周期的浪费，但每次调用的延迟仍然比单体应用长。
 
-* Cross-service transactions
+* 跨服务事务
 
-    Distributing transactions between multiple processes is difficult to the point of futility. Microservice architectures work around this by changing the APIs they expose (see below) or only offering eventual consistency.
+  在多个进程之间分配事务困难得几乎没有意义。微服务架构通过改变它们暴露的 API（见下文）或仅提供最终一致性来解决此问题。
 
-* Coarse-grained APIs
+* 粗粒度 API
 
-    The overhead and lack of transactions between service calls encourages coarser APIs. Crossing service boundaries is expensive and non-atomic.
+  服务调用之间的开销和缺乏事务性鼓励使用较粗的 API。跨越服务边界的成本高且非原子。
 
-    Where in a monolithic application you might write code that makes many calls to achieve a certain goal, a microservices architecture will encourage you to write fewer, heavier calls to be atomic or minimize overhead.
+  在单体应用中，你可能会编写代码进行多次调用以实现特定目标，而微服务架构则会鼓励你编写更少、但更重的调用，以确保原子性或最小化开销。
 
-* Understanding interdependencies
+* 理解相互依赖
 
-    Splitting an application over multiple separate components introduces the requirement to understand how those components interact. This is hard when the components are in different code bases (and developer head spaces).
+  将应用程序拆分为多个独立组件需要理解这些组件如何相互作用。当组件位于不同的代码库（和开发者思维空间）中时，这一点尤其困难。
 
-    In the future we hope to include tools in Nameko that make understanding, documenting and visualizing service interdependencies easier.
+  未来，我们希望在 Nameko 中提供工具，使理解、记录和可视化服务间依赖关系变得更加容易。
 
-Further Notes
+进一步说明
 -------------
 
-Microservices can be adopted incrementally. A good approach to building a microservices architecture is to start by pulling appropriate chunks of logic out of a monolithic application and turning them into individual services.
+微服务可以逐步采纳。构建微服务架构的一个好方法是先从单体应用中提取适当的逻辑块，然后将其转化为独立的服务。

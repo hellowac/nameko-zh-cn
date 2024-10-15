@@ -15,22 +15,15 @@ from nameko.exceptions import IncorrectSignature
 _log = getLogger(__name__)
 
 
-ENTRYPOINT_EXTENSIONS_ATTR = 'nameko_entrypoints'
+ENTRYPOINT_EXTENSIONS_ATTR = "nameko_entrypoints"
 
 
 class Extension(object):
-    """ Note that Extension.__init__ is called during :meth:`bind` as
-    well as at instantiation time, so avoid side-effects in this method.
-    Use :meth:`setup` instead.
+    """请注意，`Extension.__init__` 在 `bind` 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 `setup`。
 
-    Furthermore, :meth:`bind` and :func:`iter_extensions` use introspection
-    to find any subextensions that an extension may declare. Any descriptors
-    on the extension should expect to be called during introspection, which
-    happens between `ServiceContainer.__init__` and `ServiceContainer.setup`.
+    此外，`bind` 和 `iter_extensions` 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 `ServiceContainer.__init__` 和 `ServiceContainer.setup` 之间。
 
-    :attr:`Extension.container` gives access to the
-    :class:`~nameko.containers.ServiceContainer` instance to
-    which the Extension is bound, otherwise `None`.
+    `Extension.container` 属性提供对绑定到该扩展的 `nameko.containers.ServiceContainer` 实例的访问，否则为 `None`。
     """
 
     __params = None
@@ -42,56 +35,46 @@ class Extension(object):
         return inst
 
     def setup(self):
-        """ Called on bound Extensions before the container starts.
+        """在容器启动之前调用了绑定的扩展。
 
-        Extensions should do any required initialisation here.
+        扩展应在此处进行任何必要的初始化。
         """
 
     def start(self):
-        """ Called on bound Extensions when the container has successfully
-        started.
+        """在容器成功启动时调用绑定的扩展。
 
-        This is only called after all other Extensions have successfully
-        returned from :meth:`Extension.setup`. If the Extension reacts
-        to external events, it should now start acting upon them.
+        此方法仅在所有其他扩展成功返回 `Extension.setup` 后被调用。如果扩展对外部事件做出反应，它现在应该开始对此进行响应。
         """
 
     def stop(self):
-        """ Called when the service container begins to shut down.
+        """在服务容器开始关闭时调用。
 
-        Extensions should do any graceful shutdown here.
+        扩展应在此处执行任何优雅的关闭操作。
         """
 
     def kill(self):
-        """ Called to stop this extension without grace.
+        """在没有优雅关闭的情况下调用以停止此扩展。
 
-        Extensions should urgently shut down here. This means
-        stopping as soon as possible by omitting cleanup.
-        This may be distinct from ``stop()`` for certain dependencies.
+        扩展应在此处紧急关闭。这意味着尽快停止，省略清理操作。对于某些依赖项，这可能与 `stop()` 不同。
 
-        For example, :class:`~messaging.QueueConsumer` tracks messages being
-        processed and pending message acks. Its ``kill`` implementation
-        discards these and disconnects from rabbit as soon as possible.
+        例如，`messaging.QueueConsumer` 类跟踪正在处理的消息和待处理的消息确认。它的 `kill` 实现会尽快丢弃这些消息并与 Rabbit 断开连接。
 
-        Extensions should not raise during kill, since the container
-        is already dying. Instead they should log what is appropriate and
-        swallow the exception to allow the container kill to continue.
+        在执行 kill 时，扩展不应引发异常，因为容器已经在关闭。相反，它们应该记录适当的信息，并捕获异常，以允许容器继续关闭。
         """
 
     def bind(self, container):
-        """ Get an instance of this Extension to bind to `container`.
-        """
+        """获取当前扩展的实例绑定到 `container`."""
 
         def clone(prototype):
             if prototype.is_bound():
-                raise RuntimeError('Cannot `bind` a bound extension.')
+                raise RuntimeError("无法从一个已绑定的扩展进行 `bind`。")
 
             cls = type(prototype)
             args, kwargs = prototype.__params
             instance = cls(*args, **kwargs)
-            # instance.container must be a weakref to avoid a strong reference
-            # from value to key in the `shared_extensions` weakkey dict
-            # see test_extension_sharing.py: test_weakref
+            # instance.container 必须是一个弱引用，以避免在 `shared_extensions` 的 weakkey 字典中
+            # 从值到键的强引用
+            # 参见 test_extension_sharing.py: test_weakref
             instance.container = weakref.proxy(container)
             return instance
 
@@ -107,101 +90,88 @@ class Extension(object):
 
     def __repr__(self):
         if not self.is_bound():
-            return '<{} [unbound] at 0x{:x}>'.format(
-                type(self).__name__, id(self))
+            return "<{} [unbound] at 0x{:x}>".format(type(self).__name__, id(self))
 
-        return '<{} at 0x{:x}>'.format(
-            type(self).__name__, id(self))
+        return "<{} at 0x{:x}>".format(type(self).__name__, id(self))
 
 
 class SharedExtension(Extension):
-
     @property
     def sharing_key(self):
         return type(self)
 
     def bind(self, container):
-        """ Bind implementation that supports sharing.
-        """
-        # if there's already a matching bound instance, return that
+        """支持共享的绑定实现。"""
+        # 如果已经存在匹配的绑定实例，返回该实例
         shared = container.shared_extensions.get(self.sharing_key)
         if shared:
             return shared
 
         instance = super(SharedExtension, self).bind(container)
 
-        # save the new instance
+        # 保存新的实例
         container.shared_extensions[self.sharing_key] = instance
 
         return instance
 
 
 class DependencyProvider(Extension):
-
     attr_name = None
 
     def bind(self, container, attr_name):
-        """ Get an instance of this Dependency to bind to `container` with
-        `attr_name`.
-        """
+        """获取一个依赖项的实例，以便与 `container` 和 `attr_name` 绑定。"""
         instance = super(DependencyProvider, self).bind(container)
         instance.attr_name = attr_name
         self.attr_name = attr_name
         return instance
 
     def get_dependency(self, worker_ctx):
-        """ Called before worker execution. A DependencyProvider should return
-        an object to be injected into the worker instance by the container.
-        """
+        """在工作者执行之前调用。依赖提供者应返回一个对象，以便容器将其注入到工作者实例中。"""
 
     def worker_result(self, worker_ctx, result=None, exc_info=None):
-        """ Called with the result of a service worker execution.
+        """在服务工作者执行结果时调用。
 
-        Dependencies that need to process the result should do it here.
-        This method is called for all `Dependency` instances on completion
-        of any worker.
+        需要处理结果的依赖项应在此处进行处理。此方法在任何工作者完成时会被调用所有 `Dependency` 实例。
 
-        Example: a database session dependency may flush the transaction
+        示例：数据库会话依赖项可能会刷新事务。
 
         :Parameters:
             worker_ctx : WorkerContext
-                See ``nameko.containers.ServiceContainer.spawn_worker``
+                见 ``nameko.containers.ServiceContainer.spawn_worker``
         """
 
     def worker_setup(self, worker_ctx):
-        """ Called before a service worker executes a task.
+        """在服务工作者执行任务之前调用。
 
-        Dependencies should do any pre-processing here, raising exceptions
-        in the event of failure.
+        依赖项应在此处进行任何预处理，如果失败则引发异常。
 
         Example: ...
 
         :Parameters:
             worker_ctx : WorkerContext
-                See ``nameko.containers.ServiceContainer.spawn_worker``
+                见 ``nameko.containers.ServiceContainer.spawn_worker``
         """
 
     def worker_teardown(self, worker_ctx):
-        """ Called after a service worker has executed a task.
+        """在服务工作者执行完任务后调用。
 
-        Dependencies should do any post-processing here, raising
-        exceptions in the event of failure.
+        依赖项应在此处进行任何后处理，如果失败则引发异常。
 
-        Example: a database session dependency may commit the session
+        示例：数据库会话依赖项可能会提交会话。
 
         :Parameters:
             worker_ctx : WorkerContext
-                See ``nameko.containers.ServiceContainer.spawn_worker``
+                见 ``nameko.containers.ServiceContainer.spawn_worker``
         """
 
     def __repr__(self):
         if not self.is_bound():
-            return '<{} [unbound] at 0x{:x}>'.format(
-                type(self).__name__, id(self))
+            return "<{} [unbound] at 0x{:x}>".format(type(self).__name__, id(self))
 
         service_name = self.container.service_name
-        return '<{} [{}.{}] at 0x{:x}>'.format(
-            type(self).__name__, service_name, self.attr_name, id(self))
+        return "<{} [{}.{}] at 0x{:x}>".format(
+            type(self).__name__, service_name, self.attr_name, id(self)
+        )
 
 
 class ProviderCollector(object):
@@ -213,7 +183,7 @@ class ProviderCollector(object):
 
     def register_provider(self, provider):
         self._providers_registered = True
-        _log.debug('registering provider %s for %s', provider, self)
+        _log.debug("registering provider %s for %s", provider, self)
         self._providers.add(provider)
 
     def unregister_provider(self, provider):
@@ -221,28 +191,25 @@ class ProviderCollector(object):
         if provider not in self._providers:
             return
 
-        _log.debug('unregistering provider %s for %s', provider, self)
+        _log.debug("unregistering provider %s for %s", provider, self)
 
         providers.remove(provider)
         if len(providers) == 0:
-            _log.debug('last provider unregistered for %s', self)
+            _log.debug("last provider unregistered for %s", self)
             self._last_provider_unregistered.send()
 
     def wait_for_providers(self):
-        """ Wait for any providers registered with the collector to have
-        unregistered.
+        """等待与收集器注册的任何提供者注销。
 
-        Returns immediately if no providers were ever registered.
+        如果没有提供者被注册，则立即返回。
         """
         if self._providers_registered:
-            _log.debug('waiting for providers to unregister %s', self)
+            _log.debug("正在等待提供者注销 %s", self)
             self._last_provider_unregistered.wait()
-            _log.debug('all providers unregistered %s', self)
+            _log.debug("所有提供者已注销 %s", self)
 
     def stop(self):
-        """ Default `:meth:Extension.stop()` implementation for
-        subclasses using `ProviderCollector` as a mixin.
-        """
+        """使用 `ProviderCollector` 作为混入类的子类的默认 `:meth:Extension.stop()` 实现。"""
         self.wait_for_providers()
 
 
@@ -257,44 +224,37 @@ def register_entrypoint(fn, entrypoint):
 
 
 class Entrypoint(Extension):
-
     method_name = None
 
-    def __init__(
-        self, expected_exceptions=(), sensitive_arguments=(), **kwargs
-    ):
+    def __init__(self, expected_exceptions=(), sensitive_arguments=(), **kwargs):
         """
         :Parameters:
-            expected_exceptions : exception class or tuple of exception classes
-                Specify exceptions that may be caused by the caller (e.g. by
-                providing bad arguments). Saved on the entrypoint instance as
-                ``entrypoint.expected_exceptions`` for later inspection by
-                other extensions, for example a monitoring system.
-            sensitive_arguments : string or tuple of strings
-                Mark an argument or part of an argument as sensitive. Saved on
-                the entrypoint instance as ``entrypoint.sensitive_arguments``
-                for later inspection by other extensions, for example a
-                logging system.
+            expected_exceptions : 异常类或异常类元组
+                指定可能由调用者引起的异常（例如，通过提供错误的参数）。
+                保存在入口点实例中作为 ``entrypoint.expected_exceptions``，供其他扩展（例如监控系统）后续检查。
+            sensitive_arguments : 字符串或字符串元组
+                将参数或参数的一部分标记为敏感。保存在入口点实例中作为 ``entrypoint.sensitive_arguments``，
+                供其他扩展（例如日志系统）后续检查。
 
                 :seealso: :func:`nameko.utils.get_redacted_args`
         """
-        # backwards compat
-        sensitive_variables = kwargs.pop('sensitive_variables', ())
+        # 向后兼容
+        sensitive_variables = kwargs.pop("sensitive_variables", ())
         if sensitive_variables:
             sensitive_arguments = sensitive_variables
             warnings.warn(
-                "The `sensitive_variables` argument has been renamed to "
-                "`sensitive_arguments`. This warning will be removed in "
-                "version 2.9.0.", DeprecationWarning)
+                "参数 `sensitive_variables` 已重命名为 "
+                "`sensitive_arguments`。该警告将在 "
+                "2.9.0 版本中删除。",
+                DeprecationWarning,
+            )
 
         self.expected_exceptions = expected_exceptions
         self.sensitive_arguments = sensitive_arguments
         super(Entrypoint, self).__init__(**kwargs)
 
     def bind(self, container, method_name):
-        """ Get an instance of this Entrypoint to bind to `container` with
-        `method_name`.
-        """
+        """获取此入口点的实例，以便与 `method_name` 绑定到 `container`。"""
         instance = super(Entrypoint, self).bind(container)
         instance.method_name = method_name
         return instance
@@ -310,7 +270,6 @@ class Entrypoint(Extension):
 
     @classmethod
     def decorator(cls, *args, **kwargs):
-
         def registering_decorator(fn, args, kwargs):
             instance = cls(*args, **kwargs)
             register_entrypoint(fn, instance)
@@ -331,12 +290,12 @@ class Entrypoint(Extension):
 
     def __repr__(self):
         if not self.is_bound():
-            return '<{} [unbound] at 0x{:x}>'.format(
-                type(self).__name__, id(self))
+            return "<{} [unbound] at 0x{:x}>".format(type(self).__name__, id(self))
 
         service_name = self.container.service_name
-        return '<{} [{}.{}] at 0x{:x}>'.format(
-            type(self).__name__, service_name, self.method_name, id(self))
+        return "<{} [{}.{}] at 0x{:x}>".format(
+            type(self).__name__, service_name, self.method_name, id(self)
+        )
 
 
 def is_extension(obj):
@@ -352,8 +311,7 @@ def is_entrypoint(obj):
 
 
 def iter_extensions(extension):
-    """ Depth-first iterator over sub-extensions on `extension`.
-    """
+    """对 `extension` 的子扩展进行深度优先迭代器。"""
     for _, ext in inspect.getmembers(extension, is_extension):
         for item in iter_extensions(ext):
             yield item

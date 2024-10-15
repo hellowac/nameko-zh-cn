@@ -6,9 +6,9 @@ from contextlib import contextmanager
 
 
 def make_timing_logger(logger, precision=3, level=logging.DEBUG):
-    """ Return a timing logger.
+    """返回一个计时记录器。
 
-    Usage::
+    用法::
 
         >>> logger = logging.getLogger('foobar')
         >>> log_time = make_timing_logger(
@@ -18,11 +18,10 @@ def make_timing_logger(logger, precision=3, level=logging.DEBUG):
         ...     time.sleep(1)
         INFO:foobar:hello world in 1.00s
     """
+
     @contextmanager
     def log_time(msg, *args):
-        """ Log `msg` and `*args` with (naive wallclock) timing information
-        when the context block exits.
-        """
+        """在上下文块退出时，记录 `msg` 和 `*args` 以及（简单的挂钟）计时信息。"""
         start_time = time.time()
 
         try:

@@ -1,16 +1,16 @@
 .. _benefits_of_dependency_injection:
 
-Benefits of Dependency Injection
+依赖注入的好处
 --------------------------------
 
-The dependency injection pattern in nameko facilitates a separation of concerns between component parts of a service. There is a natural division between "service code" -- application logic tied to the :ref:`single-purpose <single_purpose>` of the service -- and the rest of the code required for the service to operate.
+Nameko 中的依赖注入模式促进了服务各个组件之间的关注点分离。这里存在一个自然的划分，"服务代码"——与服务的 :ref:`单一目的 <single_purpose>` 相关的应用逻辑——与服务操作所需的其余代码之间的区别。
 
-Say you had a caching service that was responsible for reading and writing from memcached, and included some business-specific invalidation rules. The invalidation rules are clearly application logic, whereas the messy network interface with memcached can be abstracted away into a dependency.
+假设你有一个缓存服务，负责从 memcached 中读取和写入数据，并包含一些特定业务的失效规则。这些失效规则显然是应用逻辑，而与 memcached 的复杂网络接口可以抽象为一个依赖。
 
-Separating these concerns makes it easier to test service code in isolation. That means you don't need to have a memcached cluster available when you test your caching service. Furthermore it's easy to specify mock responses from the memcached cluster to test invalidation edge cases.
+分离这些关注点使得在孤立环境中测试服务代码变得更容易。这意味着在测试你的缓存服务时，你不需要有一个 memcached 集群。此外，指定来自 memcached 集群的模拟响应也很简单，以测试失效的边缘案例。
 
-Separation also stops test scopes bleeding into one another. Without a clear interface between the caching service and the machinery it uses to communicate with memcached, it would be tempting to cover network-glitch edge cases as part of the caching service test suite. In fact the tests for this scenario should be as part of the test suite for the memcached dependency. This becomes obvious when dependencies are used by more than one service -- without a separation you would have to duplicate the network-glitch tests or seem to have holes in your test coverage.
+分离还可以防止测试范围相互渗透。如果缓存服务与其用于与 memcached 通信的机制之间没有明确的接口，便会倾向于将网络故障的边缘案例覆盖在缓存服务的测试套件中。实际上，这种情况的测试应该作为 memcached 依赖的测试套件的一部分。当依赖被多个服务使用时，这一点就变得更加明显——如果没有分离，你就必须重复网络故障测试，或者在测试覆盖范围中看起来存在漏洞。
 
-A more subtle benefit manifests in larger teams. Dependencies tend to encapsulate the thorniest and most complex aspects of an application. Whereas service code is stateless and single-threaded, dependencies must deal with concurrency and thread-safety. This can be a helpful division of labour between junior and senior developers.
+在更大的团队中，一个更微妙的好处显现出来。依赖通常封装了应用程序中最棘手和最复杂的方面。服务代码是无状态和单线程的，而依赖必须处理并发和线程安全。这可以为初级开发者和高级开发者之间提供一种有益的劳动分工。
 
-Dependencies separate common functionality away from bespoke application logic. They can be written once and re-used by many services. Nameko's :ref:`community extensions <community_extensions>` aims to promote sharing even between teams.
+依赖将通用功能与定制的应用逻辑分离。它们可以被编写一次并由多个服务重复使用。Nameko 的 :ref:`社区扩展 <community_extensions>` 旨在促进团队之间的共享。

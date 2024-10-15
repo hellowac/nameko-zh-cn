@@ -25,16 +25,11 @@ class ReplyQueueExpiredWithPendingReplies(Exception):
 
 
 class ContainerBeingKilled(Exception):
-    """Raised by :meth:`Container.spawn_worker` if it has started a ``kill``
-    sequence.
+    """在 :meth:`Container.spawn_worker` 启动 ``kill`` 序列时引发。
 
-    Entrypoints should catch this and react as if they hadn't been available
-    in the first place, e.g. an rpc consumer should probably requeue
-    the message.
+    入口点应捕获此异常，并作出反应，仿佛它们一开始就不可用，例如，RPC 消费者可能应重新排队该消息。
 
-    We need this because eventlet may yield during the execution of
-    :meth:`Container.kill`, giving entrypoints a chance to fire before
-    they themselves have been killed.
+    我们需要这个，因为在执行 :meth:`Container.kill` 时，Eventlet 可能会让出控制权，从而使入口点在它们自己被杀死之前有机会执行。
     """
 
 
@@ -42,7 +37,7 @@ registry = {}
 
 
 def get_module_path(exc_type):
-    """ Return the dotted module path of `exc_type`, including the class name.
+    """返回 `exc_type` 的点分模块路径，包括类名。
 
     e.g.::
 
@@ -55,21 +50,19 @@ def get_module_path(exc_type):
 
 
 class RemoteError(Exception):
-    """ Exception to raise at the caller if an exception occurred in the
-    remote worker.
-    """
+    """如果远程工作者发生异常，则在调用者处引发的异常。"""
+
     def __init__(self, exc_type=None, value=""):
         self.exc_type = exc_type
         self.value = value
-        message = '{} {}'.format(exc_type, value)
+        message = "{} {}".format(exc_type, value)
         super(RemoteError, self).__init__(message)
 
 
 def safe_for_serialization(value):
-    """ Transform a value in preparation for serializing as json
+    """在准备将值序列化为 JSON 时进行转换。
 
-    no-op for strings, mappings and iterables have their entries made safe,
-    and all other values are stringified, with a fallback value if that fails
+    对于字符串，映射和可迭代对象不进行操作，其条目被处理为安全；对于所有其他值，进行字符串化，如果失败则使用回退值。
     """
 
     if isinstance(value, six.string_types):
@@ -85,43 +78,37 @@ def safe_for_serialization(value):
     try:
         return six.text_type(value)
     except Exception:
-        return '[__unicode__ failed]'
+        return "[__unicode__ failed]"
 
 
 def serialize(exc):
-    """ Serialize `self.exc` into a data dictionary representing it.
-    """
+    """将 `self.exc` 序列化为表示它的数据字典。"""
 
     return {
-        'exc_type': type(exc).__name__,
-        'exc_path': get_module_path(type(exc)),
-        'exc_args': list(map(safe_for_serialization, exc.args)),
-        'value': safe_for_serialization(exc),
+        "exc_type": type(exc).__name__,
+        "exc_path": get_module_path(type(exc)),
+        "exc_args": list(map(safe_for_serialization, exc.args)),
+        "value": safe_for_serialization(exc),
     }
 
 
 def deserialize(data):
-    """ Deserialize `data` to an exception instance.
+    """将 `data` 反序列化为异常实例。
 
-    If the `exc_path` value matches an exception registered as
-    ``deserializable``, return an instance of that exception type.
-    Otherwise, return a `RemoteError` instance describing the exception
-    that occurred.
+    如果 `exc_path` 值与注册为“可反序列化”的异常匹配，则返回该异常类型的实例。否则，返回一个描述发生异常的 `RemoteError` 实例。
     """
-    key = data.get('exc_path')
+    key = data.get("exc_path")
     if key in registry:
-        exc_args = data.get('exc_args', ())
+        exc_args = data.get("exc_args", ())
         return registry[key](*exc_args)
 
-    exc_type = data.get('exc_type')
-    value = data.get('value')
+    exc_type = data.get("exc_type")
+    value = data.get("value")
     return RemoteError(exc_type=exc_type, value=value)
 
 
 def deserialize_to_instance(exc_type):
-    """ Decorator that registers `exc_type` as deserializable back into an
-    instance, rather than a :class:`RemoteError`. See :func:`deserialize`.
-    """
+    """装饰器，将 `exc_type` 注册为可反序列化为实例，而不是 :class:`RemoteError`。参见 :func:`deserialize`。"""
     key = get_module_path(exc_type)
     registry[key] = exc_type
     return exc_type
@@ -160,7 +147,7 @@ class UnserializableValueError(Exception):
         try:
             self.repr_value = repr(value)
         except Exception:
-            self.repr_value = '[__repr__ failed]'
+            self.repr_value = "[__repr__ failed]"
         super(UnserializableValueError, self).__init__()
 
     def __str__(self):
@@ -172,7 +159,7 @@ class ConfigurationError(Exception):
 
 
 class CommandError(Exception):
-    """Raise from subcommands to report error back to the user"""
+    """从子命令中引发，以将错误报告回用户。"""
 
 
 class ConnectionNotFound(BadRequest):

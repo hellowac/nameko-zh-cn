@@ -1,61 +1,61 @@
 .. _built_in_extensions:
 
-Built-in Extensions
+内置扩展
 ===================
 
-Nameko includes a number of built-in :ref:`extensions <extensions>`. This section introduces them and gives brief examples of their usage.
+Nameko 包含多个内置的 :ref:`扩展 <extensions>` 。本节介绍这些扩展并给出它们用法的简要示例。
 
 RPC
 ---
 
-Nameko includes an implementation of RPC over AMQP. It comprises the ``@rpc`` entrypoint, a proxy for services to talk to other services, and a standalone proxy that non-Nameko clients can use to make RPC calls to a cluster:
+Nameko 包含一个基于 AMQP 的 RPC 实现。它包括 ``@rpc`` 入口点，一个服务间通信的代理，以及一个独立的代理，非 Nameko 客户端可以使用它来向集群发起 RPC 调用：
 
 .. literalinclude:: examples/rpc.py
 
 .. literalinclude:: examples/standalone_rpc.py
 
-Normal RPC calls block until the remote method completes, but proxies also have an asynchronous calling mode to background or parallelize RPC calls:
+正常的 RPC 调用会阻塞，直到远程方法完成，但代理也具有异步调用模式，可以将 RPC 调用后台执行或并行化：
 
 .. literalinclude:: examples/async_rpc.py
 
-In a cluster with more than one instance of the target service, RPC requests round-robin between instances. The request will be handled by exactly one instance of the target service.
+在具有多个目标服务实例的集群中，RPC 请求会在实例之间进行轮询。请求将由目标服务的一个实例处理。
 
-AMQP messages are ack'd only after the request has been successfully processed. If the service fails to acknowledge the message and the AMQP connection is closed (e.g. if the service process is killed) the broker will revoke and then allocate the message to the available service instance.
+只有在请求成功处理后，AMQP 消息才会被确认。如果服务未能确认消息并且 AMQP 连接关闭（例如，如果服务进程被终止），则代理会撤销并将消息分配给可用的服务实例。
 
-Request and response payloads are serialized into JSON for transport over the wire.
+请求和响应负载会序列化为 JSON 格式，以便通过网络传输。
 
-Events (Pub-Sub)
+事件 (发布-订阅)
 ----------------
 
-Nameko Events is an asynchronous messaging system, implementing the Publish-Subscriber pattern. Services dispatch events that may be received by zero or more others:
+Nameko 事件是一个异步消息系统，实现了发布-订阅模式。服务会分发事件，这些事件可能会被零个或多个其他服务接收：
 
 .. literalinclude:: examples/events.py
 
-The :class:`~nameko.events.EventHandler` entrypoint has three ``handler_type``\s that determine how event messages are received in a cluster:
+:class:`~nameko.events.EventHandler` 入口点有三种 ``handler_type``\s ，它们决定了事件消息在集群中是如何接收的：
 
-    * ``SERVICE_POOL`` -- event handlers are pooled by service name and one instance from each pool receives the event, similar to the cluster behaviour of the RPC entrypoint. This is the default handler type.
-    * ``BROADCAST`` -- every listening service instance will receive the event.
-    * ``SINGLETON`` -- exactly one listening service instance will receive the event.
+* ``SERVICE_POOL`` — 事件处理程序按服务名称进行分组，每个池中的一个实例接收事件，类似于 RPC 入口点的集群行为。这是默认的处理程序类型。
+* ``BROADCAST`` — 每个监听的服务实例都将接收该事件。
+* ``SINGLETON`` — 精确一个监听的服务实例将接收该事件。
 
-An example of using the ``BROADCAST`` mode:
+使用 ``BROADCAST`` 模式的示例：
 
 .. literalinclude:: examples/event_broadcast.py
 
-Events are serialized into JSON for transport over the wire.
+事件会序列化为 JSON 格式，以便通过网络传输。
 
 HTTP
 ---------------
 
-The HTTP entrypoint is built on top of `werkzeug <http://werkzeug.pocoo.org/>`_, and supports all the standard HTTP methods (GET/POST/DELETE/PUT etc)
+HTTP 入口点是基于 `werkzeug <http://werkzeug.pocoo.org/>`_ 构建的，支持所有标准 HTTP 方法（GET/POST/DELETE/PUT 等）。
 
-The HTTP entrypoint can specify multiple HTTP methods for a single URL as a comma-separated list. See example below.
+HTTP 入口点可以为单个 URL 指定多个 HTTP 方法，使用逗号分隔的列表。请参见下面的示例。
 
-Service methods must return one of:
+服务方法必须返回以下之一：
 
-- a string, which becomes the response body
-- a 2-tuple ``(status code, response body)``
-- a 3-tuple ``(status_code, headers dict, response body)``
-- an instance of :class:`werkzeug.wrappers.Response`
+- 一个字符串，作为响应体
+- 一个 2 元组 ``(状态码, 响应体)``
+- 一个 3 元组 ``(状态码, 头部字典, 响应体)``
+- 一个 :class:`werkzeug.wrappers.Response` 的实例
 
 .. literalinclude:: examples/http.py
 
@@ -84,7 +84,7 @@ Service methods must return one of:
 
     received: post body
 
-A more advanced example:
+一个高级用法示例:
 
 .. literalinclude:: examples/advanced_http.py
 
@@ -111,7 +111,7 @@ A more advanced example:
     Date: Fri, 13 Feb 2015 14:58:48 GMT
 
 
-You can control formatting of errors returned from your service by overriding :meth:`~nameko.web.HttpRequestHandler.response_from_exception`:
+您可以通过重写 :meth:`~nameko.web.HttpRequestHandler.response_from_exception` 来控制从您的服务返回的错误格式：
 
 .. literalinclude:: examples/http_exceptions.py
 
@@ -130,7 +130,7 @@ You can control formatting of errors returned from your service by overriding :m
 
     {"message": "Argument `foo` is required.", "error": "INVALID_ARGUMENTS"}
 
-You can change the HTTP port and IP using the `WEB_SERVER_ADDRESS` config setting:
+你可以通过配置中的 `WEB_SERVER_ADDRESS` 来改变 HTTP 的端口和IP地址:
 
 .. code-block:: yaml
 
@@ -139,9 +139,9 @@ You can change the HTTP port and IP using the `WEB_SERVER_ADDRESS` config settin
     AMQP_URI: 'pyamqp://guest:guest@localhost'
     WEB_SERVER_ADDRESS: '0.0.0.0:8000'
 
-Timer
------
+计时器
+--------
 
-The :class:`~nameko.timers.Timer` is a simple entrypoint that fires once per a configurable number of seconds. The timer is not "cluster-aware" and fires on all services instances.
+:class:`~nameko.timers.Timer` 是一个简单的入口点，它会每隔可配置的秒数触发一次。该计时器不是“集群感知”的，会在所有服务实例上触发。
 
 .. literalinclude:: examples/timer.py

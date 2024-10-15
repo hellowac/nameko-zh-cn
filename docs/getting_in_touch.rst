@@ -1,17 +1,16 @@
 .. _getting_in_touch:
 
-Getting in touch
+联系方式
 ================
 
-If you have questions for the Nameko community or developers, there are a number of ways to get in touch:
+如果你有关于 Nameko 社区或开发者的问题，有多种方式可以联系：
 
 GitHub
 ------
 
-To raise a bug or issue against the project, visit the `GitHub <https://github.com/nameko/nameko>`_ page.
+要报告项目中的错误或问题，请访问 `GitHub <https://github.com/nameko/nameko>`_ 页面。
 
-Mailing list
+邮件列表
 ------------
 
-For help, comments or questions, please use the `mailing list
-<https://groups.google.com/forum/#!forum/nameko-dev>`_ on google groups.
+如需帮助、评论或提问，请使用谷歌群组上的 `邮件列表 <https://groups.google.com/forum/#!forum/nameko-dev>`_ 。

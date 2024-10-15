@@ -5,14 +5,12 @@ from kombu import Connection
 from kombu.exceptions import ChannelError
 from kombu.pools import connections, producers
 
-from nameko.constants import (
-    DEFAULT_RETRY_POLICY, DEFAULT_TRANSPORT_OPTIONS, PERSISTENT
-)
+from nameko.constants import DEFAULT_RETRY_POLICY, DEFAULT_TRANSPORT_OPTIONS, PERSISTENT
 
 
 class UndeliverableMessage(Exception):
-    """ 当启用了发布者确认并且消息无法路由或持久存储时抛出的异常。
-    """
+    """当启用了发布者确认并且消息无法路由或持久存储时抛出的异常。"""
+
     pass
 
 
@@ -21,8 +19,10 @@ def get_connection(amqp_uri, ssl=None, login_method=None, transport_options=None
     if not transport_options:
         transport_options = DEFAULT_TRANSPORT_OPTIONS.copy()
     conn = Connection(
-        amqp_uri, transport_options=transport_options, ssl=ssl,
-        login_method=login_method
+        amqp_uri,
+        transport_options=transport_options,
+        ssl=ssl,
+        login_method=login_method,
     )
 
     with connections[conn].acquire(block=True) as connection:
@@ -35,10 +35,12 @@ def get_producer(
 ):
     if transport_options is None:
         transport_options = DEFAULT_TRANSPORT_OPTIONS.copy()
-    transport_options['confirm_publish'] = confirms
+    transport_options["confirm_publish"] = confirms
     conn = Connection(
-        amqp_uri, transport_options=transport_options, ssl=ssl,
-        login_method=login_method
+        amqp_uri,
+        transport_options=transport_options,
+        ssl=ssl,
+        login_method=login_method,
     )
 
     with producers[conn].acquire(block=True) as producer:
@@ -115,10 +117,21 @@ class Publisher(object):
     """
 
     def __init__(
-        self, amqp_uri, use_confirms=None, serializer=None, compression=None,
-        delivery_mode=None, mandatory=None, priority=None, expiration=None,
-        declare=None, retry=None, retry_policy=None, ssl=None, login_method=None,
-        **publish_kwargs
+        self,
+        amqp_uri,
+        use_confirms=None,
+        serializer=None,
+        compression=None,
+        delivery_mode=None,
+        mandatory=None,
+        priority=None,
+        expiration=None,
+        declare=None,
+        retry=None,
+        retry_policy=None,
+        ssl=None,
+        login_method=None,
+        **publish_kwargs,
     ):
         self.amqp_uri = amqp_uri
         self.ssl = ssl
@@ -157,42 +170,40 @@ class Publisher(object):
         # 其他发布参数
         self.publish_kwargs = publish_kwargs
 
-    def publish(self, payload, **kwargs):
-        """ 发布一条消息
-        """
+    def publish(self, payload: dict, **kwargs):
+        """发布一条消息"""
         publish_kwargs = self.publish_kwargs.copy()
 
         # 合并发布者实例化时的头信息与现在提供的任何头信息；“额外”的头信息总是优先。
-        headers = publish_kwargs.pop('headers', {}).copy()
-        headers.update(kwargs.pop('headers', {}))
-        headers.update(kwargs.pop('extra_headers', {}))
+        headers = publish_kwargs.pop("headers", {}).copy()
+        headers.update(kwargs.pop("headers", {}))
+        headers.update(kwargs.pop("extra_headers", {}))
 
-        use_confirms = kwargs.pop('use_confirms', self.use_confirms)
-        transport_options = kwargs.pop('transport_options',
-                                       self.transport_options
-                                       )
-        transport_options['confirm_publish'] = use_confirms
+        use_confirms = kwargs.pop("use_confirms", self.use_confirms)
+        transport_options = kwargs.pop("transport_options", self.transport_options)
+        transport_options["confirm_publish"] = use_confirms
 
-        delivery_mode = kwargs.pop('delivery_mode', self.delivery_mode)
-        mandatory = kwargs.pop('mandatory', self.mandatory)
-        priority = kwargs.pop('priority', self.priority)
-        expiration = kwargs.pop('expiration', self.expiration)
-        serializer = kwargs.pop('serializer', self.serializer)
-        compression = kwargs.pop('compression', self.compression)
-        retry = kwargs.pop('retry', self.retry)
-        retry_policy = kwargs.pop('retry_policy', self.retry_policy)
+        delivery_mode = kwargs.pop("delivery_mode", self.delivery_mode)
+        mandatory = kwargs.pop("mandatory", self.mandatory)
+        priority = kwargs.pop("priority", self.priority)
+        expiration = kwargs.pop("expiration", self.expiration)
+        serializer = kwargs.pop("serializer", self.serializer)
+        compression = kwargs.pop("compression", self.compression)
+        retry = kwargs.pop("retry", self.retry)
+        retry_policy = kwargs.pop("retry_policy", self.retry_policy)
 
         declare = self.declare[:]
-        declare.extend(kwargs.pop('declare', ()))
+        declare.extend(kwargs.pop("declare", ()))
 
         publish_kwargs.update(kwargs)  # 剩余的在发布时传递的关键字参数优先。
 
-        with get_producer(self.amqp_uri,
-                          use_confirms,
-                          self.ssl,
-                          self.login_method,
-                          transport_options,
-                          ) as producer:
+        with get_producer(
+            self.amqp_uri,
+            use_confirms,
+            self.ssl,
+            self.login_method,
+            transport_options,
+        ) as producer:
             try:
                 producer.publish(
                     payload,
@@ -206,7 +217,7 @@ class Publisher(object):
                     retry=retry,
                     retry_policy=retry_policy,
                     serializer=serializer,
-                    **publish_kwargs
+                    **publish_kwargs,
                 )
             except ChannelError as exc:
                 if "NO_ROUTE" in str(exc):

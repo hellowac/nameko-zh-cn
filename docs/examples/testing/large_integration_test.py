@@ -1,14 +1,10 @@
 """
-This file defines several toy services that interact to form a shop of the
-famous ACME Corporation. The AcmeShopService relies on the StockService,
-InvoiceService and PaymentService to fulfil its orders. They are not best
-practice examples! They're minimal services provided for the test at the
-bottom of the file.
+该文件定义了几个玩具服务，它们相互作用形成著名的 ACME 公司的商店。
+`AcmeShopService` 依赖于 `StockService`、`InvoiceService` 和 `PaymentService` 来履行订单。
+这些服务并不是最佳实践示例！它们是为文件底部的测试提供的最小服务。
 
-``test_shop_integration`` is a full integration test of the ACME shop
-"checkout flow". It demonstrates how to test the multiple ACME services in
-combination with each other, including limiting service interactions by
-replacing certain entrypoints and dependencies.
+``test_shop_integration`` 是对 ACME 商店“结账流程”的完整集成测试。
+它演示了如何结合测试多个 ACME 服务，包括通过替换某些入口点和依赖项来限制服务交互。
 """
 
 from collections import defaultdict
@@ -38,13 +34,12 @@ class ItemDoesNotExistError(Exception):
 
 
 class ShoppingBasket(DependencyProvider):
-    """ A shopping basket tied to the current ``user_id``.
-    """
+    """A shopping basket tied to the current ``user_id``."""
+
     def __init__(self):
         self.baskets = defaultdict(list)
 
     def get_dependency(self, worker_ctx):
-
         class Basket(object):
             def __init__(self, basket):
                 self._basket = basket
@@ -58,7 +53,7 @@ class ShoppingBasket(DependencyProvider):
                     yield item
 
         try:
-            user_id = worker_ctx.data['user_id']
+            user_id = worker_ctx.data["user_id"]
         except KeyError:
             raise NotLoggedInError()
         return Basket(self.baskets[user_id])
@@ -68,15 +63,15 @@ class AcmeShopService:
     name = "acmeshopservice"
 
     user_basket = ShoppingBasket()
-    stock_rpc = RpcProxy('stockservice')
-    invoice_rpc = RpcProxy('invoiceservice')
-    payment_rpc = RpcProxy('paymentservice')
+    stock_rpc = RpcProxy("stockservice")
+    invoice_rpc = RpcProxy("invoiceservice")
+    payment_rpc = RpcProxy("paymentservice")
 
     fire_event = EventDispatcher()
 
     @rpc
     def add_to_basket(self, item_code):
-        """ Add item identified by ``item_code`` to the shopping basket.
+        """Add item identified by ``item_code`` to the shopping basket.
 
         This is a toy example! Ignore the obvious race condition.
         """
@@ -90,10 +85,8 @@ class AcmeShopService:
 
     @rpc
     def checkout(self):
-        """ Take payment for all items in the shopping basket.
-        """
-        total_price = sum(self.stock_rpc.check_price(item)
-                          for item in self.user_basket)
+        """Take payment for all items in the shopping basket."""
+        total_price = sum(self.stock_rpc.check_price(item) for item in self.user_basket)
 
         # prepare invoice
         invoice = self.invoice_rpc.prepare_invoice(total_price)
@@ -102,37 +95,23 @@ class AcmeShopService:
         self.payment_rpc.take_payment(invoice)
 
         # fire checkout event if prepare_invoice and take_payment succeeded
-        checkout_event_data = {
-            'invoice': invoice,
-            'items': list(self.user_basket)
-        }
+        checkout_event_data = {"invoice": invoice, "items": list(self.user_basket)}
         self.fire_event("checkout_complete", checkout_event_data)
         return total_price
 
 
 class Warehouse(DependencyProvider):
-    """ A database of items in the warehouse.
+    """A database of items in the warehouse.
 
     This is a toy example! A dictionary is not a database.
     """
+
     def __init__(self):
         self.database = {
-            'anvil': {
-                'price': 100,
-                'stock': 3
-            },
-            'dehydrated_boulders': {
-                'price': 999,
-                'stock': 12
-            },
-            'invisible_paint': {
-                'price': 10,
-                'stock': 30
-            },
-            'toothpicks': {
-                'price': 1,
-                'stock': 0
-            }
+            "anvil": {"price": 100, "stock": 3},
+            "dehydrated_boulders": {"price": 999, "stock": 12},
+            "invisible_paint": {"price": 10, "stock": 30},
+            "toothpicks": {"price": 1, "stock": 0},
         }
 
     def get_dependency(self, worker_ctx):
@@ -146,26 +125,24 @@ class StockService:
 
     @rpc
     def check_price(self, item_code):
-        """ Check the price of an item.
-        """
+        """Check the price of an item."""
         try:
-            return self.warehouse[item_code]['price']
+            return self.warehouse[item_code]["price"]
         except KeyError:
             raise ItemDoesNotExistError(item_code)
 
     @rpc
     def check_stock(self, item_code):
-        """ Check the stock level of an item.
-        """
+        """Check the stock level of an item."""
         try:
-            return self.warehouse[item_code]['stock']
+            return self.warehouse[item_code]["stock"]
         except KeyError:
             raise ItemDoesNotExistError(item_code)
 
     @rpc
     @timer(100)
     def monitor_stock(self):
-        """ Periodic stock monitoring method. Can also be triggered manually
+        """Periodic stock monitoring method. Can also be triggered manually
         over RPC.
 
         This is an expensive process that we don't want to exercise during
@@ -173,9 +150,9 @@ class StockService:
         """
         raise NotImplementedError()
 
-    @event_handler('acmeshopservice', "checkout_complete")
+    @event_handler("acmeshopservice", "checkout_complete")
     def dispatch_items(self, event_data):
-        """ Dispatch items from stock on successful checkouts.
+        """Dispatch items from stock on successful checkouts.
 
         This is an expensive process that we don't want to exercise during
         integration testing...
@@ -184,24 +161,25 @@ class StockService:
 
 
 class AddressBook(DependencyProvider):
-    """ A database of user details, keyed on user_id.
-    """
+    """A database of user details, keyed on user_id."""
+
     def __init__(self):
         self.address_book = {
-            'wile_e_coyote': {
-                'username': 'wile_e_coyote',
-                'fullname': 'Wile E Coyote',
-                'address': '12 Long Road, High Cliffs, Utah',
+            "wile_e_coyote": {
+                "username": "wile_e_coyote",
+                "fullname": "Wile E Coyote",
+                "address": "12 Long Road, High Cliffs, Utah",
             },
         }
 
     def get_dependency(self, worker_ctx):
         def get_user_details():
             try:
-                user_id = worker_ctx.data['user_id']
+                user_id = worker_ctx.data["user_id"]
             except KeyError:
                 raise NotLoggedInError()
             return self.address_book.get(user_id)
+
         return get_user_details
 
 
@@ -212,18 +190,17 @@ class InvoiceService:
 
     @rpc
     def prepare_invoice(self, amount):
-        """ Prepare an invoice for ``amount`` for the current user.
-        """
-        address = self.get_user_details().get('address')
-        fullname = self.get_user_details().get('fullname')
-        username = self.get_user_details().get('username')
+        """Prepare an invoice for ``amount`` for the current user."""
+        address = self.get_user_details().get("address")
+        fullname = self.get_user_details().get("fullname")
+        username = self.get_user_details().get("username")
 
         msg = "Dear {}. Please pay ${} to ACME Corp.".format(fullname, amount)
         invoice = {
-            'message': msg,
-            'amount': amount,
-            'customer': username,
-            'address': address
+            "message": msg,
+            "amount": amount,
+            "customer": username,
+            "address": address,
         }
         return invoice
 
@@ -233,12 +210,13 @@ class PaymentService:
 
     @rpc
     def take_payment(self, invoice):
-        """ Take payment from a customer according to ``invoice``.
+        """Take payment from a customer according to ``invoice``.
 
         This is an expensive process that we don't want to exercise during
         integration testing...
         """
         raise NotImplementedError()
+
 
 # =============================================================================
 # Begin test
@@ -247,7 +225,7 @@ class PaymentService:
 
 @pytest.fixture
 def rpc_proxy_factory(rabbit_config):
-    """ Factory fixture for standalone RPC proxies.
+    """Factory fixture for standalone RPC proxies.
 
     Proxies are started automatically so they can be used without a ``with``
     statement. All created proxies are stopped at the end of the test, when
@@ -266,10 +244,8 @@ def rpc_proxy_factory(rabbit_config):
         proxy.stop()
 
 
-def test_shop_checkout_integration(
-    rabbit_config, runner_factory, rpc_proxy_factory
-):
-    """ Simulate a checkout flow as an integration test.
+def test_shop_checkout_integration(rabbit_config, runner_factory, rpc_proxy_factory):
+    """Simulate a checkout flow as an integration test.
 
     Requires instances of AcmeShopService, StockService and InvoiceService
     to be running. Explicitly replaces the rpc proxy to PaymentService so
@@ -280,17 +256,19 @@ def test_shop_checkout_integration(
     of services in this way reduces the scope of the integration test and
     eliminates undesirable side-effects (e.g. processing events unnecessarily).
     """
-    context_data = {'user_id': 'wile_e_coyote'}
-    shop = rpc_proxy_factory('acmeshopservice', context_data=context_data)
+    context_data = {"user_id": "wile_e_coyote"}
+    shop = rpc_proxy_factory("acmeshopservice", context_data=context_data)
 
     runner = runner_factory(
-        rabbit_config, AcmeShopService, StockService, InvoiceService)
+        rabbit_config, AcmeShopService, StockService, InvoiceService
+    )
 
     # replace ``event_dispatcher`` and ``payment_rpc``  dependencies on
     # AcmeShopService with ``MockDependencyProvider``\s
     shop_container = get_container(runner, AcmeShopService)
     fire_event, payment_rpc = replace_dependencies(
-        shop_container, "fire_event", "payment_rpc")
+        shop_container, "fire_event", "payment_rpc"
+    )
 
     # restrict entrypoints on StockService
     stock_container = get_container(runner, StockService)
@@ -317,12 +295,14 @@ def test_shop_checkout_integration(
     assert res == total_amount
 
     # verify integration with mocked out payment service
-    payment_rpc.take_payment.assert_called_once_with({
-        'customer': "wile_e_coyote",
-        'address': "12 Long Road, High Cliffs, Utah",
-        'amount': total_amount,
-        'message': "Dear Wile E Coyote. Please pay $110 to ACME Corp."
-    })
+    payment_rpc.take_payment.assert_called_once_with(
+        {
+            "customer": "wile_e_coyote",
+            "address": "12 Long Road, High Cliffs, Utah",
+            "amount": total_amount,
+            "message": "Dear Wile E Coyote. Please pay $110 to ACME Corp.",
+        }
+    )
 
     # verify events fired as expected
     assert fire_event.call_count == 3
@@ -330,4 +310,5 @@ def test_shop_checkout_integration(
 
 if __name__ == "__main__":
     import sys
+
     pytest.main(sys.argv)

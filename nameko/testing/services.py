@@ -18,7 +18,7 @@ from nameko.testing.waiting import WaitResult, wait_for_call
 
 @contextmanager
 def entrypoint_hook(container, method_name, context_data=None, timeout=30):
-    """ Yield a function providing an entrypoint into a hosted service.
+    """Yield a function providing an entrypoint into a hosted service.
 
     The yielded function may be called as if it were the bare method defined
     in the service class. Intended to be used as an integration testing
@@ -47,7 +47,9 @@ def entrypoint_hook(container, method_name, context_data=None, timeout=30):
     if entrypoint is None:
         raise ExtensionNotFound(
             "No entrypoint for '{}' found on container {}.".format(
-                method_name, container))
+                method_name, container
+            )
+        )
 
     def hook(*args, **kwargs):
         hook_result = event.Event()
@@ -55,12 +57,10 @@ def entrypoint_hook(container, method_name, context_data=None, timeout=30):
         def wait_for_entrypoint():
             try:
                 with entrypoint_waiter(
-                    container, method_name,
-                    timeout=timeout
+                    container, method_name, timeout=timeout
                 ) as waiter_result:
                     container.spawn_worker(
-                        entrypoint, args, kwargs,
-                        context_data=context_data
+                        entrypoint, args, kwargs, context_data=context_data
                     )
                 hook_result.send(waiter_result.get())
             except Exception as exc:
@@ -87,7 +87,7 @@ def entrypoint_hook(container, method_name, context_data=None, timeout=30):
 
 @contextmanager
 def entrypoint_waiter(container, method_name, timeout=30, callback=None):
-    """ Context manager that waits until an entrypoint has fired, and
+    """Context manager that waits until an entrypoint has fired, and
     the generated worker has exited and been torn down.
 
     It yields a :class:`nameko.testing.waiting.WaitResult` object that can be
@@ -162,8 +162,9 @@ def entrypoint_waiter(container, method_name, timeout=30, callback=None):
 
     """
     if not get_extension(container, Entrypoint, method_name=method_name):
-        raise RuntimeError("{} has no entrypoint `{}`".format(
-            container.service_name, method_name))
+        raise RuntimeError(
+            "{} has no entrypoint `{}`".format(container.service_name, method_name)
+        )
 
     class Result(WaitResult):
         worker_ctx = None
@@ -194,17 +195,20 @@ def entrypoint_waiter(container, method_name, timeout=30, callback=None):
 
     exc = entrypoint_waiter.Timeout(
         "Timeout on {}.{} after {} seconds".format(
-            container.service_name, method_name, timeout)
+            container.service_name, method_name, timeout
+        )
     )
 
     with eventlet.Timeout(timeout, exception=exc):
         with wait_for_call(
-            container, '_worker_teardown',
-            lambda args, kwargs, res, exc: on_worker_teardown(*args)
+            container,
+            "_worker_teardown",
+            lambda args, kwargs, res, exc: on_worker_teardown(*args),
         ):
             with wait_for_call(
-                container, '_worker_result',
-                lambda args, kwargs, res, exc: on_worker_result(*args)
+                container,
+                "_worker_result",
+                lambda args, kwargs, res, exc: on_worker_result(*args),
             ):
                 yield waiter_result
 
@@ -217,7 +221,7 @@ entrypoint_waiter.Timeout = EntrypointWaiterTimeout
 
 
 def worker_factory(service_cls, **dependencies):
-    """ Return an instance of ``service_cls`` with its injected dependencies
+    """Return an instance of ``service_cls`` with its injected dependencies
     replaced with :class:`~mock.MagicMock` objects, or as given in
     ``dependencies``.
 
@@ -291,7 +295,9 @@ def worker_factory(service_cls, **dependencies):
     if dependencies:
         raise ExtensionNotFound(
             "DependencyProvider(s) '{}' not found on {}.".format(
-                dependencies.keys(), service_cls))
+                dependencies.keys(), service_cls
+            )
+        )
 
     return service
 
@@ -307,52 +313,43 @@ class MockDependencyProvider(DependencyProvider):
 
 def _replace_dependencies(container, **dependency_map):
     if container.started:
-        raise RuntimeError('You must replace dependencies before the '
-                           'container is started.')
+        raise RuntimeError(
+            "You must replace dependencies before the " "container is started."
+        )
 
     dependency_names = {dep.attr_name for dep in container.dependencies}
 
     missing = set(dependency_map) - dependency_names
     if missing:
-        raise ExtensionNotFound("Dependency(s) '{}' not found on {}.".format(
-            missing, container))
+        raise ExtensionNotFound(
+            "Dependency(s) '{}' not found on {}.".format(missing, container)
+        )
 
-    existing_providers = {dep.attr_name: dep for dep in container.dependencies
-                          if dep.attr_name in dependency_map}
+    existing_providers = {
+        dep.attr_name: dep
+        for dep in container.dependencies
+        if dep.attr_name in dependency_map
+    }
 
     for name, replacement in dependency_map.items():
         existing_provider = existing_providers[name]
-        replacement_provider = MockDependencyProvider(
-            name, dependency=replacement)
+        replacement_provider = MockDependencyProvider(name, dependency=replacement)
         container.dependencies.remove(existing_provider)
         container.dependencies.add(replacement_provider)
 
 
 def replace_dependencies(container, *dependencies, **dependency_map):
-    """ Replace the dependency providers on ``container`` with
-    instances of :class:`MockDependencyProvider`.
+    """用 `MockDependencyProvider` 的实例替换 ``container`` 上的依赖提供者。
 
-    Dependencies named in *dependencies will be replaced with a
-    :class:`MockDependencyProvider`, which injects a MagicMock instead of the
-    dependency.
+    在 \\*dependencies 中命名的依赖项将被替换为 `MockDependencyProvider` ，该提供者注入一个 MagicMock 作为依赖项。
 
-    Alternatively, you may use keyword arguments to name a dependency and
-    provide the replacement value that the `MockDependencyProvider` should
-    inject.
+    另外，您可以使用关键字参数来命名依赖项并提供 `MockDependencyProvider` 应该注入的替代值。
 
-    Return the :attr:`MockDependencyProvider.dependency` for every dependency
-    specified in the (*dependencies) args so that calls to the replaced
-    dependencies can be inspected. Return a single object if only one
-    dependency was replaced, and a generator yielding the replacements in the
-    same order as ``dependencies`` otherwise.
-    Note that any replaced dependencies specified via kwargs `**dependency_map`
-    will not be returned.
+    返回在 (\\*dependencies) 参数中指定的每个依赖项的 `MockDependencyProvider.dependency` ，以便可以检查对被替代依赖项的调用。如果只替换了一个依赖项，则返回单个对象；否则返回一个生成器，按与 ``dependencies`` 相同的顺序生成替代项。请注意，通过关键字参数 `**dependency_map` 指定的任何被替代依赖项将不会被返回。
 
-    Replacements are made on the container instance and have no effect on the
-    service class. New container instances are therefore unaffected by
-    replacements on previous instances.
+    替代项在容器实例上进行替换，对服务类没有影响。因此，新容器实例不会受到先前实例上的替代项的影响。
 
-    **Usage**
+    **用法**
 
     ::
 
@@ -384,8 +381,7 @@ def replace_dependencies(container, *dependencies, **dependency_map):
         # assert that the dependency was called as expected
         mock_maths_rpc.divide.assert_called_once_with(100, 2.54)
 
-
-    Providing a specific replacement by keyword:
+    通过关键字提供特定的替代项：
 
     ::
 
@@ -404,7 +400,8 @@ def replace_dependencies(container, *dependencies, **dependency_map):
     """
     if set(dependencies).intersection(dependency_map):
         raise RuntimeError(
-            "Cannot replace the same dependency via both args and kwargs.")
+            "Cannot replace the same dependency via both args and kwargs."
+        )
 
     arg_replacements = OrderedDict((dep, MagicMock()) for dep in dependencies)
 
@@ -420,14 +417,13 @@ def replace_dependencies(container, *dependencies, **dependency_map):
 
 
 def restrict_entrypoints(container, *entrypoints):
-    """ Restrict the entrypoints on ``container`` to those named in
-    ``entrypoints``.
+    """限制 ``container`` 上的入口点，仅限于 ``entrypoints`` 中指定的名称。
 
-    This method must be called before the container is started.
+    此方法必须在容器启动之前调用。
 
-    **Usage**
+    **用法**
 
-    The following service definition has two entrypoints:
+    以下服务定义有两个入口点：
 
     .. code-block:: python
 
@@ -448,28 +444,28 @@ def restrict_entrypoints(container, *entrypoints):
 
         container = ServiceContainer(Service, config)
 
-    To disable the timer entrypoint on ``foo``, leaving just the RPC
-    entrypoints:
+    要禁用 ``foo`` 上的计时器入口点，仅保留 RPC 入口点：
 
     .. code-block:: python
 
         restrict_entrypoints(container, "bar", "baz")
 
-    Note that it is not possible to identify multiple entrypoints on the same
-    method individually.
+    请注意，无法单独识别同一方法上的多个入口点。
 
     """
     if container.started:
-        raise RuntimeError('You must restrict entrypoints before the '
-                           'container is started.')
+        raise RuntimeError(
+            "You must restrict entrypoints before the " "container is started."
+        )
 
     entrypoint_deps = list(container.entrypoints)
     entrypoint_names = {ext.method_name for ext in entrypoint_deps}
 
     missing = set(entrypoints) - entrypoint_names
     if missing:
-        raise ExtensionNotFound("Entrypoint(s) '{}' not found on {}.".format(
-            missing, container))
+        raise ExtensionNotFound(
+            "Entrypoint(s) '{}' not found on {}.".format(missing, container)
+        )
 
     for entrypoint in entrypoint_deps:
         if entrypoint.method_name not in entrypoints:
@@ -477,21 +473,22 @@ def restrict_entrypoints(container, *entrypoints):
 
 
 class Once(Entrypoint):
-    """ Entrypoint that spawns a worker exactly once, as soon as
+    """Entrypoint that spawns a worker exactly once, as soon as
     the service container started.
     """
+
     def __init__(self, *args, **kwargs):
-        expected_exceptions = kwargs.pop('expected_exceptions', ())
-        sensitive_arguments = kwargs.pop('sensitive_arguments', ())
+        expected_exceptions = kwargs.pop("expected_exceptions", ())
+        sensitive_arguments = kwargs.pop("sensitive_arguments", ())
         # backwards compat
-        sensitive_variables = kwargs.pop('sensitive_variables', ())
+        sensitive_variables = kwargs.pop("sensitive_variables", ())
 
         self.args = args
         self.kwargs = kwargs
         super(Once, self).__init__(
             expected_exceptions=expected_exceptions,
             sensitive_arguments=sensitive_arguments,
-            sensitive_variables=sensitive_variables
+            sensitive_variables=sensitive_variables,
         )
 
     def start(self):

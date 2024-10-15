@@ -1,699 +1,558 @@
-Release Notes
+发行说明
 =============
 
-Here you can see the full list of changes between nameko versions. Versions
-are in form of *headline.major.minor* numbers. Backwards-compatible changes
-increment the minor version number only.
+在这里，你可以查看 Nameko 版本之间的完整变更列表。版本号的形式为 *headline.major.minor*。向后兼容的更改仅增加次要版本号。
 
-Version 2.14.1
+版本 2.14.1
 --------------
 
-Released: 2021-12-05
+发布于 2021-12-05
 
-* `nameko test` exit code command honours pytest result, and suppresses "module already imported" warning  (#748)
-* Support for Python 3.10 (#747)
-* Upgrade pytest version used in CI (#729)
+* `nameko test` 的退出代码命令遵循 pytest 的结果，并抑制了“模块已被导入”的警告 (#748)
+* 支持 Python 3.10 (#747)
+* 升级 CI 中使用的 pytest 版本 (#729)
 
-Version 2.14.0
+版本 2.14.0
 --------------
 
-Released: 2021-10-18
+发布于 2021-10-18
 
-* Ability to use werkzeug 2x with websockets implementation (#724)
-* Stop unsafe use of YAML parser when loading config files (#722)
-* Stop automatic monkey-patching by Eventlet (#727)
-* Support for disabling event exchange declarations (#730)
-* Provide a way to set AMQP login_method via config (#713)
-* Make a flaky test more reliable (#704)
-* Convert CI to GitHub actions (#715)
-* A couple of docs fixes (#710, #683)
-* Run CI on on py3.7 through 3.9 (#726)
+* 支持在使用 WebSocket 实现时使用 Werkzeug 2.x (#724)
+* 加载配置文件时停止不安全的 YAML 解析器使用 (#722)
+* 停止 Eventlet 的自动猴子补丁 (#727)
+* 支持禁用事件交换声明 (#730)
+* 提供通过配置设置 AMQP 登录方法的方式 (#713)
+* 使不稳定的测试更可靠 (#704)
+* 将 CI 转换为 GitHub Actions (#715)
+* 一些文档修复 (#710, #683)
+* 在 Python 3.7 到 3.9 上运行 CI (#726)
 
-Version 2.13.0
+版本 2.13.0
 --------------
 
-Released: 2020-09-11
+发布于 2020-09-11
 
-* Add timeout parameter to entrypoint_hook (#622)
-* Remove or ignore a bunch of deprecation warnings in the test suite (#613)
-* Fix Python 3.7 warning on collections.abc (#649)
-* Add --version flag to CLI tool (#662)
-* Remove support for Python 3.4 and support Werkzeug>1 (#680)
+* 为 entrypoint_hook 添加超时参数 (#622)
+* 删除或忽略测试套件中的一堆弃用警告 (#613)
+* 修复 Python 3.7 上关于 collections.abc 的警告 (#649)
+* 为 CLI 工具添加 --version 标志 (#662)
+* 移除对 Python 3.4 的支持，并支持 Werkzeug > 1 (#680)
 
 
-Version 2.12.0
+版本 2.12.0
 --------------
 
-Released: 2019-03-18
+发布于 2019-03-18
 
-* Refactor utils so standalone.events does not import eventlet (#580)
-* Compatibility with latest dependencies (moto #577, pyyaml and kombu #612)
-* Timer now waits for the spawned entrypoint to complete before firing again,
-  as documented (#579, #303)
-* Timer is also improved to avoid drift (#614)
-* Hide password in logged amqp uri (#582)
-* Docs updates (#587, #591, #276, #596)
-* Nameko shell changed to not catch exceptions when used in non-TTY mode
-  (#597)
+* 重构 utils，使 standalone.events 不再导入 eventlet (#580)
+* 与最新依赖项兼容 (moto #577, pyyaml 和 kombu #612)
+* 定时器现在在再次触发之前会等待已启动的 entrypoint 完成，如文档所述 (#579, #303)
+* 定时器也进行了改进，以避免漂移 (#614)
+* 在记录的 AMQP URI 中隐藏密码 (#582)
+* 文档更新 (#587, #591, #276, #596)
+* Nameko shell 改为在非 TTY 模式下不捕获异常 (#597)
 
-Version 2.11.0
+版本 2.11.0
 --------------
 
-Released: 2018-08-09
+发布于 2018-08-09
 
-* Compatibility with kombu 4 and pyamqp 2+, minimum supported kombu version
-  is now 4.2 (#564)
+* 与 Kombu 4 和 PyAMQP 2+ 兼容，最低支持的 Kombu 版本现在为 4.2 (#564)
 
-Version 2.10.0
+版本 2.10.0
 --------------
 
-Released: 2018-08-06
+发布于 2018-08-06
 
-* Bump the minimum supported eventlet version to 0.20.1 (#557)
+* 将最低支持的 Eventlet 版本提升至 0.20.1 (#557)
 
-Version 2.9.1
+版本 2.9.1
 -------------
 
-Released: 2018-07-20
+发布于 2018-07-20
 
-* SSL connections now supported by all AMQP extensions, configurable using
-  the `AMQP_SSL` config key. (#524)
-* Restore compatibility with eventlet 0.22+  (#556)
-* Log unhandled worker exceptions at `ERROR` level instead of `INFO` (#547)
+* 所有 AMQP 扩展现在支持 SSL 连接，可通过 `AMQP_SSL` 配置键进行配置 (#524)。
+* 恢复与 Eventlet 0.22+ 的兼容性 (#556)。
+* 以 `ERROR` 级别记录未处理的工作线程异常，而不是 `INFO` 级别 (#547)。
 
-Version 2.9.0
+版本 2.9.0
 -------------
 
-Released: 2018-05-30
+发布于 2018-05-30
 
-* RPC reply queues are now set to expire rather than auto-delete, and
-  are no longer exclusive, allowing clients reconnect. Fixes #359.
-* It's now possible to accept messages in multiple serialization formats.
-  Adds config-based mechanism for specifying custom serializers. See #535.
-* Enhanced environment variable substitution including recursive references.
-  See #515.
+* RPC 回复队列现在设置为过期而不是自动删除，并且不再是独占的，允许客户端重新连接。修复了 #359。
+* 现在可以接受多种序列化格式的消息。添加了基于配置的机制以指定自定义序列化器。请参见 #535。
+* 增强了环境变量替换，包括递归引用。请参见 #515。
 
-Version 2.8.5
+版本 2.8.5
 -------------
 
-Released: 2018-03-15
+发布于 2018-03-15
 
-* Workaround for a Kombu bug causing new sockets to sometimes have short
-  timeouts. (#521)
+* 针对 Kombu 的一个错误的解决方法，该错误导致新套接字有时会有较短的超时设置。 (#521)
 
-Version 2.8.4
+版本 2.8.4
 -------------
 
-Released: 2018-02-18
+发布于 2018-02-18
 
-* Fixes a bug where the container crashed if the connection to RabbitMQ
-  was lost while an AMQP entrypoint was running (#511)
-* Correction to WorkerContext.immediate_call_id which actually referred
-  to the id of original call. Adds WorkerContext.origin_call_id to
-  replicate the previous behaviour.
+* 修复了一个错误：当 AMQP 入口点运行时，如果与 RabbitMQ 的连接丢失，容器会崩溃 (#511)。
+* 修正了 `WorkerContext.immediate_call_id` 的问题，该属性实际上指的是原始调用的 ID。新增 `WorkerContext.origin_call_id` 以复制之前的行为。
 
-Version 2.8.3
+版本 2.8.3
 -------------
 
-Released: 2018-01-12
+发布于 2018-01-12
 
-* Restrict eventlet to `<0.22.0` until we're compatible.
+* 将 Eventlet 限制为 `<0.22.0`，直到我们与其兼容。
 
-Version 2.8.2
+版本 2.8.2
 -------------
 
-Released: 2017-12-11
+发布于 2017-12-11
 
-* Remove the pytest `--log-level` argument added by the pytest plugin since
-  this conflicts with newer versions of `pytest` (`>= 3.3.0`). For older
-  versions this can be restored by installing the `pytest-catchlog` package.
+* 移除 pytest 插件中添加的 `--log-level` 参数，因为这与较新版本的 `pytest` （`>= 3.3.0`）冲突。对于旧版本，可以通过安装 `pytest-catchlog` 包来恢复此功能。
 
 
-Version 2.8.1
+版本 2.8.1
 -------------
 
-Released: 2017-11-29
+发布于 2017-11-29
 
-* Added the 'show-config' command which will print the service configuration
-  to the console, after environment variable substitution.
+* 添加了 `show-config` 命令，该命令将在环境变量替换后将服务配置打印到控制台。
 
 
-Version 2.8.0
+版本 2.8.0
 -------------
 
-Released: 2017-10-31
+发布于 2017-10-31
 
-* Environment variables substituted into config files are now interpreted
-  as YAML rather than bare values, allowing use of rich data types.
+* 现在，替换到配置文件中的环境变量被解释为 YAML 而非简单值，从而允许使用丰富的数据类型。
 
 
-Version 2.7.0
+版本 2.7.0
 -------------
 
-Released: 2017-10-07
+发布于 2017-10-07
 
-* Set stopped flag in register_provider() to allow PollingQueueConsumer
-  object reuse [fixes #462]
-* Refactor of AMQP message publishing logic into `nameko.amqp.publish`
-* Exposes delivery options and other messaging configuration to AMQP-based
-  DependencyProviders. [addresses #374]
-* Class attributes for configuring `use_confirms`, `retry` and `retry_policy`
-  have been deprecated from the Publisher, EventDispatcher, and RPC MethodProxy
-  classes. If you were subclassing these classes to set these options, you
-  should now set them at class instantiation time.
+* 在 `register_provider()` 中设置停止标志，以允许重用 PollingQueueConsumer 对象 [修复 #462]
+* 将 AMQP 消息发布逻辑重构到 `nameko.amqp.publish` 中
+* 向基于 AMQP 的 DependencyProviders 暴露投递选项和其他消息配置 [解决 #374]
+* Publisher、EventDispatcher 和 RPC MethodProxy 类的 `use_confirms`、`retry` 和 `retry_policy` 的类属性已被弃用。如果您之前是通过子类化这些类来设置这些选项，现在应在类实例化时设置它们。
 
 
-Version 2.6.0
+版本 2.6.0
 -------------
 
-Released: 2017-04-30
+发布于 2017-04-30
 
-* Environment variables are now interpreted as native YAML data types rather
-  than just strings
-* The WSGI Server now uses an explicit logger so it can be controlled using a
-  logging config
-* Drops several backwards-compatibility shims that were marked as being
-  maintained only until this release
+* 环境变量现在被解释为原生 YAML 数据类型，而不仅仅是字符串。
+* WSGI 服务器现在使用显式日志记录器，因此可以通过日志配置进行控制。
+* 删除了几个向后兼容的适配层，这些适配层仅在此版本之前维护。
 
 
-Version 2.5.4
+版本 2.5.4
 -------------
 
-Released: 2017-04-20
+发布于 2017-04-20
 
-* Don't block the QueueConsumer thread on the worker pool, which could cause
-  service deadlock and occasional dropped AMQP connections [fixes #428]
-* Revert prefetch count change from 2.5.3 and ack messages outside of the
-  QueueConsumer thread. [fixes #417 more robustly]
+* 不要在工作池上阻塞 QueueConsumer 线程，这可能导致服务死锁和偶尔掉线的 AMQP 连接 [修复 #428]。
+* 将预取计数更改恢复为 2.5.3 版本，并在 QueueConsumer 线程外确认消息 [更稳健地修复 #417]。
 
 
-Version 2.5.3
+版本 2.5.3
 -------------
 
-Released: 2017-03-16
+发布于 2017-03-16
 
-* Bump the amqp `prefetch_count` by 1 to `max_workers + 1` to fix throughput
-  issue. [fixes 417]
+* 将 amqp 的 `prefetch_count` 增加 1 到 `max_workers + 1` 以修复吞吐量问题。[修复 #417]
 
-
-Version 2.5.2
+版本 2.5.2
 -------------
 
-Released 2017-02-28
+发布于 2017-02-28
 
-* Improves teardown speed of the `rabbit_config` pytest fixture
-* Support for providing an alternative reply listener to the standalone
-  RPC proxy
+* 提高了 `rabbit_config` pytest fixture 的拆解速度
+* 支持为独立的 RPC 代理提供替代的回复监听器
 
-Version 2.5.1
+版本 2.5.1
 -------------
 
-Released 2017-01-19
+发布于 2017-01-19
 
-* Adds a DependencyProvider to give services access to the config object
-* Internal refactor to make all worker lifecycle steps run in the same thread
+* 添加了一个 DependencyProvider，以便服务访问配置对象
+* 内部重构使所有工作者生命周期步骤在同一线程中运行
 
-Version 2.5.0
+版本 2.5.0
 -------------
 
-Released 2016-12-20
+发布于 2016-12-20
 
-* Enables publish confirms by default for all AMQP message publishers
-* Refactors common AMQP connection code into `nameko.amqp`
+* 默认启用所有 AMQP 消息发布者的发布确认
+* 将常见的 AMQP 连接代码重构到 `nameko.amqp` 中
 
-Version 2.4.4
+版本 2.4.4
 -------------
 
-Released 2016-11-28
+发布于 2016-11-28
 
-* Adds AMQP heartbeats to Consumer connections
-* Handles an uncaught exception caused by a fast-disconnecting client under
-  Python 3 [fixes #367]
+* 为消费者连接添加 AMQP 心跳
+* 处理 Python 3 下由于快速断开连接的客户端引起的未捕获异常 [修复 #367]
 
-Version 2.4.3
+版本 2.4.3
 -------------
 
-Released 2016-11-16
+发布于 2016-11-16
 
-* Pins kombu back to a compatible release (<4) [fixes #378]
-* Fixes compatibility with latest bpython and ipython shells
-  [fixes #355 and #375]
-* Fixes socket cleanup bug in websocket hub [fixes #367]
+* 将 kombu 锁定回兼容版本 (<4) [修复 #378]
+* 修复与最新的 bpython 和 ipython shell 的兼容性 [修复 #355 和 #375]
+* 修复 websocket hub 中的套接字清理错误 [修复 #367]
 
-Version 2.4.2
+版本 2.4.2
 -------------
 
-Released 2016-10-10
+发布于 2016-10-10
 
-* Added support for environment variables in YAML config files
-* Enhanced :func:`~nameko.testing.services.entrypoint_waiter`. The new
-  implementation is backwards compatible but additionally:
+* 在 YAML 配置文件中添加对环境变量的支持
+* 增强了 :func:`~nameko.testing.services.entrypoint_waiter` 。新的实现向后兼容，但另外：
 
-    - Gives you access to the result returned (or exception raised)
-    - Adds the ability to wait for a specific result
-    - Doesn't fire until the worker is completely torn down
+    - 允许访问返回的结果（或引发的异常）
+    - 增加了等待特定结果的能力
+    - 在工作者完全拆解之前不会触发
 
-Version 2.4.1
+版本 2.4.1
 -------------
 
-Released 2016-09-14
+发布于 2016-09-14
 
-* Enhanced :class: `~nameko.web.server.WebServer` with `get_wsgi_app` and
-  `get_wsgi_server` to allow easy usage of WSGI middleware and modifications
-  of the WSGI server.
-* Enhanced :func:`~nameko.testing.services.replace_dependencies` to allow
-  specific replacement values to be provided with named arguments.
+* 增强了 :class:`~nameko.web.server.WebServer` ，增加了 `get_wsgi_app` 和 `get_wsgi_server` 方法，以便轻松使用 WSGI 中间件和修改 WSGI 服务器。
+* 增强了 :func:`~nameko.testing.services.replace_dependencies` ，允许使用命名参数提供特定的替换值。
 
-Version 2.4.0
+版本 2.4.0
 -------------
 
-Released 2016-08-30
+发布于 2016-08-30
 
-* Add dictionary access to ``standalone.rpc.ClusterProxy`` to allow the proxy
-  to call services whose name is not a legal identifier in python
-  (e.g. name has a ``-`` in it).
-* Add the ability to specify a custom `ServiceContainer` class via config key.
-  Deprecate the keyword arguments to `ServiceRunner` and `run_services` for
-  the same purpose.
-* Deprecate the keyword arguments to `run_services`, `ServiceContainer` and
-  `ServiceRunner.add_service` for specifying a custom `WorkerContext` class.
-  Custom `WorkerContext` classes can now only be specified with a custom
-  `ServiceContainer` class that defines the `worker_ctx_cls` attribute.
-* Remove the `context_keys` attribute of the `WorkerContext`, which was
-  previously used to "whitelist" worker context data passed from call to call.
-  It was a feature that leaked from a specific implementation into the main
-  framework, and not useful enough in its own right to continue to be
-  supported.
-* Refactor `ServiceContainer` internals for better separation between "managed"
-  and "worker" threads. Improved logging when threads are killed.
+* 为 ``standalone.rpc.ClusterProxy`` 添加字典访问，以允许代理调用名称不是 Python 中合法标识符的服务（例如，名称中有 ``-``）。
+* 添加通过配置键指定自定义 `ServiceContainer` 类的能力。弃用 `ServiceRunner` 和 `run_services` 的关键字参数以达到相同目的。
+* 弃用用于指定自定义 `WorkerContext` 类的 `run_services`、`ServiceContainer` 和 `ServiceRunner.add_service` 的关键字参数。自定义 `WorkerContext` 类现在只能通过定义 `worker_ctx_cls` 属性的自定义 `ServiceContainer` 类来指定。
+* 移除 `WorkerContext` 的 `context_keys` 属性，该属性以前用于“白名单”从调用到调用传递的工作者上下文数据。该特性从特定实现泄漏到主框架中，其自身的实用性不足以继续得到支持。
+* 重构 `ServiceContainer` 的内部结构，以更好地区分“管理”线程和“工作者”线程。在杀死线程时改进了日志记录。
 
-Version 2.3.1
+版本 2.3.1
 -------------
 
-Released 2016-05-11
+发布于 2016-05-11
 
-* Deprecate ``MethodProxy.async`` in favour of ``MethodProxy.call_async`` in
-  preparation for async becoming a keyword
-* Add support for loading logging configuration from ``config.yaml``
+* 弃用 ``MethodProxy.async``，转而使用 ``MethodProxy.call_async``，为 async 成为关键字做准备
+* 添加从 ``config.yaml`` 加载日志配置的支持
 
-
-Version 2.3.0
+版本 2.3.0
 -------------
 
-Released 2016-04-05
+发布于 2016-04-05
 
-* Add support for loading configuration file in ``nameko shell`` via
-  ``--config`` option
-* Changed :class:`~nameko.web.handlers.HttpRequestHandler` to allow override
-  how web exceptions are handled
-* Enabled reliable delivery on broadcast events when combined with a custom
-  :py:attr:`~nameko.events.EventHandler.broadcast_identity`. Reliable delivery
-  now defaults to enabled for all handler types. It must be explicitly turned
-  off with broadcast mode unless you override the default `broadcast_identity`.
-* Update bundled pytest fixtures to use a random vhost in RabbitMQ by default
-* Now requires eventlet>=0.16.1 because older versions were removed from PyPI
+* 添加通过 ``--config`` 选项在 ``nameko shell`` 中加载配置文件的支持
+* 更改 :class:`~nameko.web.handlers.HttpRequestHandler` 以允许重写 web 异常的处理方式
+* 在与自定义 :py:attr:`~nameko.events.EventHandler.broadcast_identity` 结合使用时启用广播事件的可靠传递。所有处理程序类型的可靠传递现在默认启用。除非您重写默认的 `broadcast_identity`，否则必须在广播模式下明确关闭。
+* 更新捆绑的 pytest fixture，默认情况下使用 RabbitMQ 中的随机虚拟主机
+* 现在要求 eventlet>=0.16.1，因为旧版本已从 PyPI 中删除。
 
-Version 2.2.0
+版本 2.2.0
 -------------
 
-Released 2015-10-04
+发布于 2015-10-04
 
-* Add support for alternative serializers in AMQP messages
-* Add pytest plugin with common fixtures
-* Fix examples in documentation and add tests to prevent future breakage
-* Fix bug handling non-ascii characters in exception messages
-* Various documentation fixes
+* 添加对 AMQP 消息中替代序列化器的支持
+* 添加带有常见 fixture 的 pytest 插件
+* 修正文档中的示例并添加测试以防止将来的故障
+* 修复处理异常消息中非 ASCII 字符的错误
+* 各种文档修正
 
-
-Version 2.1.2
+版本 2.1.2
 -------------
 
-Released 2015-05-26
+发布于 2015-05-26
 
-* Refactor the standalone queue consumer for more extensibility
+* 重构独立队列消费者以增强可扩展性
 
-
-Version 2.1.1
+版本 2.1.1
 -------------
 
-Released 2015-05-11
+发布于 2015-05-11
 
-* Nameko shell to use bpython or ipython interpreter if available
-* Support for marking entrypoint arguments as sensitive (for later redaction)
+* Nameko shell 使用可用的 bpython 或 ipython 解释器
+* 支持将入口点参数标记为敏感（以便后续删除）
 
-
-Version 2.1.0
+版本 2.1.0
 -------------
 
-Released 2015-04-13
+发布于 2015-04-13
 
-* Changed default AMQP URI so examples work with an unconfigured RabbitMQ.
-* Heuristic messages for AMQP connection errors.
-* Added six to requirements.
-* Minor documentation fixes.
+* 更改默认 AMQP URI，以便示例在未配置 RabbitMQ 的情况下工作。
+* AMQP 连接错误的启发式消息。
+* 将 six 添加到依赖项。
+* 小幅文档修正。
 
-
-Version 2.0.0
+版本 2.0.0
 -------------
 
-Released 2015-03-31
+发布于 2015-03-31
 
-* python 3 compatibility
-* Added HTTP entrypoints and experimental websocket support (contributed by
-  Armin Ronacher)
-* Added CLI and console script
-* Introduction of nameko "extensions" and nomenclature clarification
-* Removal of ``DependencyFactory`` in favour of prototype pattern
-* Complete documentation rewrite
-* Spun out ``nameko.contrib.sqlalchemy`` into
-  `nameko-sqlalchemy <https://pypi.python.org/pypi/nameko-sqlalchemy>`_
-  as a **community extension**.
-* Spun out ``nameko.legacy`` package into
-  `nameko-nova-compat <https://pypi.python.org/pypi/nameko-nova-compat>`_
-* Rename the standalone rpc proxy to
-  :class:`~nameko.standalone.rpc.ServiceRpcProxy` and add a
-  :class:`~nameko.standalone.rpc.ClusterRpcProxy`, using a single reply queue
-  for communicating with multiple remote services.
-* Make the standalone event dispatcher more shell-friendly, connecting on
-  demand.
+* 兼容 Python 3
+* 添加 HTTP 入口点和实验性 websocket 支持（由 Armin Ronacher 提供）
+* 添加 CLI 和控制台脚本
+* 引入 Nameko “扩展”及命名法的澄清
+* 移除 ``DependencyFactory``，改为使用原型模式
+* 完整的文档重写
+* 将 ``nameko.contrib.sqlalchemy`` 拆分为 `nameko-sqlalchemy <https://pypi.python.org/pypi/nameko-sqlalchemy>`_ 作为**社区扩展**。
+* 将 ``nameko.legacy`` 包拆分为 `nameko-nova-compat <https://pypi.python.org/pypi/nameko-nova-compat>`_
+* 将独立 rpc 代理重命名为 :class:`~nameko.standalone.rpc.ServiceRpcProxy`，并添加 :class:`~nameko.standalone.rpc.ClusterRpcProxy`，使用单个回复队列与多个远程服务进行通信。
+* 使独立事件调度器更加适合 Shell 使用，按需连接。
 
-
-Version 1.14.0
+版本 1.14.0
 --------------
 
-Released 2014-12-19
+发布于 2014-12-19
 
-* Remove parallel provider in favour of async RPC
-* Update :func:`~nameko.testing.services.worker_factory` to raise if asked to
-  replace a non-existent injection.
-* Add various ``__repr__`` methods for better logging
-* Support for timeouts in the (non-legacy) standalone RPC proxy
-* Add helper for manipulating an AMQP URI into a dict
+* 移除并行提供者，改为使用异步 RPC
+* 更新 :func:`~nameko.testing.services.worker_factory` 以在请求替换不存在的注入时引发异常。
+* 添加各种 ``__repr__`` 方法以改善日志记录
+* 支持（非遗留）独立 RPC 代理中的超时
+* 添加用于将 AMQP URI 操作为字典的辅助工具
 
-
-Version 1.13.0
+版本 1.13.0
 --------------
 
-Released 2014-12-02
+发布于 2014-12-02
 
-* RPC reply queues now auto-delete.
-* Extra protection against badly-behaved dependencies during container kill
-* Make legacy :class:`~nameko.legacy.nova.NovaRpcConsumer` more robust against
-  failures in the :class:`~nameko.legacy.nova.NovaRpc` provider.
+* RPC 回复队列现在自动删除。
+* 在容器终止期间对行为不当的依赖项提供额外保护。
+* 使遗留的 :class:`~nameko.legacy.nova.NovaRpcConsumer` 更加健壮，以防 :class:`~nameko.legacy.nova.NovaRpc` 提供者发生故障。
 
-
-Version 1.12.0
+版本 1.12.0
 --------------
 
-Released 2014-11-25
+发布于 2014-11-25
 
-* Add ability to make asynchronous rpc calls using the rpc proxy.
-* Add a new nameko context key ``user_agent`` to support including such info
-  in the rpc header.
+* 添加通过 rpc 代理进行异步 rpc 调用的能力。
+* 添加新的 Nameko 上下文键 ``user_agent``，以支持在 rpc 头中包含此类信息。
 
-
-Version 1.11.5
+版本 1.11.5
 --------------
 
-Released 2014-11-18
+发布于 2014-11-18
 
-* Have the standalone rpc proxy mark its reply queues as auto-delete, to stop
-  them staying around after use.
+* 使独立 rpc 代理将其回复队列标记为自动删除，以防止在使用后仍然保留它们。
 
-
-Version 1.11.4
+版本 1.11.4
 --------------
 
-Released 2014-11-10
+发布于 2014-11-10
 
-* Make :class:`~nameko.rpc.RpcConsumer` more robust against failures in the
-  :class:`~nameko.rpc.Rpc` provider.
-* Add a new exception :class:`~nameko.exceptions.MalformedRequest` that RPC
-  providers can raise if they detect an invalid message. Raise this exception
-  in the default ``Rpc`` provider if ``args`` or ``kwargs`` keys are missing
-  from the message.
-* Fix issues in queue consumer tests against non-localhost brokers.
-* Upgrade to eventlet 0.15.2.
-* Include pyrabbit in ``requirements.txt`` (no longer just for tests).
-* Catch dying containers in the entrypoint_hook to avoid hangs.
-* Add ``expected_exceptions`` kwarg to the rpc entrypoint to enable different
-  exception handling (in dependencies) for user vs system errors.
+* 使 :class:`~nameko.rpc.RpcConsumer` 对 :class:`~nameko.rpc.Rpc` 提供者中的故障更加健壮。
+* 添加新的异常 :class:`~nameko.exceptions.MalformedRequest`，RPC 提供者可以在检测到无效消息时引发。如果消息中缺少 ``args`` 或 ``kwargs`` 键，在默认的 ``Rpc`` 提供者中引发此异常。
+* 修复针对非 localhost 代理的队列消费者测试中的问题。
+* 升级到 eventlet 0.15.2。
+* 将 pyrabbit 包含在 ``requirements.txt`` 中（不再仅用于测试）。
+* 在 entrypoint_hook 中捕获死亡容器以避免挂起。
+* 向 rpc 入口点添加 ``expected_exceptions`` 关键字参数，以启用对用户与系统错误不同的异常处理（在依赖项中）。
 
-
-Version 1.11.3
+版本 1.11.3
 --------------
 
-Released 2014-10-10
+发布于 2014-10-10
 
-* Add more logging for workers killed by
-  :meth:`~nameko.containers.ServiceContainer.kill`.
+* 为被 :meth:`~nameko.containers.ServiceContainer.kill` 杀死的工作者添加更多日志记录。
 
-
-Version 1.11.2
+版本 1.11.2
 --------------
 
-Released 2014-09-18
+发布于 2014-09-18
 
-* Add a default implementation for ``acquire_injection`` (returning ``None``)
-  for dependency providers that are used for side-effects rather than injecting
-  dependencies.
+* 为用于副作用而不是注入依赖项的依赖提供者添加 ``acquire_injection`` 的默认实现（返回 ``None``）。
 
-
-Version 1.11.1
+版本 1.11.1
 --------------
 
-Released 2014-09-15
+发布于 2014-09-15
 
-* New test helper :func:`~nameko.testing.services.entrypoint_waiter` to wait
-  for entrypoints (e.g. event handlers) to complete.
+* 新的测试助手 :func:`~nameko.testing.services.entrypoint_waiter`，用于等待入口点（例如事件处理程序）完成。
 
-
-Version 1.11.0
+版本 1.11.0
 --------------
 
-Released 2014-09-01
+发布于 2014-09-01
 
-* Raise a specific ``RpcTimeout`` error in the RPC proxy rather than
-  ``socket.timeout`` to avoid confusing kombu's ``Connection.ensure``
-* Improve logging helpers
-* Use ``inspect.getcallargs`` instead of shadow lambda for RPC argument
-  checking
-* Add default retry policies to all publishers
-* Stricter handling of connections between tests
-* Workarounds for RabbitMQ bugs described at
-  https://groups.google.com/d/topic/rabbitmq-users/lrl0tYd1L38/discussion
+* 在 RPC 代理中引发特定的 ``RpcTimeout`` 错误，而不是 ``socket.timeout``，以避免混淆 kombu 的 ``Connection.ensure``。
+* 改进日志记录助手。
+* 使用 ``inspect.getcallargs`` 而不是阴影 lambda 进行 RPC 参数检查。
+* 为所有发布者添加默认重试策略。
+* 更严格地处理测试之间的连接。
+* 针对 RabbitMQ 错误的解决方法，描述见 [RabbitMQ 用户组](https://groups.google.com/d/topic/rabbitmq-users/lrl0tYd1L38/discussion)。
 
-Version 1.10.1
+版本 1.10.1
 --------------
 
-Released 2014-08-27
+发布于 2014-08-27
 
-* Inspect the service class (instead of an instance) in
-  :func:`~nameko.testing.services.worker_factory`. Works better with
-  descriptors.
-* Explicitly delete ``exc_info`` variable when not needed, to help the
-  garbage collector.
+* 在 :func:`~nameko.testing.services.worker_factory` 中检查服务类（而不是实例）。与描述符一起使用效果更佳。
+* 显式删除不需要的 ``exc_info`` 变量，以帮助垃圾回收器。
 
-
-Version 1.10.0
+版本 1.10.0
 --------------
 
-Released 2014-08-14
+发布于 2014-08-14
 
-* Entrypoint providers' handle_result is now able to manipulate and modify and
-  return the ``(result, exc_info)`` tuple. This enables default post-processing
-  (e.g. serialization, translations)
-* Added serialization safety to legacy RPC entrypoint.
+* 入口点提供者的 `handle_result` 现在能够操作、修改并返回 ``(result, exc_info)`` 元组。这使得默认后处理（例如序列化、翻译）成为可能。
+* 为遗留 RPC 入口点添加了序列化安全性。
 
-
-Version 1.9.1
+版本 1.9.1
 -------------
 
-Released 2014-08-12
+发布于 2014-08-12
 
-* Bugfix to exception handling in ``nameko.legacy.dependencies``
+* 修复了 ``nameko.legacy.dependencies`` 中的异常处理问题。
 
-
-Version 1.9.0
+版本 1.9.0
 -------------
 
-Released 2014-07-15
+发布于 2014-07-15
 
-* No longer relying on eventlet for standalone RPC proxy timeouts.
-* Introduced RPC entrypoints compatible with the 'legacy' proxy.
+* 不再依赖 eventlet 来处理独立 RPC 代理的超时。
+* 引入与“遗留”代理兼容的 RPC 入口点。
 
-
-Version 1.8.2
+版本 1.8.2
 -------------
 
-Released 2014-07-07
+发布于 2014-07-07
 
-* Documentation generator accepts a function listing event classes and adds
-  to output accordingly.
+* 文档生成器接受一个函数，用于列出事件类，并相应地添加到输出中。
 
-
-Version 1.8.1
+版本 1.8.1
 -------------
 
-Released 2014-06-23
+发布于 2014-06-23
 
-* Adding ``wait_for_worker_idle`` test helper.
+* 添加 ``wait_for_worker_idle`` 测试助手。
 
-Version 1.8.0
+版本 1.8.0
 -------------
 
-Released 2014-06-13
+发布于 2014-06-13
 
-* Now passing ``exc_info`` tuples instead of bare exceptions to
-  ``worker_result`` and ``handle_result``, to enable exception processing in
-  non-worker greenthreads.
+* 现在将 ``exc_info`` 元组而不是裸异常传递给 ``worker_result`` 和 ``handle_result``，以便在非工作线程中进行异常处理。
 
-Version 1.7.2
+版本 1.7.2
 -------------
 
-Released 2014-06-10
+发布于 2014-06-10
 
-* :meth:`~nameko.containers.ServiceContainer._run_worker` now calls any
-  ``handle_result`` method before dependency teardown.
-* Serialization errors now generate a specific error message rather
-  than bubbling into the container.
-* Minor change to ``nameko_doc`` output.
+* :meth:`~nameko.containers.ServiceContainer._run_worker` 现在在依赖项拆解之前调用任何 ``handle_result`` 方法。
+* 序列化错误现在生成特定的错误信息，而不是冒泡到容器中。
+* 对 ``nameko_doc`` 输出进行小幅修改。
 
-Version 1.7.1
+版本 1.7.1
 -------------
 
-Released 2014-05-20
+发布于 2014-05-20
 
-* Added ``language``, ``auth_token`` and ``user_id`` dependency providers to
-  make context data available to service workers.
-* Refactored constants into their own module.
-* Minor test changes to enable testing on shared rabbit brokers.
+* 添加了 ``language``、``auth_token`` 和 ``user_id`` 依赖提供者，以便将上下文数据提供给服务工作者。
+* 将常量重构到自己的模块中。
+* 对测试进行了小幅修改，以便在共享 Rabbit 代理上进行测试。
 
-Version 1.7.0
+版本 1.7.0
 -------------
 
-Released 2014-05-07
+发布于 2014-05-07
 
-* :meth:`~nameko.containers.ServiceContainer.spawn_worker` now throws
-  :class:`~nameko.exceptions.ContainerBeingKilled` if a ``kill`` is
-  in progress, since some providers may already be dead. Providers should catch
-  this and e.g. requeue rpc messages. There is a race condition between
-  completing the kill sequence and remaining entrypoints firing.
+* :meth:`~nameko.containers.ServiceContainer.spawn_worker` 现在会抛出 :class:`~nameko.exceptions.ContainerBeingKilled` 异常，如果正在进行 ``kill`` 操作，因为某些提供者可能已经死亡。提供者应该捕获此异常，例如重新排队 RPC 消息。在完成杀死序列与剩余入口点触发之间存在竞争条件。
 
-
-Version 1.6.1
+版本 1.6.1
 -------------
 
-Released 2014-04-03
+发布于 2014-04-03
 
-* Revert changes to legacy exception serialization to maintain backwards
-  compatibility with old clients.
-* Add forwards compatibility for future clients that wish to serialize
-  exceptions into more data
-* Promote conftest rabbit manipulations to test helpers
+* 恢复对遗留异常序列化的更改，以维护与旧客户端的向后兼容性。
+* 为希望将异常序列化为更多数据的未来客户端添加向前兼容性。
+* 将 conftest 的 Rabbit 操作提升为测试助手。
 
-
-Version 1.6.0
+版本 1.6.0
 -------------
 
-Released 2014-03-31
+发布于 2014-03-31
 
-* Rename instance_factory to worker_factory
-* Raise :class:`~nameko.exception.IncorrectSignature` instead of
-  ``RemoteError: TypeError`` if an RPC method is called with invalid arguments.
-* Raise :class:`~nameko.exception.MethodNotFound` instead of
-  ``RemoteError: MethodNotFound`` if a non-existent RPC method is called.
-* Let log handlers format warning messages so that aggregators group them
-  correctly.
-* Expose the entire dependency provider (rather than just the method name) to
-  the worker context.
+* 将 `instance_factory` 重命名为 `worker_factory`。
+* 如果 RPC 方法使用无效参数被调用，抛出 :class:`~nameko.exception.IncorrectSignature`，而不是 ``RemoteError: TypeError``。
+* 如果调用不存在的 RPC 方法，抛出 :class:`~nameko.exception.MethodNotFound`，而不是 ``RemoteError: MethodNotFound``。
+* 让日志处理程序格式化警告消息，以便聚合器正确分组。
+* 将整个依赖提供者（而不仅仅是方法名称）暴露给工作者上下文。
 
-
-Version 1.5.0
+版本 1.5.0
 -------------
 
-Released 2014-03-27
+发布于 2014-03-27
 
-* Improvements to :class:`~nameko.containers.ServiceContainer.kill()` enabling
-  better tracebacks and cleaner teardown:
+* 对 :class:`~nameko.containers.ServiceContainer.kill()` 的改进，使其能够提供更好的回溯和更清晰的拆解：
 
-    - Using ``sys.exc_info`` to preserve tracebacks
-    - No longer passing exception into
-      :meth:`~nameko.extensions.DependencyProvider.kill()`, removing race
-      conditions.
-    - No longer requiring ``exc`` in
-      :class:`~nameko.containers.ServiceContainer.kill()`
+    - 使用 ``sys.exc_info`` 来保留回溯信息。
+    - 不再将异常传递给 :meth:`~nameko.extensions.DependencyProvider.kill()`，消除竞争条件。
+    - 不再要求在 :class:`~nameko.containers.ServiceContainer.kill()` 中传递 ``exc``。
 
-Version 1.4.1
+版本 1.4.1
 -------------
 
-Released 2014-03-26
+发布于 2014-03-26
 
-* Adds the ``nameko_doc`` package, for easing the creation of service-oriented
-  documentation.
+* 添加了 ``nameko_doc`` 包，以简化服务导向文档的创建。
 
-
-Version 1.4.0
+版本 1.4.0
 -------------
 
-Released 2014-03-20
+发布于 2014-03-20
 
-* RPC calls to non-existent services (no queues bound to the RPC exchange with
-  the appropriate routing key) now raise an exception instead of hanging
-  indefinitely. Note that calls to existing but non-running services (where the
-  queue exists but has no consumer) behave as before.
+* 对不存在的服务（没有与 RPC 交换绑定的队列和相应的路由键）的 RPC 调用现在会引发异常，而不是无限期挂起。请注意，对已存在但未运行服务（队列存在但没有消费者）的调用行为与之前相同。
 
-
-Version 1.3.5
+版本 1.3.5
 -------------
 
-Released 2014-03-05
+发布于 2014-03-05
 
-* Increased test resilience. Force-closing existing connections on rabbit
-  reset
+* 提高了测试的韧性。在 Rabbit 重置时强制关闭现有连接。
 
-
-Version 1.3.4
+版本 1.3.4
 -------------
 
-Released 2014-03-05
+发布于 2014-03-05
 
-* Use ``MagicMock`` for dependency replacement in test utilities
-* Use ``autospec=True`` wherever possible when mocking
-* Merge ``ServiceContainers`` into a single class
+* 在测试工具中使用 ``MagicMock`` 进行依赖替换。
+* 在模拟时尽可能使用 ``autospec=True``。
+* 将 ``ServiceContainers`` 合并为单个类。
 
-
-Version 1.3.3
+版本 1.3.3
 -------------
 
-Released 2014-02-25
+发布于 2014-02-25
 
-* Bugfixes enabling reconnection to the broker if the connection is temporarily
-  lost.
+* 修复了在连接暂时丢失时重新连接到代理的错误。
 
-
-Version 1.3.2
+版本 1.3.2
 -------------
 
-Released 2014-02-13
+发布于 2014-02-13
 
-* Dropping headers with a ``None`` value because they can't be serialized by
-  AMQP
+* 删除值为 ``None`` 的头部，因为它们无法被 AMQP 序列化。
 
-
-Version 1.3.1
+版本 1.3.1
 -------------
 
-Released 2014-01-28
+发布于 2014-01-28
 
-* Add ``event_handler_cls`` kwarg to the ``event_handler`` entrypoint, for
-  using a custom subclass of the ``EventHandler`` provider
+* 向 ``event_handler`` 入口点添加 ``event_handler_cls`` 关键字参数，以使用 ``EventHandler`` 提供者的自定义子类。
 
-
-Version 1.3.0
+版本 1.3.0
 -------------
 
-Released 2014-01-23
+发布于 2014-01-23
 
-* Standalone RPC proxy interface changed to class with contextmanager interface
-  and manual ``start()`` and ``stop()`` methods.
+* 独立 RPC 代理接口更改为具有上下文管理器接口的类，并添加手动 ``start()`` 和 ``stop()`` 方法。

@@ -11,12 +11,12 @@ _log = getLogger(__name__)
 
 
 class ServiceRunner(object):
-    """ Allows the user to serve a number of services concurrently.
-    The caller can register a number of service classes with a name and
-    then use the start method to serve them and the stop and kill methods
-    to stop them. The wait method will block until all services have stopped.
+    """允许用户并发提供多个服务。
+    调用者可以为多个服务类注册名称，然后使用
+    start 方法来提供它们，并使用 stop 和 kill 方法
+    来停止它们。wait 方法将阻塞，直到所有服务停止。
 
-    Example::
+    示例::
 
         runner = ServiceRunner(config)
         runner.add_service(Foobar)
@@ -28,6 +28,7 @@ class ServiceRunner(object):
 
         runner.wait()
     """
+
     def __init__(self, config):
         self.service_map = {}
         self.config = config
@@ -43,101 +44,96 @@ class ServiceRunner(object):
         return self.service_map.values()
 
     def add_service(self, cls):
-        """ Add a service class to the runner.
-        There can only be one service class for a given service name.
-        Service classes must be registered before calling start()
+        """将服务类添加到运行器中。
+        对于给定的服务名称，最多只能有一个服务类。
+        服务类必须在调用 start() 之前注册。
         """
         service_name = get_service_name(cls)
         container = self.container_cls(cls, self.config)
         self.service_map[service_name] = container
 
     def start(self):
-        """ Start all the registered services.
+        """启动所有注册的服务。
 
-        A new container is created for each service using the container
-        class provided in the __init__ method.
+        每个服务都会使用 __init__ 方法中提供的容器
+        类创建一个新容器。
 
-        All containers are started concurrently and the method will block
-        until all have completed their startup routine.
+        所有容器将并发启动，该方法将在所有容器完成
+        启动例程之前阻塞。
         """
-        service_names = ', '.join(self.service_names)
-        _log.info('starting services: %s', service_names)
+        service_names = ", ".join(self.service_names)
+        _log.info("启动服务: %s", service_names)
 
         SpawningProxy(self.containers).start()
 
-        _log.debug('services started: %s', service_names)
+        _log.debug("服务已启动: %s", service_names)
 
     def stop(self):
-        """ Stop all running containers concurrently.
-        The method blocks until all containers have stopped.
+        """并发停止所有正在运行的容器。
+        该方法在所有容器停止之前将阻塞。
         """
-        service_names = ', '.join(self.service_names)
-        _log.info('stopping services: %s', service_names)
+        service_names = ", ".join(self.service_names)
+        _log.info("停止服务: %s", service_names)
 
         SpawningProxy(self.containers).stop()
 
-        _log.debug('services stopped: %s', service_names)
+        _log.debug("服务已停止: %s", service_names)
 
     def kill(self):
-        """ Kill all running containers concurrently.
-        The method will block until all containers have stopped.
+        """并发杀死所有正在运行的容器。
+        该方法将在所有容器停止之前将阻塞。
         """
-        service_names = ', '.join(self.service_names)
-        _log.info('killing services: %s', service_names)
+        service_names = ", ".join(self.service_names)
+        _log.info("杀死服务: %s", service_names)
 
         SpawningProxy(self.containers).kill()
 
-        _log.debug('services killed: %s ', service_names)
+        _log.debug("服务已被杀死: %s ", service_names)
 
     def wait(self):
-        """ Wait for all running containers to stop.
-        """
+        """等待所有正在运行的容器停止。"""
         try:
             SpawningProxy(self.containers, abort_on_error=True).wait()
         except Exception:
-            # If a single container failed, stop its peers and re-raise the
-            # exception
+            # 如果一个容器失败，停止它的同伴并重新引发异常
             self.stop()
             raise
 
 
 @contextmanager
 def run_services(config, *services, **kwargs):
-    """ Serves a number of services for a contextual block.
-    The caller can specify a number of service classes then serve them either
-    stopping (default) or killing them on exiting the contextual block.
+    """为上下文块提供多个服务。
+    调用者可以指定多个服务类，然后在退出上下文块时
+    停止（默认）或杀死它们。
 
-
-    Example::
+    示例::
 
         with run_services(config, Foobar, Spam) as runner:
-            # interact with services and stop them on exiting the block
+            # 与服务交互并在退出块时停止它们
 
-        # services stopped
+        # 服务已停止
 
 
-    Additional configuration available to :class:``ServiceRunner`` instances
-    can be specified through keyword arguments::
+    可以通过关键字参数指定额外的配置，以供 :class:``ServiceRunner`` 实例使用::
 
         with run_services(config, Foobar, Spam, kill_on_exit=True):
-            # interact with services
+            # 与服务交互
 
-        # services killed
+        # 服务已被杀死
 
     :Parameters:
         config : dict
-            Configuration to instantiate the service containers with
-        services : service definitions
-            Services to be served for the contextual block
+            用于实例化服务容器的配置
+        services : 服务定义
+            在上下文块中提供的服务
         kill_on_exit : bool (default=False)
-            If ``True``, run ``kill()`` on the service containers when exiting
-            the contextual block. Otherwise ``stop()`` will be called on the
-            service containers on exiting the block.
+            如果为 ``True``，在退出上下文块时对服务容器调用 ``kill()``。
+            否则在退出块时将调用 ``stop()``。
 
-    :Returns: The configured :class:`ServiceRunner` instance
+    :Returns: 配置好的 :class:`ServiceRunner` 实例
 
     """
-    kill_on_exit = kwargs.pop('kill_on_exit', False)
+    kill_on_exit = kwargs.pop("kill_on_exit", False)
 
     runner = ServiceRunner(config)
     for service in services:

@@ -4,7 +4,9 @@ import nox
 @nox.session
 def docs(session):
     session.install(".")
-    session.install("sphinx", "sphinx-autobuild", "sphinxcontrib-spelling", "furo")
+    session.install(
+        "sphinx", "sphinx-autobuild", "sphinx-autoapi", "sphinxcontrib-spelling", "furo"
+    )
     session.run("rm", "-rf", "build/html", external=True)
     sphinx_args = ["-W", "docs", "build/html"]
 

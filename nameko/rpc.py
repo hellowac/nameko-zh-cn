@@ -5,6 +5,7 @@ import uuid
 import warnings
 from functools import partial
 from logging import getLogger
+from typing import Optional
 
 import kombu.serialization
 from eventlet.event import Event
@@ -12,15 +13,27 @@ from kombu import Exchange, Queue
 
 from nameko.amqp.publish import Publisher, UndeliverableMessage
 from nameko.constants import (
-    AMQP_SSL_CONFIG_KEY, AMQP_URI_CONFIG_KEY, DEFAULT_SERIALIZER,
-    LOGIN_METHOD_CONFIG_KEY, RPC_EXCHANGE_CONFIG_KEY, SERIALIZER_CONFIG_KEY
+    AMQP_SSL_CONFIG_KEY,
+    AMQP_URI_CONFIG_KEY,
+    DEFAULT_SERIALIZER,
+    LOGIN_METHOD_CONFIG_KEY,
+    RPC_EXCHANGE_CONFIG_KEY,
+    SERIALIZER_CONFIG_KEY,
 )
 from nameko.exceptions import (
-    ContainerBeingKilled, MalformedRequest, MethodNotFound, UnknownService,
-    UnserializableValueError, deserialize, serialize
+    ContainerBeingKilled,
+    MalformedRequest,
+    MethodNotFound,
+    UnknownService,
+    UnserializableValueError,
+    deserialize,
+    serialize,
 )
 from nameko.extensions import (
-    DependencyProvider, Entrypoint, ProviderCollector, SharedExtension
+    DependencyProvider,
+    Entrypoint,
+    ProviderCollector,
+    SharedExtension,
 )
 from nameko.messaging import HeaderDecoder, HeaderEncoder, QueueConsumer
 
@@ -28,19 +41,18 @@ from nameko.messaging import HeaderDecoder, HeaderEncoder, QueueConsumer
 _log = getLogger(__name__)
 
 
-RPC_QUEUE_TEMPLATE = 'rpc-{}'
-RPC_REPLY_QUEUE_TEMPLATE = 'rpc.reply-{}-{}'
+RPC_QUEUE_TEMPLATE = "rpc-{}"
+RPC_REPLY_QUEUE_TEMPLATE = "rpc.reply-{}-{}"
 RPC_REPLY_QUEUE_TTL = 300000  # ms (5 mins)
 
 
 def get_rpc_exchange(config):
-    exchange_name = config.get(RPC_EXCHANGE_CONFIG_KEY, 'nameko-rpc')
+    exchange_name = config.get(RPC_EXCHANGE_CONFIG_KEY, "nameko-rpc")
     exchange = Exchange(exchange_name, durable=True, type="topic")
     return exchange
 
 
 class RpcConsumer(SharedExtension, ProviderCollector):
-
     queue_consumer = QueueConsumer()
 
     def __init__(self):
@@ -51,49 +63,42 @@ class RpcConsumer(SharedExtension, ProviderCollector):
 
     def setup(self):
         if self.queue is None:
-
             service_name = self.container.service_name
             queue_name = RPC_QUEUE_TEMPLATE.format(service_name)
-            routing_key = '{}.*'.format(service_name)
+            routing_key = "{}.*".format(service_name)
 
             exchange = get_rpc_exchange(self.container.config)
 
             self.queue = Queue(
-                queue_name,
-                exchange=exchange,
-                routing_key=routing_key,
-                durable=True)
+                queue_name, exchange=exchange, routing_key=routing_key, durable=True
+            )
 
             self.queue_consumer.register_provider(self)
             self._registered = True
 
     def stop(self):
-        """ Stop the RpcConsumer.
+        """停止 RpcConsumer。
 
-        The RpcConsumer ordinary unregisters from the QueueConsumer when the
-        last Rpc subclass unregisters from it. If no providers were registered,
-        we should unregister from the QueueConsumer as soon as we're asked
-        to stop.
+        当最后一个 Rpc 子类从队列消费者中注销时，RpcConsumer 将正常注销。如果没有注册任何提供者，则我们应该在被请求停止时立即从队列消费者注销。
         """
         if not self._providers_registered:
             self.queue_consumer.unregister_provider(self)
             self._unregistered_from_queue_consumer.send(True)
 
     def unregister_provider(self, provider):
-        """ Unregister a provider.
+        """注销提供者。
 
-        Blocks until this RpcConsumer is unregistered from its QueueConsumer,
-        which only happens when all providers have asked to unregister.
+        阻塞直到此 RpcConsumer 从其队列消费者中注销，这只有在所有提供者都请求注销时才会发生。
         """
         self._unregistering_providers.add(provider)
         remaining_providers = self._providers - self._unregistering_providers
         if not remaining_providers:
-            _log.debug('unregistering from queueconsumer %s', self)
+            _log.debug("正在从队列消费者注销 %s", self)
             self.queue_consumer.unregister_provider(self)
-            _log.debug('unregistered from queueconsumer %s', self)
+            _log.debug("已从队列消费者注销 %s", self)
             self._unregistered_from_queue_consumer.send(True)
 
-        _log.debug('waiting for unregister from queue consumer %s', self)
+        _log.debug("等待从队列消费者注销 %s", self)
         self._unregistered_from_queue_consumer.wait()
         super(RpcConsumer, self).unregister_provider(provider)
 
@@ -101,7 +106,7 @@ class RpcConsumer(SharedExtension, ProviderCollector):
         service_name = self.container.service_name
 
         for provider in self._providers:
-            key = '{}.{}'.format(service_name, provider.method_name)
+            key = "{}.{}".format(service_name, provider.method_name)
             if key == routing_key:
                 return provider
         else:
@@ -109,7 +114,7 @@ class RpcConsumer(SharedExtension, ProviderCollector):
             raise MethodNotFound(method_name)
 
     def handle_message(self, body, message):
-        routing_key = message.delivery_info['routing_key']
+        routing_key = message.delivery_info["routing_key"]
         try:
             provider = self.get_provider_for_method(routing_key)
             provider.handle_message(body, message)
@@ -118,7 +123,6 @@ class RpcConsumer(SharedExtension, ProviderCollector):
             self.handle_result(message, None, exc_info)
 
     def handle_result(self, message, result, exc_info):
-
         amqp_uri = self.container.config[AMQP_URI_CONFIG_KEY]
         serializer = self.container.config.get(
             SERIALIZER_CONFIG_KEY, DEFAULT_SERIALIZER
@@ -140,7 +144,6 @@ class RpcConsumer(SharedExtension, ProviderCollector):
 
 
 class Rpc(Entrypoint, HeaderDecoder):
-
     rpc_consumer = RpcConsumer()
 
     def setup(self):
@@ -151,10 +154,10 @@ class Rpc(Entrypoint, HeaderDecoder):
 
     def handle_message(self, body, message):
         try:
-            args = body['args']
-            kwargs = body['kwargs']
+            args = body["args"]
+            kwargs = body["kwargs"]
         except KeyError:
-            raise MalformedRequest('Message missing `args` or `kwargs`')
+            raise MalformedRequest("Message 缺失 `args` 或 `kwargs`")
 
         self.check_signature(args, kwargs)
 
@@ -162,15 +165,18 @@ class Rpc(Entrypoint, HeaderDecoder):
 
         handle_result = partial(self.handle_result, message)
         try:
-            self.container.spawn_worker(self, args, kwargs,
-                                        context_data=context_data,
-                                        handle_result=handle_result)
+            self.container.spawn_worker(
+                self,
+                args,
+                kwargs,
+                context_data=context_data,
+                handle_result=handle_result,
+            )
         except ContainerBeingKilled:
             self.rpc_consumer.requeue_message(message)
 
     def handle_result(self, message, worker_ctx, result, exc_info):
-        result, exc_info = self.rpc_consumer.handle_result(
-            message, result, exc_info)
+        result, exc_info = self.rpc_consumer.handle_result(message, result, exc_info)
         return result, exc_info
 
 
@@ -178,7 +184,6 @@ rpc = Rpc.decorator
 
 
 class Responder(object):
-
     publisher_cls = Publisher
 
     def __init__(
@@ -192,32 +197,29 @@ class Responder(object):
         self.login_method = login_method
 
     def send_response(self, result, exc_info):
-
         error = None
         if exc_info is not None:
             error = serialize(exc_info[1])
 
-        # send response encoded the same way as was the request message
-        content_type = self.message.properties['content_type']
+        # 发送以与请求消息相同的方式编码的响应。
+        content_type = self.message.properties["content_type"]
         serializer = kombu.serialization.registry.type_to_name[content_type]
 
-        # disaster avoidance serialization check: `result` must be
-        # serializable, otherwise the container will commit suicide assuming
-        # unrecoverable errors (and the message will be requeued for another
-        # victim)
+        # 灾难避免序列化检查：`result` 必须是可序列化的，
+        # 否则容器将假定发生不可恢复的错误而自杀（消息将被重新排队给另一个处理者）。
 
         try:
             kombu.serialization.dumps(result, serializer)
         except Exception:
             exc_info = sys.exc_info()
-            # `error` below is guaranteed to serialize to json
+            # 下面的 `error` 确保能够序列化为 JSON。
             error = serialize(UnserializableValueError(result))
             result = None
 
-        payload = {'result': result, 'error': error}
+        payload = {"result": result, "error": error}
 
-        routing_key = self.message.properties['reply_to']
-        correlation_id = self.message.properties.get('correlation_id')
+        routing_key = self.message.properties["reply_to"]
+        correlation_id = self.message.properties.get("correlation_id")
 
         publisher = self.publisher_cls(
             self.amqp_uri, ssl=self.ssl, login_method=self.login_method
@@ -228,14 +230,13 @@ class Responder(object):
             serializer=serializer,
             exchange=self.exchange,
             routing_key=routing_key,
-            correlation_id=correlation_id
+            correlation_id=correlation_id,
         )
 
         return result, exc_info
 
 
 class ReplyListener(SharedExtension):
-
     queue_consumer = QueueConsumer()
 
     def __init__(self, **kwargs):
@@ -243,12 +244,10 @@ class ReplyListener(SharedExtension):
         super(ReplyListener, self).__init__(**kwargs)
 
     def setup(self):
-
         reply_queue_uuid = uuid.uuid4()
         service_name = self.container.service_name
 
-        queue_name = RPC_REPLY_QUEUE_TEMPLATE.format(
-            service_name, reply_queue_uuid)
+        queue_name = RPC_REPLY_QUEUE_TEMPLATE.format(service_name, reply_queue_uuid)
 
         self.routing_key = str(reply_queue_uuid)
 
@@ -258,9 +257,7 @@ class ReplyListener(SharedExtension):
             queue_name,
             exchange=exchange,
             routing_key=self.routing_key,
-            queue_arguments={
-                'x-expires': RPC_REPLY_QUEUE_TTL
-            }
+            queue_arguments={"x-expires": RPC_REPLY_QUEUE_TTL},
         )
 
         self.queue_consumer.register_provider(self)
@@ -277,7 +274,7 @@ class ReplyListener(SharedExtension):
     def handle_message(self, body, message):
         self.queue_consumer.ack_message(message)
 
-        correlation_id = message.properties.get('correlation_id')
+        correlation_id = message.properties.get("correlation_id")
         client_event = self._reply_events.pop(correlation_id, None)
         if client_event is not None:
             client_event.send(body)
@@ -286,7 +283,6 @@ class ReplyListener(SharedExtension):
 
 
 class RpcProxy(DependencyProvider):
-
     rpc_reply_listener = ReplyListener()
 
     def __init__(self, target_service, **options):
@@ -295,15 +291,14 @@ class RpcProxy(DependencyProvider):
 
     def get_dependency(self, worker_ctx):
         return ServiceProxy(
-            worker_ctx,
-            self.target_service,
-            self.rpc_reply_listener,
-            **self.options
+            worker_ctx, self.target_service, self.rpc_reply_listener, **self.options
         )
 
 
 class ServiceProxy(object):
-    def __init__(self, worker_ctx, service_name, reply_listener, **options):
+    def __init__(
+        self, worker_ctx, service_name, reply_listener: ReplyListener, **options
+    ):
         self.worker_ctx = worker_ctx
         self.service_name = service_name
         self.reply_listener = reply_listener
@@ -315,39 +310,49 @@ class ServiceProxy(object):
             self.service_name,
             name,
             self.reply_listener,
-            **self.options
+            **self.options,
         )
 
 
 class RpcReply(object):
-    resp_body = None
+    """解析RPC响应内容"""
 
-    def __init__(self, reply_event):
+    resp_body: Optional[dict] = None
+
+    def __init__(self, reply_event: Event):
         self.reply_event = reply_event
 
     def result(self):
-        _log.debug('Waiting for RPC reply event %s', self)
+        _log.debug("等待 RPC 响应事件 %s", self)
 
         if self.resp_body is None:
-            self.resp_body = self.reply_event.wait()
-            _log.debug('RPC reply event complete %s %s', self, self.resp_body)
+            self.resp_body = self.reply_event.wait()  # type: ignore
+            _log.debug("RPC 响应事件完成 %s %s", self, self.resp_body)
 
-        error = self.resp_body.get('error')
+        if self.resp_body is None:
+            raise ValueError("RPC执行结果获取失败")
+
+        error = self.resp_body.get("error")
         if error:
             raise deserialize(error)
-        return self.resp_body['result']
+        return self.resp_body["result"]
 
 
 class MethodProxy(HeaderEncoder):
+    """RPC 方法代理"""
 
     publisher_cls = Publisher
 
     def __init__(
-        self, worker_ctx, service_name, method_name, reply_listener, **options
+        self,
+        worker_ctx,
+        service_name,
+        method_name,
+        reply_listener: ReplyListener,
+        **options,
     ):
         """
-            Note that mechanism which raises :class:`UnknownService` exceptions
-            relies on publish confirms being enabled in the proxy.
+        请注意，抛出 `UnknownService` 异常的机制依赖于代理中启用发布确认。
         """
 
         self.worker_ctx = worker_ctx
@@ -355,24 +360,27 @@ class MethodProxy(HeaderEncoder):
         self.method_name = method_name
         self.reply_listener = reply_listener
 
-        # backwards compat
-        compat_attrs = ('retry', 'retry_policy', 'use_confirms')
+        # 向后兼容
+        compat_attrs = ("retry", "retry_policy", "use_confirms")
 
         for compat_attr in compat_attrs:
             if hasattr(self, compat_attr):
                 warnings.warn(
-                    "'{}' should be specified at RpcProxy instantiation time "
-                    "rather than as a class attribute. See CHANGES, version "
-                    "2.7.0 for more details. This warning will be removed in "
-                    "version 2.9.0.".format(compat_attr), DeprecationWarning
+                    "'{}' 应在 RpcProxy 实例化时指定，而不是作为类属性。"
+                    "有关详细信息，请参阅 CHANGES，第 2.7.0 版。"
+                    "此警告将在第 2.9.0 版中删除。".format(compat_attr),
+                    DeprecationWarning,
                 )
                 options[compat_attr] = getattr(self, compat_attr)
 
-        serializer = options.pop('serializer', self.serializer)
+        serializer = options.pop("serializer", self.serializer)
 
         self.publisher = self.publisher_cls(
-            self.amqp_uri, serializer=serializer, ssl=self.ssl,
-            login_method=self.login_method, **options
+            self.amqp_uri,
+            serializer=serializer,
+            ssl=self.ssl,
+            login_method=self.login_method,
+            **options,
         )
 
     def __call__(self, *args, **kwargs):
@@ -398,45 +406,42 @@ class MethodProxy(HeaderEncoder):
 
     @property
     def serializer(self):
-        """ Default serializer to use when publishing message payloads.
+        """用于发布消息有效负载时的默认序列化器。
 
-        Must be registered as a
-        `kombu serializer <http://bit.do/kombu_serialization>`_.
+        必须作为一个
+        `kombu 序列化器 <http://bit.do/kombu_serialization>`_ 注册。
         """
-        return self.container.config.get(
-            SERIALIZER_CONFIG_KEY, DEFAULT_SERIALIZER
-        )
+        return self.container.config.get(SERIALIZER_CONFIG_KEY, DEFAULT_SERIALIZER)
 
     def call_async(self, *args, **kwargs):
         reply = self._call(*args, **kwargs)
         return reply
 
     def _call(self, *args, **kwargs):
-        _log.debug('invoking %s', self)
+        _log.debug("调用 %s", self)
 
-        msg = {'args': args, 'kwargs': kwargs}
+        msg = {"args": args, "kwargs": kwargs}
 
-        # We use the `mandatory` flag in `producer.publish` below to catch rpc
-        # calls to non-existent services, which would otherwise wait forever
-        # for a reply that will never arrive.
+        # 我们在下面的 `producer.publish` 中使用 `mandatory` 标志来捕捉
+        # 对不存在服务的 rpc 调用，否则会无限等待一个不会到来的回复。
         #
-        # However, the basic.return ("no one is listening for topic") is sent
-        # asynchronously and conditionally, so we can't wait() on the channel
-        # for it (will wait forever on successful delivery).
+        # 然而，basic.return（“没有人监听该主题”）是异步发送的
+        # 并且有条件的，因此我们无法在通道上等待它
+        # （在成功交付时会无限等待）。
         #
-        # Instead, we make use of (the rabbitmq extension) confirm_publish
-        # (https://www.rabbitmq.com/confirms.html), which _always_ sends a
-        # reply down the channel. Moreover, in the case where no queues are
-        # bound to the exchange (service unknown), the basic.return is sent
-        # first, so by the time kombu returns (after waiting for the confim)
-        # we can reliably check for returned messages.
+        # 相反，我们利用（rabbitmq 扩展）confirm_publish
+        # (https://www.rabbitmq.com/confirms.html)，这总是
+        # 通过通道发送回复。此外，在没有队列
+        # 绑定到交换机的情况下（服务未知），basic.return 首先发送，
+        # 因此当 kombu 返回（在等待确认后）时
+        # 我们可以可靠地检查返回的消息。
 
-        # Note that deactivating publish-confirms in the RpcProxy will disable
-        # this functionality and therefore :class:`UnknownService` will never
-        # be raised (and the caller will hang).
+        # 请注意，在 RpcProxy 中停用发布确认将禁用
+        # 此功能，因此 :class:`UnknownService` 将永远不会
+        # 被引发（并且调用者将挂起）。
 
         exchange = get_rpc_exchange(self.container.config)
-        routing_key = '{}.{}'.format(self.service_name, self.method_name)
+        routing_key = "{}.{}".format(self.service_name, self.method_name)
 
         reply_to = self.reply_listener.routing_key
         correlation_id = str(uuid.uuid4())
@@ -453,7 +458,7 @@ class MethodProxy(HeaderEncoder):
                 mandatory=True,
                 reply_to=reply_to,
                 correlation_id=correlation_id,
-                extra_headers=extra_headers
+                extra_headers=extra_headers,
             )
         except UndeliverableMessage:
             raise UnknownService(self.service_name)
@@ -463,4 +468,4 @@ class MethodProxy(HeaderEncoder):
     def __repr__(self):
         service_name = self.service_name
         method_name = self.method_name
-        return '<proxy method: {}.{}>'.format(service_name, method_name)
+        return "<proxy method: {}.{}>".format(service_name, method_name)

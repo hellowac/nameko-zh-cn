@@ -14,14 +14,14 @@ from greenlet import GreenletExit  # pylint: disable=E0611
 
 from nameko import serialization
 from nameko.constants import (
-    CALL_ID_STACK_CONTEXT_KEY, DEFAULT_MAX_WORKERS,
-    DEFAULT_PARENT_CALLS_TRACKED, MAX_WORKERS_CONFIG_KEY,
-    PARENT_CALLS_CONFIG_KEY
+    CALL_ID_STACK_CONTEXT_KEY,
+    DEFAULT_MAX_WORKERS,
+    DEFAULT_PARENT_CALLS_TRACKED,
+    MAX_WORKERS_CONFIG_KEY,
+    PARENT_CALLS_CONFIG_KEY,
 )
 from nameko.exceptions import ConfigurationError, ContainerBeingKilled
-from nameko.extensions import (
-    ENTRYPOINT_EXTENSIONS_ATTR, is_dependency, iter_extensions
-)
+from nameko.extensions import ENTRYPOINT_EXTENSIONS_ATTR, is_dependency, iter_extensions
 from nameko.log_helpers import make_timing_logger
 from nameko.utils import import_from_path
 from nameko.utils.concurrency import SpawningSet
@@ -37,20 +37,28 @@ else:  # pragma: no cover
 
 
 def get_service_name(service_cls):
-    service_name = getattr(service_cls, 'name', None)
+    """获取微服务名称"""
+
+    service_name = getattr(service_cls, "name", None)
     if service_name is None:
         raise ConfigurationError(
-            'Service class must define a `name` attribute ({}.{})'.format(
-                service_cls.__module__, service_cls.__name__))
+            "Service class 必须定义 `name` 属性 ({}.{})".format(
+                service_cls.__module__, service_cls.__name__
+            )
+        )
     if not isinstance(service_name, six.string_types):
         raise ConfigurationError(
-            'Service name attribute must be a string ({}.{}.name)'.format(
-                service_cls.__module__, service_cls.__name__))
+            "Service name 属性必须是string类型 ({}.{}.name)".format(
+                service_cls.__module__, service_cls.__name__
+            )
+        )
     return service_name
 
 
 def get_container_cls(config):
-    class_path = config.get('SERVICE_CONTAINER_CLS')
+    """获取容器类"""
+
+    class_path = config.get("SERVICE_CONTAINER_CLS")
     return import_from_path(class_path) or ServiceContainer
 
 
@@ -59,6 +67,7 @@ def new_call_id():
 
 
 class WorkerContext(object):
+    """工作者上下文"""
 
     _call_id = None
     _call_id_stack = None
@@ -78,9 +87,7 @@ class WorkerContext(object):
         self.kwargs = kwargs if kwargs is not None else {}
         self.data = data if data is not None else {}
 
-        self._parent_call_id_stack = self.data.pop(
-            CALL_ID_STACK_CONTEXT_KEY, []
-        )
+        self._parent_call_id_stack = self.data.pop(CALL_ID_STACK_CONTEXT_KEY, [])
 
     @property
     def call_id_stack(self):
@@ -98,7 +105,7 @@ class WorkerContext(object):
     @property
     def call_id(self):
         if self._call_id is None:
-            self._call_id = '{}.{}.{}'.format(
+            self._call_id = "{}.{}.{}".format(
                 self.service_name, self.entrypoint.method_name, new_call_id()
             )
         return self._call_id
@@ -123,22 +130,22 @@ class WorkerContext(object):
         cls_name = type(self).__name__
         service_name = self.service_name
         method_name = self.entrypoint.method_name
-        return '<{} [{}.{}] at 0x{:x}>'.format(
-            cls_name, service_name, method_name, id(self))
+        return "<{} [{}.{}] at 0x{:x}>".format(
+            cls_name, service_name, method_name, id(self)
+        )
 
 
 class ServiceContainer(object):
+    """服务容器"""
 
     def __init__(self, service_cls, config):
-
         self.service_cls = service_cls
         self.config = config
 
         self.service_name = get_service_name(service_cls)
         self.shared_extensions = {}
 
-        self.max_workers = (
-            config.get(MAX_WORKERS_CONFIG_KEY) or DEFAULT_MAX_WORKERS)
+        self.max_workers = config.get(MAX_WORKERS_CONFIG_KEY) or DEFAULT_MAX_WORKERS
 
         self.serializer, self.accept = serialization.setup(self.config)
 
@@ -146,8 +153,7 @@ class ServiceContainer(object):
         self.dependencies = SpawningSet()
         self.subextensions = SpawningSet()
 
-        for attr_name, dependency in inspect.getmembers(service_cls,
-                                                        is_dependency):
+        for attr_name, dependency in inspect.getmembers(service_cls, is_dependency):
             bound = dependency.bind(self.interface, attr_name)
             self.dependencies.add(bound)
             self.subextensions.update(iter_extensions(bound))
@@ -169,127 +175,107 @@ class ServiceContainer(object):
 
     @property
     def extensions(self):
-        return SpawningSet(
-            self.entrypoints | self.dependencies | self.subextensions
-        )
+        return SpawningSet(self.entrypoints | self.dependencies | self.subextensions)
 
     @property
     def interface(self):
-        """ An interface to this container for use by extensions.
-        """
+        """一个供扩展使用的此容器的接口。"""
         return self
 
     def start(self):
-        """ Start a container by starting all of its extensions.
-        """
-        _log.debug('starting %s', self)
+        """通过启动该容器的所有扩展来启动容器。"""
+        _log.debug("starting %s", self)
         self.started = True
 
-        with _log_time('started %s', self):
+        with _log_time("started %s", self):
             self.extensions.all.setup()
             self.extensions.all.start()
 
     def stop(self):
-        """ Stop the container gracefully.
+        """优雅地停止容器。
 
-        First all entrypoints are asked to ``stop()``.
-        This ensures that no new worker threads are started.
+        首先，所有入口点都会被要求执行 `stop()`。这确保不会启动新的工作线程。
 
-        It is the extensions' responsibility to gracefully shut down when
-        ``stop()`` is called on them and only return when they have stopped.
+        当对扩展调用 `stop()` 时，扩展有责任优雅地关闭，并且只有在它们停止后才返回。
 
-        After all entrypoints have stopped the container waits for any
-        active workers to complete.
+        在所有入口点停止后，容器会等待所有活跃的工作线程完成。
 
-        After all active workers have stopped the container stops all
-        dependency providers.
+        在所有活跃的工作线程停止后，容器会停止所有依赖提供者。
 
-        At this point there should be no more managed threads. In case there
-        are any managed threads, they are killed by the container.
+        此时，应该不再有托管线程。如果仍然有托管线程，它们将被容器终止。
         """
         if self._died.ready():
-            _log.debug('already stopped %s', self)
+            _log.debug("already stopped %s", self)
             return
 
         if self._being_killed:
-            # this race condition can happen when a container is hosted by a
-            # runner and yields during its kill method; if it's unlucky in
-            # scheduling the runner will try to stop() it before self._died
-            # has a result
-            _log.debug('already being killed %s', self)
+            # 当一个容器由一个运行器托管并在其 kill 方法中让出控制时，这种竞争条件可能会发生；
+            # 如果调度不幸，运行器将尝试在 `self._died` 结果之前调用 `stop()`。
+            _log.debug("already being killed %s", self)
             try:
                 self._died.wait()
-            except:
+            except Exception:
                 pass  # don't re-raise if we died with an exception
             return
 
-        _log.debug('stopping %s', self)
+        _log.debug("stopping %s", self)
 
-        with _log_time('stopped %s', self):
-
-            # entrypoint have to be stopped before dependencies to ensure
-            # that running workers can successfully complete
+        with _log_time("stopped %s", self):
+            # 入口点必须在依赖项之前停止，以确保正在运行的工作线程能够成功完成。
             self.entrypoints.all.stop()
 
-            # there might still be some running workers, which we have to
-            # wait for to complete before we can stop dependencies
+            # 可能仍然有一些正在运行的工作线程，我们必须等待它们完成后才能停止依赖项。
             self._worker_pool.waitall()
 
-            # it should be safe now to stop any dependency as there is no
-            # active worker which could be using it
+            # 现在可以安全地停止任何依赖项，因为没有活动的工作线程可能正在使用它。
             self.dependencies.all.stop()
 
-            # finally, stop remaining extensions
+            # 最后，停止剩余的扩展。
             self.subextensions.all.stop()
 
-            # any any managed threads they spawned
+            # 以及它们生成的任何托管线程。
             self._kill_managed_threads()
 
             self.started = False
 
             # if `kill` is called after `stop`, they race to send this
+            # 如果在 `stop` 之后调用 `kill` ，它们会竞争发送这个。
             if not self._died.ready():
                 self._died.send(None)
 
     def kill(self, exc_info=None):
-        """ Kill the container in a semi-graceful way.
+        """以半优雅的方式终止容器。
 
-        Entrypoints are killed, followed by any active worker threads.
-        Next, dependencies are killed. Finally, any remaining managed threads
-        are killed.
+        首先终止入口点，然后是任何活跃的工作线程。接下来，终止依赖项。最后，终止任何剩余的托管线程。
 
-        If ``exc_info`` is provided, the exception will be raised by
-        :meth:`~wait``.
+        如果提供了 ``exc_info``，异常将由 :meth:`~wait` 引发。
         """
         if self._being_killed:
-            # this happens if a managed thread exits with an exception
-            # while the container is being killed or if multiple errors
-            # happen simultaneously
-            _log.debug('already killing %s ... waiting for death', self)
+            # 如果托管线程在容器被终止时以异常退出，或者多个错误同时发生，就会发生这种情况
+            _log.debug("已经在终止 %s ... 等待死亡", self)
             try:
                 self._died.wait()
             except:
-                pass  # don't re-raise if we died with an exception
+                pass  # 如果我们以异常死亡，则不重新引发
             return
 
         self._being_killed = True
 
         if self._died.ready():
-            _log.debug('already stopped %s', self)
+            _log.debug("已经停止 %s", self)
             return
 
         if exc_info is not None:
-            _log.info('killing %s due to %s', self, exc_info[1])
+            _log.info("因 %s 而终止 %s", self, exc_info[1])
         else:
-            _log.info('killing %s', self)
+            _log.info("终止 %s", self)
 
-        # protect against extensions that throw during kill; the container
-        # is already dying with an exception, so ignore anything else
+        # 防止在终止过程中抛出异常的扩展；容器已经因异常而死亡，因此忽略其他任何异常
         def safely_kill_extensions(ext_set):
             try:
                 ext_set.kill()
             except Exception as exc:
-                _log.warning('Extension raised `%s` during kill', exc)
+                _log.warning("扩展在终止期间引发了 `%s`", exc)
 
         safely_kill_extensions(self.entrypoints.all)
         self._kill_worker_threads()
@@ -298,41 +284,37 @@ class ServiceContainer(object):
 
         self.started = False
 
-        # if `kill` is called after `stop`, they race to send this
+        # 如果在 `stop` 之后调用 `kill`，它们会竞争发送这个
         if not self._died.ready():
             self._died.send(None, exc_info)
 
     def wait(self):
-        """ Block until the container has been stopped.
+        """阻塞直到容器已停止。
 
-        If the container was stopped due to an exception, ``wait()`` will
-        raise it.
+        如果容器因异常而停止，``wait()`` 将引发该异常。
 
-        Any unhandled exception raised in a managed thread or in the
-        worker lifecycle (e.g. inside :meth:`DependencyProvider.worker_setup`)
-        results in the container being ``kill()``ed, and the exception
-        raised from ``wait()``.
+        在托管线程或工作生命周期（例如在 :meth:`DependencyProvider.worker_setup` 内部）
+        中引发的任何未处理异常将导致容器被 ``kill()``，并且在 ``wait()`` 中引发该异常。
         """
         return self._died.wait()
 
-    def spawn_worker(self, entrypoint, args, kwargs,
-                     context_data=None, handle_result=None):
-        """ Spawn a worker thread for running the service method decorated
-        by `entrypoint`.
+    def spawn_worker(
+        self, entrypoint, args, kwargs, context_data=None, handle_result=None
+    ):
+        """为运行由 `entrypoint` 装饰的服务方法生成一个工作线程。
 
-        ``args`` and ``kwargs`` are used as parameters for the service method.
+        ``args`` 和 ``kwargs`` 用作服务方法的参数。
 
-        ``context_data`` is used to initialize a ``WorkerContext``.
+        ``context_data`` 用于初始化 ``WorkerContext``。
 
-        ``handle_result`` is an optional function which may be passed
-        in by the entrypoint. It is called with the result returned
-        or error raised by the service method. If provided it must return a
-        value for ``result`` and ``exc_info`` to propagate to dependencies;
-        these may be different to those returned by the service method.
+        ``handle_result`` 是一个可选函数，可能由入口点传入。
+        它在服务方法返回的结果或引发的错误时被调用。
+        如果提供，则必须返回一个值用于 ``result`` 和 ``exc_info``，以便传播到依赖项；
+        这些值可能与服务方法返回的值不同。
         """
 
         if self._being_killed:
-            _log.info("Worker spawn prevented due to being killed")
+            _log.info("由于正在被终止，阻止工作线程的生成")
             raise ContainerBeingKilled()
 
         service = self.service_cls()
@@ -340,30 +322,26 @@ class ServiceContainer(object):
             self, service, entrypoint, args, kwargs, data=context_data
         )
 
-        _log.debug('spawning %s', worker_ctx)
-        gt = self._worker_pool.spawn(
-            self._run_worker, worker_ctx, handle_result
-        )
+        _log.debug("生成 %s", worker_ctx)
+        gt = self._worker_pool.spawn(self._run_worker, worker_ctx, handle_result)
         gt.link(self._handle_worker_thread_exited, worker_ctx)
 
         self._worker_threads[worker_ctx] = gt
         return worker_ctx
 
     def spawn_managed_thread(self, fn, identifier=None):
-        """ Spawn a managed thread to run ``fn`` on behalf of an extension.
-        The passed `identifier` will be included in logs related to this
-        thread, and otherwise defaults to `fn.__name__`, if it is set.
+        """生成一个托管线程以代表扩展运行 ``fn``。
+        传入的 `identifier` 将包含在与该线程相关的日志中，默认情况下如果已设置则为 `fn.__name__`。
 
-        Any uncaught errors inside ``fn`` cause the container to be killed.
+        在 ``fn`` 内部引发的任何未捕获错误将导致容器被终止。
 
-        It is the caller's responsibility to terminate their spawned threads.
-        Threads are killed automatically if they are still running after
-        all extensions are stopped during :meth:`ServiceContainer.stop`.
+        终止生成的线程的责任在于调用者。
+        如果在 :meth:`ServiceContainer.stop` 期间所有扩展停止后它们仍在运行，线程将自动被终止。
 
-        Extensions should delegate all thread spawning to the container.
+        扩展应该将所有线程生成委托给容器。
         """
         if identifier is None:
-            identifier = getattr(fn, '__name__', "<unknown>")
+            identifier = getattr(fn, "__name__", "<unknown>")
 
         gt = eventlet.spawn(fn)
         self._managed_threads[gt] = identifier
@@ -371,13 +349,13 @@ class ServiceContainer(object):
         return gt
 
     def _run_worker(self, worker_ctx, handle_result):
-        _log.debug('setting up %s', worker_ctx)
+        _log.debug("正在设置 %s", worker_ctx)
 
-        _log.debug('call stack for %s: %s',
-                   worker_ctx, '->'.join(worker_ctx.call_id_stack))
+        _log.debug(
+            "对于 %s 的调用栈: %s", worker_ctx, "->".join(worker_ctx.call_id_stack)
+        )
 
-        with _log_time('ran worker %s', worker_ctx):
-
+        with _log_time("运行工作线程 %s", worker_ctx):
             self._inject_dependencies(worker_ctx)
             self._worker_setup(worker_ctx)
 
@@ -385,35 +363,34 @@ class ServiceContainer(object):
             method_name = worker_ctx.entrypoint.method_name
             method = getattr(worker_ctx.service, method_name)
             try:
+                _log.debug("正在调用处理器 %s", worker_ctx)
 
-                _log.debug('calling handler for %s', worker_ctx)
-
-                with _log_time('ran handler for %s', worker_ctx):
+                with _log_time("运行处理器 %s", worker_ctx):
                     result = method(*worker_ctx.args, **worker_ctx.kwargs)
             except Exception as exc:
                 if isinstance(exc, worker_ctx.entrypoint.expected_exceptions):
                     _log.warning(
-                        '(expected) error handling worker %s: %s',
-                        worker_ctx, exc, exc_info=True)
+                        "(预期的) 处理工作线程 %s 时发生错误: %s",
+                        worker_ctx,
+                        exc,
+                        exc_info=True,
+                    )
                 else:
-                    _log.exception(
-                        'error handling worker %s: %s', worker_ctx, exc)
+                    _log.exception("处理工作线程 %s 时发生错误: %s", worker_ctx, exc)
                 exc_info = sys.exc_info()
 
             if handle_result is not None:
-                _log.debug('handling result for %s', worker_ctx)
+                _log.debug("处理结果 %s", worker_ctx)
 
-                with _log_time('handled result for %s', worker_ctx):
-                    result, exc_info = handle_result(
-                        worker_ctx, result, exc_info)
+                with _log_time("处理结果完成 %s", worker_ctx):
+                    result, exc_info = handle_result(worker_ctx, result, exc_info)
 
-            with _log_time('tore down worker %s', worker_ctx):
-
+            with _log_time("拆除工作线程 %s", worker_ctx):
                 self._worker_result(worker_ctx, result, exc_info)
 
-                # we don't need this any more, and breaking the cycle means
-                # this can be reclaimed immediately, rather than waiting for a
-                # gc sweep
+                # 我们不再需要这个，打破循环意味着
+                # 这可以立即回收，而不是等待
+                # 垃圾回收清扫
                 del exc_info
 
                 self._worker_teardown(worker_ctx)
@@ -428,7 +405,7 @@ class ServiceContainer(object):
             provider.worker_setup(worker_ctx)
 
     def _worker_result(self, worker_ctx, result, exc_info):
-        _log.debug('signalling result for %s', worker_ctx)
+        _log.debug("signalling result for %s", worker_ctx)
         for provider in self.dependencies:
             provider.worker_result(worker_ctx, result, exc_info)
 
@@ -437,29 +414,29 @@ class ServiceContainer(object):
             provider.worker_teardown(worker_ctx)
 
     def _kill_worker_threads(self):
-        """ Kill any currently executing worker threads.
+        """终止任何当前正在执行的工作线程。
 
-        See :meth:`ServiceContainer.spawn_worker`
+        参见 :meth:`ServiceContainer.spawn_worker`
         """
         num_workers = len(self._worker_threads)
 
         if num_workers:
-            _log.warning('killing %s active workers(s)', num_workers)
+            _log.warning("正在终止 %s 个活跃工作线程", num_workers)
             for worker_ctx, gt in list(self._worker_threads.items()):
-                _log.warning('killing active worker for %s', worker_ctx)
+                _log.warning("正在终止 %s 的活跃工作线程", worker_ctx)
                 gt.kill()
 
     def _kill_managed_threads(self):
-        """ Kill any currently executing managed threads.
+        """终止任何当前正在执行的托管线程。
 
-        See :meth:`ServiceContainer.spawn_managed_thread`
+        参见 :meth:`ServiceContainer.spawn_managed_thread`
         """
         num_threads = len(self._managed_threads)
 
         if num_threads:
-            _log.warning('killing %s managed thread(s)', num_threads)
+            _log.warning("正在终止 %s 个托管线程", num_threads)
             for gt, identifier in list(self._managed_threads.items()):
-                _log.warning('killing managed thread `%s`', identifier)
+                _log.warning("正在终止托管线程 `%s`", identifier)
                 gt.kill()
 
     def _handle_worker_thread_exited(self, gt, worker_ctx):
@@ -475,20 +452,19 @@ class ServiceContainer(object):
             gt.wait()
 
         except GreenletExit:
-            # we don't care much about threads killed by the container
-            # this can happen in stop() and kill() if extensions
-            # don't properly take care of their threads
-            _log.debug('%s thread killed by container', self)
+            # 我们对容器终止的线程不太在意
+            # 这可能在 stop() 和 kill() 中发生，如果扩展
+            # 没有正确处理它们的线程
+            _log.debug("%s 线程被容器终止", self)
 
         except Exception:
-            _log.critical('%s thread exited with error', self, exc_info=True)
-            # any uncaught error in a thread is unexpected behavior
-            # and probably a bug in the extension or container.
-            # to be safe we call self.kill() to kill our dependencies and
-            # provide the exception info to be raised in self.wait().
+            _log.critical("%s 线程以错误退出", self, exc_info=True)
+            # 在线程中引发的任何未捕获错误都是意外行为
+            # 可能是扩展或容器中的错误。
+            # 为了安全起见，我们调用 self.kill() 来终止我们的依赖项，并
+            # 提供在 self.wait() 中引发的异常信息。
             self.kill(sys.exc_info())
 
     def __repr__(self):
         service_name = self.service_name
-        return '<ServiceContainer [{}] at 0x{:x}>'.format(
-            service_name, id(self))
+        return "<ServiceContainer [{}] at 0x{:x}>".format(service_name, id(self))

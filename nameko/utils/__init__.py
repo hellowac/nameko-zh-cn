@@ -3,6 +3,8 @@ import re
 from copy import deepcopy
 from pydoc import locate
 
+from typing import Any
+
 import six
 from six.moves.urllib.parse import urlparse
 
@@ -11,7 +13,7 @@ REDACTED = "********"
 
 
 def get_redacted_args(entrypoint, *args, **kwargs):
-    """ 
+    """
     用于与标记为 ``sensitive_arguments`` 的入口点配合使用的实用函数，例如： :class:`nameko.rpc.Rpc` 和 :class:`nameko.events.EventHandler`。
 
     :Parameters:
@@ -28,7 +30,7 @@ def get_redacted_args(entrypoint, *args, **kwargs):
         <argument-name>.<dict-key>[<list-index>]
 
     :Returns:
-        
+
         返回一个字典，由 :func:`inspect.getcallargs` 返回，但敏感参数或部分参数已被隐去。
 
     .. note::
@@ -68,10 +70,10 @@ def get_redacted_args(entrypoint, *args, **kwargs):
 
     method = getattr(entrypoint.container.service_cls, entrypoint.method_name)
     callargs = inspect.getcallargs(method, None, *args, **kwargs)
-    del callargs['self']
+    del callargs["self"]
 
     # make a deepcopy before redacting so that "partial" redacations aren't applied to a referenced object
-    
+
     # 在进行敏感参数隐去之前，先执行深拷贝，以确保“部分”隐去不会应用于被引用的对象。
     callargs = deepcopy(callargs)
 
@@ -100,8 +102,8 @@ def get_redacted_args(entrypoint, *args, **kwargs):
     return callargs
 
 
-def import_from_path(path):
-    """ 如果对象在 `path` 中存在，则导入并返回该对象。
+def import_from_path(path) -> Any:
+    """如果对象在 `path` 中存在，则导入并返回该对象。
 
     如果未找到该对象，则引发 `ImportError`。
     """
@@ -110,9 +112,7 @@ def import_from_path(path):
 
     obj = locate(path)
     if obj is None:
-        raise ImportError(
-            "`{}` could not be imported".format(path)
-        )
+        raise ImportError("`{}` could not be imported".format(path))
 
     return obj
 
@@ -122,7 +122,8 @@ def sanitize_url(url):
     parts = urlparse(url)
     if parts.password is None:
         return url
-    host_info = parts.netloc.rsplit('@', 1)[-1]
-    parts = parts._replace(netloc='{}:{}@{}'.format(
-        parts.username, REDACTED, host_info))
+    host_info = parts.netloc.rsplit("@", 1)[-1]
+    parts = parts._replace(
+        netloc="{}:{}@{}".format(parts.username, REDACTED, host_info)
+    )
     return parts.geturl()

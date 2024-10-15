@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from contextlib import contextmanager
 from logging import getLogger
 
+from typing import Type, Dict, Any, Union
+
 from nameko.containers import get_container_cls, get_service_name
 from nameko.utils.concurrency import SpawningProxy
 
@@ -29,11 +31,17 @@ class ServiceRunner(object):
         runner.wait()
     """
 
-    def __init__(self, config):
-        self.service_map = {}
-        self.config = config
+    def __init__(self, config: dict):
+        """初始化一个服务运行者
 
-        self.container_cls = get_container_cls(config)
+        :param config: 配置字典，从yaml配置文件中解析出来的， 默认为只有1个 AMQP 地址
+        :type config: dict
+        """
+
+        self.service_map: Dict[str, Type] = {}
+        self.config: Dict[str, Any] = config
+
+        self.container_cls: Type = get_container_cls(config)
 
     @property
     def service_names(self):
@@ -43,7 +51,7 @@ class ServiceRunner(object):
     def containers(self):
         return self.service_map.values()
 
-    def add_service(self, cls):
+    def add_service(self, cls: Type):
         """将服务类添加到运行器中。
         对于给定的服务名称，最多只能有一个服务类。
         服务类必须在调用 start() 之前注册。

@@ -126,5 +126,5 @@ Nameko 具有多种 :ref:`内置扩展 <built_in_extensions>` ，一些是 :ref:
 
 如果您创建自己的运行器而不是使用 `nameko run` ，您还必须应用 eventlet 的 `monkey patch <http://eventlet.net/doc/patching.html#monkeypatching-the-standard-library>`_ 。
 
-有关示例，请参见 `nameko.cli.run <https://github.com/nameko/nameko/blob/cc13802d8afb059419384e2e2016bae7fe1415ce/nameko/cli/run.py#L3-L4>`_ 模块。
+有关示例，请参见 :mod:`nameko.cli.run` 模块。
 

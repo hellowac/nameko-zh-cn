@@ -5,6 +5,7 @@ import sys
 import uuid
 from collections import deque
 from logging import getLogger
+from typing import Type
 
 import eventlet
 import six
@@ -36,7 +37,7 @@ else:  # pragma: no cover
     is_method = inspect.isfunction
 
 
-def get_service_name(service_cls):
+def get_service_name(service_cls: Type):
     """获取微服务名称"""
 
     service_name = getattr(service_cls, "name", None)
@@ -55,7 +56,7 @@ def get_service_name(service_cls):
     return service_name
 
 
-def get_container_cls(config):
+def get_container_cls(config: dict) -> Type:
     """获取容器类"""
 
     class_path = config.get("SERVICE_CONTAINER_CLS")

@@ -4,10 +4,12 @@ import errno
 import inspect
 import logging
 import logging.config
+import argparse
 import os
 import re
 import signal
 import sys
+from typing import List, Optional, Any, Type
 
 import six
 import yaml
@@ -25,15 +27,18 @@ logger = logging.getLogger(__name__)
 MISSING_MODULE_TEMPLATE = "^No module named '?{}'?$"
 
 
-def is_type(obj):
+def is_type(obj: Any):
+    """判断某个未知对象是否为 类"""
     return isinstance(obj, six.class_types)
 
 
-def is_entrypoint(method):
+def is_entrypoint(method: Any):
+    """"""
     return hasattr(method, ENTRYPOINT_EXTENSIONS_ATTR)
 
 
-def import_service(module_name):
+def import_service(module_name: str):
+    # module[:class_name]
     parts = module_name.split(":", 1)
     if len(parts) == 1:
         module_name, obj = module_name, None
@@ -46,7 +51,7 @@ def import_service(module_name):
         if module_name.endswith(".py") and os.path.exists(module_name):
             raise CommandError(
                 "Failed to find service, did you mean '{}'?".format(
-                    module_name[:-3].replace('/', '.')
+                    module_name[:-3].replace("/", ".")
                 )
             )
 
@@ -61,9 +66,11 @@ def import_service(module_name):
 
     module = sys.modules[module_name]
 
+    # 未指定服务类
+    # 遍历查找服务类以及入口点(RPC远程调用)
     if obj is None:
         found_services = []
-        # 查找具有入口点的顶级对象。
+        # 查找具有入口点的顶级对象（service）。
         for _, potential_service in inspect.getmembers(module, is_type):
             if inspect.getmembers(potential_service, is_entrypoint):
                 found_services.append(potential_service)
@@ -74,13 +81,15 @@ def import_service(module_name):
                 "{!r}".format(module_name)
             )
 
+    # 指定的服务类不为空
     else:
         try:
             service_cls = getattr(module, obj)
         except AttributeError:
             raise CommandError(
                 "Failed to find service class {!r} in module {!r}".format(
-                    obj, module_name)
+                    obj, module_name
+                )
             )
 
         if not isinstance(service_cls, type):
@@ -91,26 +100,31 @@ def import_service(module_name):
     return found_services
 
 
-def setup_backdoor(runner, port):
+def setup_backdoor(runner: ServiceRunner, port: int):
+    """启动 后门"""
+
     def _bad_call():
         raise RuntimeError(
-            'This would kill your service, not close the backdoor. To exit, '
-            'use ctrl-c.')
-    socket = eventlet.listen(('localhost', port))
+            "This would kill your service, not close the backdoor. To exit, "
+            "use ctrl-c."
+        )
+
+    socket = eventlet.listen(("localhost", port))
     # work around https://github.com/celery/kombu/issues/838
     socket.settimeout(None)
     gt = eventlet.spawn(
         backdoor.backdoor_server,
         socket,
         locals={
-            'runner': runner,
-            'quit': _bad_call,
-            'exit': _bad_call,
-        })
+            "runner": runner,
+            "quit": _bad_call,
+            "exit": _bad_call,
+        },
+    )
     return socket, gt
 
 
-def run(services, config, backdoor_port=None):
+def run(services: List[Type], config: dict, backdoor_port: Optional[int] = None):
     service_runner = ServiceRunner(config)
     for service_cls in services:
         service_runner.add_service(service_cls)
@@ -137,7 +151,7 @@ def run(services, config, backdoor_port=None):
             runnlet.wait()
         except OSError as exc:
             if exc.errno == errno.EINTR:
-                # 这是由信号处理程序引起的 OSError(4)。  
+                # 这是由信号处理程序引起的 OSError(4)。
                 # 忽略它并返回继续等待 runner。
                 continue
             raise
@@ -153,27 +167,25 @@ def run(services, config, backdoor_port=None):
             break  # pragma: no cover (coverage problem on py39)
 
 
-def main(args):
-    if '.' not in sys.path:
-        sys.path.insert(0, '.')
+def main(args: argparse.Namespace):
+    """args = Namespace(services=['asd'], config='', broker='pyamqp://guest:guest@localhost', backdoor_port=None, main=<function Run.main at 0x70664892feb0>)"""
+    if "." not in sys.path:
+        sys.path.insert(0, ".")
 
     if args.config:
         with open(args.config) as fle:
             config = yaml.safe_load(fle)
     else:
-        config = {
-            AMQP_URI_CONFIG_KEY: args.broker
-        }
+        config = {AMQP_URI_CONFIG_KEY: args.broker}
 
     if "LOGGING" in config:
-        logging.config.dictConfig(config['LOGGING'])
+        logging.config.dictConfig(config["LOGGING"])
     else:
-        logging.basicConfig(level=logging.INFO, format='%(message)s')
+        logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-    services = []
+    services: List[Type] = []
     for path in args.services:
-        services.extend(
-            import_service(path)
-        )
+        # 导入服务
+        services.extend(import_service(path))
 
     run(services, config, backdoor_port=args.backdoor_port)

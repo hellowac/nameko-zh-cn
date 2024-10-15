@@ -136,8 +136,8 @@ class DependencyProvider(Extension):
         示例：数据库会话依赖项可能会刷新事务。
 
         :Parameters:
-            worker_ctx : WorkerContext
-                见 ``nameko.containers.ServiceContainer.spawn_worker``
+            worker_ctx : :class:`~nameko.containers.WorkerContext`
+                见 :meth:`~nameko.containers.ServiceContainer.spawn_worker`
         """
 
     def worker_setup(self, worker_ctx):
@@ -148,8 +148,8 @@ class DependencyProvider(Extension):
         Example: ...
 
         :Parameters:
-            worker_ctx : WorkerContext
-                见 ``nameko.containers.ServiceContainer.spawn_worker``
+            worker_ctx : :class:`~nameko.containers.WorkerContext`
+                见 :meth:`~nameko.containers.ServiceContainer.spawn_worker`
         """
 
     def worker_teardown(self, worker_ctx):
@@ -160,8 +160,8 @@ class DependencyProvider(Extension):
         示例：数据库会话依赖项可能会提交会话。
 
         :Parameters:
-            worker_ctx : WorkerContext
-                见 ``nameko.containers.ServiceContainer.spawn_worker``
+            worker_ctx : :class:`~nameko.containers.WorkerContext`
+                见 :meth:`~nameko.containers.ServiceContainer.spawn_worker`
         """
 
     def __repr__(self):

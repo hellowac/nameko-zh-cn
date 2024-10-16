@@ -1,11 +1,28 @@
 from __future__ import absolute_import, unicode_literals, annotations
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from _typeshed import OptExcInfo
+
 import inspect
 import sys
 import uuid
 from collections import deque
 from logging import getLogger
-from typing import Type, Union, Any, Dict, List, Tuple, Optional, AbstractSet, Callable
+from typing import (
+    Type,
+    Union,
+    Any,
+    Dict,
+    List,
+    Tuple,
+    Optional,
+    AbstractSet,
+    Callable,
+    Iterable,
+    Mapping,
+)
 
 import eventlet
 import six
@@ -22,10 +39,17 @@ from nameko.constants import (
     PARENT_CALLS_CONFIG_KEY,
 )
 from nameko.exceptions import ConfigurationError, ContainerBeingKilled
-from nameko.extensions import ENTRYPOINT_EXTENSIONS_ATTR, is_dependency, iter_extensions, DependencyProvider, Extension, Entrypoint
+from nameko.extensions import (
+    ENTRYPOINT_EXTENSIONS_ATTR,
+    is_dependency,
+    iter_extensions,
+    DependencyProvider,
+    Extension,
+    Entrypoint,
+)
 from nameko.log_helpers import make_timing_logger
 from nameko.utils import import_from_path
-from nameko.utils.concurrency import SpawningSet
+from nameko.utils.concurrency import SpawningSet, SpawningProxy
 
 
 _log = getLogger(__name__)
@@ -72,10 +96,17 @@ class WorkerContext(object):
 
     _call_id = None
     _call_id_stack = None
-    _parent_call_id_stack = None
+    # _parent_call_id_stack = None
+    _parent_call_id_stack = []
 
     def __init__(
-        self, container: ServiceContainer, service: Type, entrypoint: Entrypoint, args=None, kwargs=None, data=None
+        self,
+        container: ServiceContainer,
+        service: Type,  # 服务类的实例
+        entrypoint: Entrypoint,
+        args=None,
+        kwargs=None,
+        data=None,
     ):
         self.container = container
         self.config: dict = self.container.config
@@ -84,9 +115,9 @@ class WorkerContext(object):
         self.entrypoint = entrypoint
         self.service_name = self.container.service_name
 
-        self.args = args if args is not None else ()
-        self.kwargs = kwargs if kwargs is not None else {}
-        self.data = data if data is not None else {}
+        self.args: Tuple = args if args is not None else ()
+        self.kwargs: Mapping = kwargs if kwargs is not None else {}
+        self.data: dict = data if data is not None else {}
 
         self._parent_call_id_stack = self.data.pop(CALL_ID_STACK_CONTEXT_KEY, [])
 
@@ -105,6 +136,8 @@ class WorkerContext(object):
 
     @property
     def call_id(self):
+        """调用ID"""
+
         if self._call_id is None:
             self._call_id = "{}.{}.{}".format(
                 self.service_name, self.entrypoint.method_name, new_call_id()
@@ -139,14 +172,16 @@ class WorkerContext(object):
 class ServiceContainer(object):
     """服务容器"""
 
-    def __init__(self, service_cls: Type, config:dict):
+    def __init__(self, service_cls: Type, config: dict):
         self.service_cls: Type[Any] = service_cls
         self.config: Dict[str, Any] = config
 
         self.service_name: str = get_service_name(service_cls)
         self.shared_extensions: dict = {}
 
-        self.max_workers: int = config.get(MAX_WORKERS_CONFIG_KEY) or DEFAULT_MAX_WORKERS
+        self.max_workers: int = (
+            config.get(MAX_WORKERS_CONFIG_KEY) or DEFAULT_MAX_WORKERS
+        )
 
         # 向 kombu 中注册序列化方式
         self.serializer, self.accept = serialization.setup(self.config)
@@ -156,7 +191,9 @@ class ServiceContainer(object):
         self.subextensions = SpawningSet()
 
         # 提取 服务类 service 中 的 属于 DependencyProvider 子类 的定义
-        dependency_attrs: List[Tuple[str, DependencyProvider]] = inspect.getmembers(service_cls, is_dependency)
+        dependency_attrs: List[Tuple[str, DependencyProvider]] = inspect.getmembers(
+            service_cls, is_dependency
+        )
 
         for attr_name, dependency in dependency_attrs:
             bound = dependency.bind(self.interface, attr_name)
@@ -164,9 +201,13 @@ class ServiceContainer(object):
             self.subextensions.update(iter_extensions(bound))
 
         # 提取 服务类 service 中 的 属于 函数 的定义， 作为入口点
-        entrypoints_methods: List[Tuple[str, Entrypoint]] = inspect.getmembers(service_cls, is_method)
+        entrypoints_methods: List[Tuple[str, Entrypoint]] = inspect.getmembers(
+            service_cls, is_method
+        )
         for method_name, method in entrypoints_methods:
-            entrypoints: List[Entrypoint] = getattr(method, ENTRYPOINT_EXTENSIONS_ATTR, [])
+            entrypoints: List[Entrypoint] = getattr(
+                method, ENTRYPOINT_EXTENSIONS_ATTR, []
+            )
 
             for entrypoint in entrypoints:
                 bound = entrypoint.bind(self.interface, method_name)
@@ -177,7 +218,9 @@ class ServiceContainer(object):
         self._worker_pool = GreenPool(size=self.max_workers)
 
         self._worker_threads: Dict[WorkerContext, eventlet.greenthread.GreenThread] = {}
-        self._managed_threads: Dict[eventlet.greenthread.GreenThread, str] = {}
+        self._managed_threads: Dict[
+            eventlet.greenthread.GreenThread, Optional[str]
+        ] = {}
         self._being_killed: bool = False
         self._died = Event()
 
@@ -197,7 +240,7 @@ class ServiceContainer(object):
 
         with _log_time("started %s", self):
             self.extensions.all.setup()  # 实际是调用的 Extention 子类 中 的 setup 函数，
-            self.extensions.all.start() # 实际是调用的 Extention 子类 中 的 start 函数，
+            self.extensions.all.start()  # 实际是调用的 Extention 子类 中 的 start 函数，
 
     def stop(self):
         """优雅地停止容器。
@@ -307,7 +350,14 @@ class ServiceContainer(object):
         return self._died.wait()
 
     def spawn_worker(
-        self, entrypoint: Entrypoint, args: tuple, kwargs:dict, context_data: Optional[Any]=None, handle_result=None
+        self,
+        entrypoint: Entrypoint,
+        args: Iterable,
+        kwargs: dict,
+        context_data: Optional[Any] = None,
+        handle_result: Optional[
+            Callable[[WorkerContext, Any, Optional[OptExcInfo]]]
+        ] = None,
     ):
         """为运行由 `entrypoint` 装饰的服务方法生成一个工作线程。
 
@@ -337,8 +387,8 @@ class ServiceContainer(object):
         self._worker_threads[worker_ctx] = gt
         return worker_ctx
 
-    def spawn_managed_thread(self, fn, identifier: Optional[str]=None):
-        """生成一个托管线程以代表扩展运行 ``fn``。
+    def spawn_managed_thread(self, fn: Callable, identifier: Optional[str] = None):
+        """生成一个托管线程以代表扩展来运行 ``fn``。
         传入的 `identifier` 将包含在与该线程相关的日志中，默认情况下如果已设置则为 `fn.__name__`。
 
         在 ``fn`` 内部引发的任何未捕获错误将导致容器被终止。
@@ -356,7 +406,11 @@ class ServiceContainer(object):
         gt.link(self._handle_managed_thread_exited, identifier)
         return gt
 
-    def _run_worker(self, worker_ctx: WorkerContext, handle_result : Optional[Callable]):
+    def _run_worker(
+        self,
+        worker_ctx: WorkerContext,
+        handle_result: Optional[Callable[[WorkerContext, Any, Optional[OptExcInfo]]]],
+    ):
         _log.debug("正在设置 %s", worker_ctx)
 
         _log.debug(
@@ -374,6 +428,7 @@ class ServiceContainer(object):
                 _log.debug("正在调用处理器 %s", worker_ctx)
 
                 with _log_time("运行处理器 %s", worker_ctx):
+                    # 动态调用 RPC 远程方法
                     result = method(*worker_ctx.args, **worker_ctx.kwargs)
             except Exception as exc:
                 if isinstance(exc, worker_ctx.entrypoint.expected_exceptions):
@@ -396,37 +451,42 @@ class ServiceContainer(object):
             with _log_time("拆除工作线程 %s", worker_ctx):
                 self._worker_result(worker_ctx, result, exc_info)
 
-                # 我们不再需要这个，打破循环意味着
-                # 这可以立即回收，而不是等待
-                # 垃圾回收清扫
+                # 我们不再需要这个，
+                # 打破循环意味着这可以立即回收，
+                # 而不是等待垃圾回收清扫
                 del exc_info
 
                 self._worker_teardown(worker_ctx)
 
-    def _inject_dependencies(self, worker_ctx):
+    def _inject_dependencies(self, worker_ctx: WorkerContext):
+        """注入依赖"""
+
         for provider in self.dependencies:
-            dependency = provider.get_dependency(worker_ctx)
+            dependency = provider.get_dependency(worker_ctx)  # 代理调用
             setattr(worker_ctx.service, provider.attr_name, dependency)
 
     def _worker_setup(self, worker_ctx):
+        """调用提供者的 接口: worker_setup"""
         for provider in self.dependencies:
-            provider.worker_setup(worker_ctx)
+            provider.worker_setup(worker_ctx)  # 代理调用
 
-    def _worker_result(self, worker_ctx, result, exc_info):
+    def _worker_result(self, worker_ctx: WorkerContext, result, exc_info):
+        """调用提供者的 接口: worker_result"""
         _log.debug("signalling result for %s", worker_ctx)
         for provider in self.dependencies:
             provider.worker_result(worker_ctx, result, exc_info)
 
-    def _worker_teardown(self, worker_ctx):
+    def _worker_teardown(self, worker_ctx: WorkerContext):
+        """调用提供者的 接口: worker_teardown"""
         for provider in self.dependencies:
-            provider.worker_teardown(worker_ctx)
+            provider.worker_teardown(worker_ctx)  # 代理调用
 
     def _kill_worker_threads(self):
         """终止任何当前正在执行的工作线程。
 
         参见 :meth:`ServiceContainer.spawn_worker`
         """
-        num_workers = len(self._worker_threads)
+        num_workers = len(self._worker_threads)  # 代理调用
 
         if num_workers:
             _log.warning("正在终止 %s 个活跃工作线程", num_workers)
@@ -447,15 +507,19 @@ class ServiceContainer(object):
                 _log.warning("正在终止托管线程 `%s`", identifier)
                 gt.kill()
 
-    def _handle_worker_thread_exited(self, gt, worker_ctx):
+    def _handle_worker_thread_exited(
+        self, gt: eventlet.greenthread.GreenThread, worker_ctx: WorkerContext
+    ):
         self._worker_threads.pop(worker_ctx, None)
         self._handle_thread_exited(gt)
 
-    def _handle_managed_thread_exited(self, gt, extension):
+    def _handle_managed_thread_exited(
+        self, gt: eventlet.greenthread.GreenThread, extension: Iterable[Extension]
+    ):
         self._managed_threads.pop(gt, None)
         self._handle_thread_exited(gt)
 
-    def _handle_thread_exited(self, gt):
+    def _handle_thread_exited(self, gt: eventlet.greenthread.GreenThread):
         try:
             gt.wait()
 

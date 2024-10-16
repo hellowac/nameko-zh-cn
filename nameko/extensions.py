@@ -123,10 +123,9 @@ class SharedExtension(Extension):
 class DependencyProvider(Extension):
     attr_name = None
 
-
     def bind(self, container, attr_name: str):
         """获取一个依赖项的实例，以便与 `container` 和 `attr_name` 绑定。"""
-        
+
         instance = super(DependencyProvider, self).bind(container)
         instance.attr_name = attr_name
         self.attr_name = attr_name
@@ -231,7 +230,10 @@ def register_entrypoint(fn, entrypoint):
 
 
 class Entrypoint(Extension):
+    """入口点封装类"""
+
     method_name = None
+    """ 记录了RPC调用的方法名称 """
 
     def __init__(self, expected_exceptions=(), sensitive_arguments=(), **kwargs):
         """

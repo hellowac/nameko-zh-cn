@@ -101,6 +101,7 @@ class ServiceRunner(object):
 
     def wait(self):
         """等待所有正在运行的容器停止。"""
+
         try:
             SpawningProxy(self.containers, abort_on_error=True).wait()
         except Exception:

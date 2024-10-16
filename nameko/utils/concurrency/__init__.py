@@ -2,15 +2,32 @@ from __future__ import annotations
 
 import sys
 
-from typing import List, Type, Iterable, Iterator, Callable, Sized, Generator
+from typing import (
+    List,
+    Type,
+    Iterable,
+    Iterator,
+    Callable,
+    Sized,
+    Generator,
+    MutableSet,
+    Generic,
+    TypeVar,
+    Set,
+    Union,
+)
 
 import nameko.containers
 import eventlet
 from eventlet.queue import LightQueue
 
+ContainerT = TypeVar("ContainerT", bound="nameko.containers.ServiceContainer")
+
 
 def fail_fast_imap(
-    pool: eventlet.GreenPool, call: Callable[[Type]], items: Iterable[Type]
+    pool: eventlet.GreenPool,
+    call: Callable[[Type]],
+    items: Union[Iterable[ContainerT], SpawningSet],
 ):
     """对给定列表中的每个项运行一个函数，逐个生成每个函数结果，其中函数调用在由提供的池生成的 :class:`~eventlet.greenthread.GreenThread` 中处理。
 
@@ -52,7 +69,11 @@ def fail_fast_imap(
 
 
 class SpawningProxy(object):
-    def __init__(self, items: Iterable[nameko.containers.ServiceContainer], abort_on_error: bool = False):
+    def __init__(
+        self,
+        items: Union[Iterable[ContainerT], SpawningSet],
+        abort_on_error: bool = False,
+    ):
         """并行代理类
 
         将一组可迭代项封装，使得对返回的 `SpawningProxy` 实例的调用将在每个项上生成一个 :class:`~eventlet.greenthread.GreenThread` 。
@@ -69,19 +90,18 @@ class SpawningProxy(object):
         它使用 eventlet 提供的协程池来管理并发，并支持错误传播机制。
         如果有多个对象需要并行执行某个相同的操作，此类可以有效封装该逻辑。
         """
-        self._items: Iterable[Type] = items
+        self._items = items
         self.abort_on_error: bool = abort_on_error
 
     def __getattr__(self, name: str):
         def spawning_method(*args, **kwargs) -> List[eventlet.greenthread.GreenThread]:
-            """ 
-            
+            """
+
             该方法接收任意参数 (*args, **kwargs)，这些参数将传递给 items 中每个对象的对应方法(name 指定)。
             """
             items = self._items
 
             if items:
-
                 # 创建一个协程池，池的大小等于 items 的数量。
                 pool = eventlet.GreenPool(len(items))  # type: ignore
 
@@ -92,10 +112,10 @@ class SpawningProxy(object):
                 if self.abort_on_error:
                     # 如果其中一个对象的调用过程中发生异常，所有并行线程会立即终止，异常会传播。
                     return list(fail_fast_imap(pool, call, self._items))
-                
+
                 else:
                     # 通过 GreenPool 对 items 集合进行并行处理。
-                    return list(pool.imap(call, self._items)) 
+                    return list(pool.imap(call, self._items))
 
             # 应该永远不会走到这，除非在服务（Service）为 0 的情况下启动该命令
             return []
@@ -103,7 +123,7 @@ class SpawningProxy(object):
         return spawning_method
 
 
-class SpawningSet(set):
+class SpawningSet(Set[SpawningProxy]):
     """一个具有 ``.all`` 属性的集合，该属性将在集合中的每个项上生成一个方法调用，每个调用都会在其自己的（并行）绿色线程中执行。"""
 
     @property

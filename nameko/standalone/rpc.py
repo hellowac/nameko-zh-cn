@@ -1,7 +1,8 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, annotations
 
 import logging
 import socket
+from typing import Dict
 
 from amqp.exceptions import ConnectionError
 from kombu import Connection
@@ -10,7 +11,9 @@ from kombu.messaging import Consumer
 
 from nameko import serialization
 from nameko.constants import (
-    AMQP_SSL_CONFIG_KEY, AMQP_URI_CONFIG_KEY, LOGIN_METHOD_CONFIG_KEY
+    AMQP_SSL_CONFIG_KEY,
+    AMQP_URI_CONFIG_KEY,
+    LOGIN_METHOD_CONFIG_KEY,
 )
 from nameko.containers import WorkerContext
 from nameko.exceptions import RpcTimeout
@@ -22,11 +25,11 @@ _logger = logging.getLogger(__name__)
 
 
 class ConsumeEvent(object):
-    """ 具有与 eventlet.Event 相同接口的 RPC 消费者的事件。
-    """
+    """具有与 eventlet.Event 相同接口的 RPC 消费者的事件。"""
+
     exception = None
 
-    def __init__(self, queue_consumer, correlation_id):
+    def __init__(self, queue_consumer: PollingQueueConsumer, correlation_id: str):
         self.correlation_id = correlation_id
         self.queue_consumer = queue_consumer
 
@@ -37,7 +40,7 @@ class ConsumeEvent(object):
         self.exception = exc
 
     def wait(self):
-        """ 对其 `queue_consumer` 进行阻塞调用，直到处理完具有给定 `correlation_id` 的消息。
+        """对其 `queue_consumer` 进行阻塞调用，直到处理完具有给定 `correlation_id` 的消息。
 
         在阻塞调用退出时， `self.send()` 将被调用，并传入接收到的消息的主体（参见 :meth:`~nameko.rpc.ReplyListener.handle_message` ）。
 
@@ -56,8 +59,7 @@ class ConsumeEvent(object):
             # 消费者（及其独占的、自动删除的回复队列）必须在发送任何请求之前重新建立，
             # 否则在响应发布时回复队列可能不存在。
             raise RuntimeError(
-                "This consumer has been disconnected, and can no longer "
-                "be used"
+                "This consumer has been disconnected, and can no longer " "be used"
             )
 
         try:
@@ -72,9 +74,10 @@ class ConsumeEvent(object):
 
 
 class PollingQueueConsumer(object):
-    """ 实现了 :class:`~messaging.QueueConsumer` 的最小接口。
+    """实现了 :class:`~messaging.QueueConsumer` 的最小接口。
     它不是在单独的线程中处理消息，而是提供了一种轮询方法，以阻塞直到到达具有相同关联 ID 的 RPC 代理调用的消息。
     """
+
     consumer = None
 
     def __init__(self, timeout=None):
@@ -98,7 +101,8 @@ class PollingQueueConsumer(object):
         self.queue = self.queue.bind(channel)
         maybe_declare(self.queue, channel)
         consumer = Consumer(
-            channel, queues=[self.queue], accept=self.accept, no_ack=False)
+            channel, queues=[self.queue], accept=self.accept, no_ack=False
+        )
         consumer.callbacks = [self.on_message]
         consumer.consume()
         self.consumer = consumer
@@ -106,8 +110,7 @@ class PollingQueueConsumer(object):
     def register_provider(self, provider):
         self.provider = provider
 
-        self.serializer, self.accept = serialization.setup(
-            provider.container.config)
+        self.serializer, self.accept = serialization.setup(provider.container.config)
 
         amqp_uri = provider.container.config[AMQP_URI_CONFIG_KEY]
         ssl = provider.container.config.get(AMQP_SSL_CONFIG_KEY)
@@ -126,20 +129,16 @@ class PollingQueueConsumer(object):
         msg.ack()
 
     def on_message(self, body, message):
-        msg_correlation_id = message.properties.get('correlation_id')
+        msg_correlation_id = message.properties.get("correlation_id")
         if msg_correlation_id not in self.provider._reply_events:
-            _logger.debug(
-                "Unknown correlation id: %s", msg_correlation_id)
+            _logger.debug("Unknown correlation id: %s", msg_correlation_id)
 
         self.replies[msg_correlation_id] = (body, message)
 
     def get_message(self, correlation_id):
-
         try:
             while correlation_id not in self.replies:
-                self.consumer.connection.drain_events(
-                    timeout=self.timeout
-                )
+                self.consumer.connection.drain_events(timeout=self.timeout)
 
             body, message = self.replies.pop(correlation_id)
             self.provider.handle_message(body, message)
@@ -166,15 +165,20 @@ class PollingQueueConsumer(object):
 
 
 class SingleThreadedReplyListener(ReplyListener):
-    """ 一个使用自定义队列消费者和 `ConsumeEvent` 的 `ReplyListener` 。
-    """
+    """一个使用自定义队列消费者和 `ConsumeEvent` 的 `ReplyListener` 。"""
+
     queue_consumer = None
 
     def __init__(self, timeout=None):
         self.queue_consumer = PollingQueueConsumer(timeout=timeout)
         super(SingleThreadedReplyListener, self).__init__()
+        self._reply_events: Dict[str, ConsumeEvent] = {}
 
-    def get_reply_event(self, correlation_id):
+    def get_reply_event(self, correlation_id: str):
+        # 应该永远不会抛出此异常
+        if self.queue_consumer is None:
+            raise Exception("队列消费者为空")
+
         reply_event = ConsumeEvent(self.queue_consumer, correlation_id)
         self._reply_events[correlation_id] = reply_event
         return reply_event
@@ -182,8 +186,8 @@ class SingleThreadedReplyListener(ReplyListener):
 
 class StandaloneProxyBase(object):
     class ServiceContainer(object):
-        """ 实现了 :class:`~containers.ServiceContainer` 的最小接口，以供该模块中的子类和 RPC 导入使用。
-        """
+        """实现了 :class:`~containers.ServiceContainer` 的最小接口，以供该模块中的子类和 RPC 导入使用。"""
+
         service_name = "standalone_rpc_proxy"
 
         def __init__(self, config):
@@ -196,16 +200,18 @@ class StandaloneProxyBase(object):
     _proxy = None
 
     def __init__(
-        self, config, context_data=None, timeout=None,
-        reply_listener_cls=SingleThreadedReplyListener
+        self,
+        config: dict,
+        context_data=None,
+        timeout=None,
+        reply_listener_cls=SingleThreadedReplyListener,
     ):
         container = self.ServiceContainer(config)
 
         self._worker_ctx = WorkerContext(
-            container, service=None, entrypoint=self.Dummy,
-            data=context_data)
-        self._reply_listener = reply_listener_cls(
-            timeout=timeout).bind(container)
+            container, service=None, entrypoint=self.Dummy, data=context_data
+        )
+        self._reply_listener = reply_listener_cls(timeout=timeout).bind(container)
 
     def __enter__(self):
         return self.start()
@@ -245,10 +251,10 @@ class ServiceRpcProxy(StandaloneProxyBase):
 
     您还可以提供 ``context_data`` ，这是一个数据字典，将被序列化到 AMQP 消息头中，并指定自定义的工作上下文类以序列化它们。
     """
+
     def __init__(self, service_name, *args, **kwargs):
         super(ServiceRpcProxy, self).__init__(*args, **kwargs)
-        self._proxy = ServiceProxy(
-            self._worker_ctx, service_name, self._reply_listener)
+        self._proxy = ServiceProxy(self._worker_ctx, service_name, self._reply_listener)
 
 
 class ClusterProxy(object):
@@ -285,6 +291,7 @@ class ClusterProxy(object):
             proxy['service-name'].method()
             proxy['other-service'].method()
     """
+
     def __init__(self, worker_ctx, reply_listener):
         self._worker_ctx = worker_ctx
         self._reply_listener = reply_listener
@@ -294,11 +301,12 @@ class ClusterProxy(object):
     def __getattr__(self, name):
         if name not in self._proxies:
             self._proxies[name] = ServiceProxy(
-                self._worker_ctx, name, self._reply_listener)
+                self._worker_ctx, name, self._reply_listener
+            )
         return self._proxies[name]
 
     def __getitem__(self, name):
-        """Enable dict-like access on the proxy. """
+        """Enable dict-like access on the proxy."""
         return getattr(self, name)
 
 

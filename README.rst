@@ -3,6 +3,8 @@ Nameko
 
 .. image:: https://github.com/nameko/nameko/actions/workflows/ci.yaml/badge.svg
 
+`English <https://github.com/nameko/nameko>`_
+
 *[nah-meh-koh]*
 
 .. pull-quote::
@@ -51,7 +53,7 @@ Nameko 服务只是一个类：
 入门指南
 ---------------
 
-* 查看 `文档 <http://nameko.readthedocs.io>`_ 。
+* 查看 `文档 <https://hellowac.github.io/nameko-zh-cn/>`_ 。
 
 
 编辑文档

@@ -1,0 +1,1054 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../../genindex.html" /><link rel="search" title="搜索" href="../../search.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>nameko.rpc - nameko - 一个用于 Python 的微服务框架</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">nameko - 一个用于 Python 的微服务框架</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../_static/logo.svg" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">用户指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../what_is_nameko.html">什么是 Nameko?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../key_concepts.html">关键概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../built_in_extensions.html">内置扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../built_in_dependency_providers.html">内置的依赖提供者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../community_extensions.html">社区</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../testing.html">测试服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../writing_extensions.html">编写扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">种示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidoc.html">API概要</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">更多信息</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about_microservices.html">关于微服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dependency_injection_benefits.html">依赖注入的好处</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../similar_projects.html">类似和相关项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_in_touch.html">联系方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">贡献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">许可</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">发行说明</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">项目链接</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/nameko/nameko">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hellowac/nameko-zh-cn">GitHub 中文文档项目</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nameko.readthedocs.io/en/stable/">readthedocs 英文文档</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nameko.io//">Website</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../autoapi/nameko/index.html">nameko</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of nameko</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../autoapi/nameko/amqp/index.html">nameko.amqp</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of nameko.amqp</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/amqp/publish/index.html">nameko.amqp.publish</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../autoapi/nameko/cli/index.html">nameko.cli</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of nameko.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/actions/index.html">nameko.cli.actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/backdoor/index.html">nameko.cli.backdoor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/code/index.html">nameko.cli.code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/commands/index.html">nameko.cli.commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/main/index.html">nameko.cli.main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/run/index.html">nameko.cli.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/shell/index.html">nameko.cli.shell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/cli/show_config/index.html">nameko.cli.show_config</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../autoapi/nameko/standalone/index.html">nameko.standalone</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of nameko.standalone</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/standalone/events/index.html">nameko.standalone.events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/standalone/rpc/index.html">nameko.standalone.rpc</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../autoapi/nameko/testing/index.html">nameko.testing</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of nameko.testing</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/testing/pytest/index.html">nameko.testing.pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/testing/rabbit/index.html">nameko.testing.rabbit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/testing/services/index.html">nameko.testing.services</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/testing/utils/index.html">nameko.testing.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/testing/waiting/index.html">nameko.testing.waiting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/testing/websocket/index.html">nameko.testing.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../autoapi/nameko/utils/index.html">nameko.utils</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of nameko.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/utils/concurrency/index.html">nameko.utils.concurrency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/utils/retry/index.html">nameko.utils.retry</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../autoapi/nameko/web/index.html">nameko.web</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of nameko.web</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/web/handlers/index.html">nameko.web.handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/web/server/index.html">nameko.web.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../autoapi/nameko/web/websocket/index.html">nameko.web.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/__main__/index.html">nameko.__main__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/constants/index.html">nameko.constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/containers/index.html">nameko.containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/contextdata/index.html">nameko.contextdata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/dependency_providers/index.html">nameko.dependency_providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/events/index.html">nameko.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/exceptions/index.html">nameko.exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/extensions/index.html">nameko.extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/log_helpers/index.html">nameko.log_helpers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/messaging/index.html">nameko.messaging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/rpc/index.html">nameko.rpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/runners/index.html">nameko.runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/serialization/index.html">nameko.serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/nameko/timer/index.html">nameko.timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>nameko.rpc 源代码</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">getLogger</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">kombu.serialization</span>
+<span class="kn">from</span> <span class="nn">eventlet.event</span> <span class="kn">import</span> <span class="n">Event</span>
+<span class="kn">from</span> <span class="nn">kombu</span> <span class="kn">import</span> <span class="n">Exchange</span><span class="p">,</span> <span class="n">Queue</span>
+
+<span class="kn">from</span> <span class="nn">nameko.amqp.publish</span> <span class="kn">import</span> <span class="n">Publisher</span><span class="p">,</span> <span class="n">UndeliverableMessage</span>
+<span class="kn">from</span> <span class="nn">nameko.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AMQP_SSL_CONFIG_KEY</span><span class="p">,</span>
+    <span class="n">AMQP_URI_CONFIG_KEY</span><span class="p">,</span>
+    <span class="n">DEFAULT_SERIALIZER</span><span class="p">,</span>
+    <span class="n">LOGIN_METHOD_CONFIG_KEY</span><span class="p">,</span>
+    <span class="n">RPC_EXCHANGE_CONFIG_KEY</span><span class="p">,</span>
+    <span class="n">SERIALIZER_CONFIG_KEY</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">nameko.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ContainerBeingKilled</span><span class="p">,</span>
+    <span class="n">MalformedRequest</span><span class="p">,</span>
+    <span class="n">MethodNotFound</span><span class="p">,</span>
+    <span class="n">UnknownService</span><span class="p">,</span>
+    <span class="n">UnserializableValueError</span><span class="p">,</span>
+    <span class="n">deserialize</span><span class="p">,</span>
+    <span class="n">serialize</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">nameko.extensions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DependencyProvider</span><span class="p">,</span>
+    <span class="n">Entrypoint</span><span class="p">,</span>
+    <span class="n">ProviderCollector</span><span class="p">,</span>
+    <span class="n">SharedExtension</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">nameko.messaging</span> <span class="kn">import</span> <span class="n">HeaderDecoder</span><span class="p">,</span> <span class="n">HeaderEncoder</span><span class="p">,</span> <span class="n">QueueConsumer</span>
+
+
+<div class="viewcode-block" id="_log">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc._log">[文档]</a>
+<span class="n">_log</span> <span class="o">=</span> <span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="RPC_QUEUE_TEMPLATE">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RPC_QUEUE_TEMPLATE">[文档]</a>
+<span class="n">RPC_QUEUE_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;rpc-</span><span class="si">{}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="RPC_REPLY_QUEUE_TEMPLATE">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE">[文档]</a>
+<span class="n">RPC_REPLY_QUEUE_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;rpc.reply-</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="RPC_REPLY_QUEUE_TTL">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RPC_REPLY_QUEUE_TTL">[文档]</a>
+<span class="n">RPC_REPLY_QUEUE_TTL</span> <span class="o">=</span> <span class="mi">300000</span>  <span class="c1"># ms (5 mins)</span></div>
+
+
+
+<div class="viewcode-block" id="get_rpc_exchange">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.get_rpc_exchange">[文档]</a>
+<span class="k">def</span> <span class="nf">get_rpc_exchange</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="n">exchange_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">RPC_EXCHANGE_CONFIG_KEY</span><span class="p">,</span> <span class="s2">&quot;nameko-rpc&quot;</span><span class="p">)</span>
+    <span class="n">exchange</span> <span class="o">=</span> <span class="n">Exchange</span><span class="p">(</span><span class="n">exchange_name</span><span class="p">,</span> <span class="n">durable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;topic&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">exchange</span></div>
+
+
+
+<div class="viewcode-block" id="RpcConsumer">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer">[文档]</a>
+<span class="k">class</span> <span class="nc">RpcConsumer</span><span class="p">(</span><span class="n">SharedExtension</span><span class="p">,</span> <span class="n">ProviderCollector</span><span class="p">):</span>
+<div class="viewcode-block" id="RpcConsumer.queue_consumer">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.queue_consumer">[文档]</a>
+    <span class="n">queue_consumer</span> <span class="o">=</span> <span class="n">QueueConsumer</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RpcConsumer._unregistering_providers">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer._unregistering_providers">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unregistering_providers</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="RpcConsumer._unregistered_from_queue_consumer">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer._unregistered_from_queue_consumer">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unregistered_from_queue_consumer</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="RpcConsumer.queue">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.queue">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">RpcConsumer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="RpcConsumer.setup">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.setup">[文档]</a>
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">service_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">service_name</span>
+            <span class="n">queue_name</span> <span class="o">=</span> <span class="n">RPC_QUEUE_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+            <span class="n">routing_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.*&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+
+            <span class="n">exchange</span> <span class="o">=</span> <span class="n">get_rpc_exchange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span>
+                <span class="n">queue_name</span><span class="p">,</span> <span class="n">exchange</span><span class="o">=</span><span class="n">exchange</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="n">routing_key</span><span class="p">,</span> <span class="n">durable</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">register_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_registered</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="RpcConsumer.stop">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.stop">[文档]</a>
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;停止 RpcConsumer。</span>
+
+<span class="sd">        当最后一个 Rpc 子类从队列消费者中注销时，RpcConsumer 将正常注销。如果没有注册任何提供者，则我们应该在被请求停止时立即从队列消费者注销。</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers_registered</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">unregister_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unregistered_from_queue_consumer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RpcConsumer.unregister_provider">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.unregister_provider">[文档]</a>
+    <span class="k">def</span> <span class="nf">unregister_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;注销提供者。</span>
+
+<span class="sd">        阻塞直到此 RpcConsumer 从其队列消费者中注销，这只有在所有提供者都请求注销时才会发生。</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unregistering_providers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+        <span class="n">remaining_providers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unregistering_providers</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">remaining_providers</span><span class="p">:</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;正在从队列消费者注销 </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">unregister_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;已从队列消费者注销 </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unregistered_from_queue_consumer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;等待从队列消费者注销 </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unregistered_from_queue_consumer</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RpcConsumer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">unregister_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RpcConsumer.get_provider_for_method">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.get_provider_for_method">[文档]</a>
+    <span class="k">def</span> <span class="nf">get_provider_for_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">routing_key</span><span class="p">):</span>
+        <span class="n">service_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">service_name</span>
+
+        <span class="k">for</span> <span class="n">provider</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_providers</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">provider</span><span class="o">.</span><span class="n">method_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">routing_key</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">provider</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">method_name</span> <span class="o">=</span> <span class="n">routing_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="n">MethodNotFound</span><span class="p">(</span><span class="n">method_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RpcConsumer.handle_message">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.handle_message">[文档]</a>
+    <span class="k">def</span> <span class="nf">handle_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="n">routing_key</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">delivery_info</span><span class="p">[</span><span class="s2">&quot;routing_key&quot;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">provider</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_provider_for_method</span><span class="p">(</span><span class="n">routing_key</span><span class="p">)</span>
+            <span class="n">provider</span><span class="o">.</span><span class="n">handle_message</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handle_result</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_info</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RpcConsumer.handle_result">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.handle_result">[文档]</a>
+    <span class="k">def</span> <span class="nf">handle_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span><span class="p">):</span>
+        <span class="n">amqp_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">AMQP_URI_CONFIG_KEY</span><span class="p">]</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">SERIALIZER_CONFIG_KEY</span><span class="p">,</span> <span class="n">DEFAULT_SERIALIZER</span>
+        <span class="p">)</span>
+        <span class="n">exchange</span> <span class="o">=</span> <span class="n">get_rpc_exchange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">AMQP_SSL_CONFIG_KEY</span><span class="p">)</span>
+        <span class="n">login_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LOGIN_METHOD_CONFIG_KEY</span><span class="p">)</span>
+
+        <span class="n">responder</span> <span class="o">=</span> <span class="n">Responder</span><span class="p">(</span>
+            <span class="n">amqp_uri</span><span class="p">,</span> <span class="n">exchange</span><span class="p">,</span> <span class="n">serializer</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl</span><span class="p">,</span> <span class="n">login_method</span><span class="o">=</span><span class="n">login_method</span>
+        <span class="p">)</span>
+        <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span> <span class="o">=</span> <span class="n">responder</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">ack_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span></div>
+
+
+<div class="viewcode-block" id="RpcConsumer.requeue_message">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.requeue_message">[文档]</a>
+    <span class="k">def</span> <span class="nf">requeue_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">requeue_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Rpc">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Rpc">[文档]</a>
+<span class="k">class</span> <span class="nc">Rpc</span><span class="p">(</span><span class="n">Entrypoint</span><span class="p">,</span> <span class="n">HeaderDecoder</span><span class="p">):</span>
+<div class="viewcode-block" id="Rpc.rpc_consumer">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.rpc_consumer">[文档]</a>
+    <span class="n">rpc_consumer</span> <span class="o">=</span> <span class="n">RpcConsumer</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Rpc.setup">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.setup">[文档]</a>
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rpc_consumer</span><span class="o">.</span><span class="n">register_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Rpc.stop">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.stop">[文档]</a>
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rpc_consumer</span><span class="o">.</span><span class="n">unregister_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Rpc.handle_message">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.handle_message">[文档]</a>
+    <span class="k">def</span> <span class="nf">handle_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">]</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;kwargs&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">MalformedRequest</span><span class="p">(</span><span class="s2">&quot;Message 缺失 `args` 或 `kwargs`&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_signature</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">context_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unpack_message_headers</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="n">handle_result</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle_result</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">spawn_worker</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">args</span><span class="p">,</span>
+                <span class="n">kwargs</span><span class="p">,</span>
+                <span class="n">context_data</span><span class="o">=</span><span class="n">context_data</span><span class="p">,</span>
+                <span class="n">handle_result</span><span class="o">=</span><span class="n">handle_result</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">ContainerBeingKilled</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rpc_consumer</span><span class="o">.</span><span class="n">requeue_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Rpc.handle_result">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.handle_result">[文档]</a>
+    <span class="k">def</span> <span class="nf">handle_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">worker_ctx</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span><span class="p">):</span>
+        <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpc_consumer</span><span class="o">.</span><span class="n">handle_result</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="rpc">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.rpc">[文档]</a>
+<span class="n">rpc</span> <span class="o">=</span> <span class="n">Rpc</span><span class="o">.</span><span class="n">decorator</span></div>
+
+
+
+<div class="viewcode-block" id="Responder">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder">[文档]</a>
+<span class="k">class</span> <span class="nc">Responder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Responder.publisher_cls">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.publisher_cls">[文档]</a>
+    <span class="n">publisher_cls</span> <span class="o">=</span> <span class="n">Publisher</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">amqp_uri</span><span class="p">,</span> <span class="n">exchange</span><span class="p">,</span> <span class="n">serializer</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">login_method</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<div class="viewcode-block" id="Responder.amqp_uri">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.amqp_uri">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amqp_uri</span> <span class="o">=</span> <span class="n">amqp_uri</span></div>
+
+<div class="viewcode-block" id="Responder.serializer">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.serializer">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serializer</span> <span class="o">=</span> <span class="n">serializer</span></div>
+
+<div class="viewcode-block" id="Responder.message">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.message">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span></div>
+
+<div class="viewcode-block" id="Responder.exchange">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.exchange">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exchange</span> <span class="o">=</span> <span class="n">exchange</span></div>
+
+<div class="viewcode-block" id="Responder.ssl">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.ssl">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ssl</span> <span class="o">=</span> <span class="n">ssl</span></div>
+
+<div class="viewcode-block" id="Responder.login_method">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.login_method">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">login_method</span> <span class="o">=</span> <span class="n">login_method</span></div>
+
+
+<div class="viewcode-block" id="Responder.send_response">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.Responder.send_response">[文档]</a>
+    <span class="k">def</span> <span class="nf">send_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span><span class="p">):</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">exc_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># 发送以与请求消息相同的方式编码的响应。</span>
+        <span class="n">content_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s2">&quot;content_type&quot;</span><span class="p">]</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">kombu</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">type_to_name</span><span class="p">[</span><span class="n">content_type</span><span class="p">]</span>
+
+        <span class="c1"># 灾难避免序列化检查：`result` 必须是可序列化的，</span>
+        <span class="c1"># 否则容器将假定发生不可恢复的错误而自杀（消息将被重新排队给另一个处理者）。</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">kombu</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">serializer</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">exc_info</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="c1"># 下面的 `error` 确保能够序列化为 JSON。</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">UnserializableValueError</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">error</span><span class="p">}</span>
+
+        <span class="n">routing_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s2">&quot;reply_to&quot;</span><span class="p">]</span>
+        <span class="n">correlation_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;correlation_id&quot;</span><span class="p">)</span>
+
+        <span class="n">publisher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publisher_cls</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">amqp_uri</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ssl</span><span class="p">,</span> <span class="n">login_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">login_method</span>
+        <span class="p">)</span>
+
+        <span class="n">publisher</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+            <span class="n">payload</span><span class="p">,</span>
+            <span class="n">serializer</span><span class="o">=</span><span class="n">serializer</span><span class="p">,</span>
+            <span class="n">exchange</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange</span><span class="p">,</span>
+            <span class="n">routing_key</span><span class="o">=</span><span class="n">routing_key</span><span class="p">,</span>
+            <span class="n">correlation_id</span><span class="o">=</span><span class="n">correlation_id</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">exc_info</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ReplyListener">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener">[文档]</a>
+<span class="k">class</span> <span class="nc">ReplyListener</span><span class="p">(</span><span class="n">SharedExtension</span><span class="p">):</span>
+<div class="viewcode-block" id="ReplyListener.queue_consumer">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.queue_consumer">[文档]</a>
+    <span class="n">queue_consumer</span> <span class="o">=</span> <span class="n">QueueConsumer</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReplyListener._reply_events">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener._reply_events">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reply_events</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ReplyListener</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ReplyListener.setup">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.setup">[文档]</a>
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">reply_queue_uuid</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+        <span class="n">service_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">service_name</span>
+
+        <span class="n">queue_name</span> <span class="o">=</span> <span class="n">RPC_REPLY_QUEUE_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">reply_queue_uuid</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">routing_key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reply_queue_uuid</span><span class="p">)</span>
+
+        <span class="n">exchange</span> <span class="o">=</span> <span class="n">get_rpc_exchange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span>
+            <span class="n">queue_name</span><span class="p">,</span>
+            <span class="n">exchange</span><span class="o">=</span><span class="n">exchange</span><span class="p">,</span>
+            <span class="n">routing_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">routing_key</span><span class="p">,</span>
+            <span class="n">queue_arguments</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x-expires&quot;</span><span class="p">:</span> <span class="n">RPC_REPLY_QUEUE_TTL</span><span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">register_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReplyListener.stop">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.stop">[文档]</a>
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">unregister_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ReplyListener</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ReplyListener.get_reply_event">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.get_reply_event">[文档]</a>
+    <span class="k">def</span> <span class="nf">get_reply_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">):</span>
+        <span class="n">reply_event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reply_events</span><span class="p">[</span><span class="n">correlation_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">reply_event</span>
+        <span class="k">return</span> <span class="n">reply_event</span></div>
+
+
+<div class="viewcode-block" id="ReplyListener.handle_message">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.handle_message">[文档]</a>
+    <span class="k">def</span> <span class="nf">handle_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_consumer</span><span class="o">.</span><span class="n">ack_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="n">correlation_id</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;correlation_id&quot;</span><span class="p">)</span>
+        <span class="n">client_event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reply_events</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">correlation_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">client_event</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">client_event</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Unknown correlation id: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">correlation_id</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RpcProxy">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy">[文档]</a>
+<span class="k">class</span> <span class="nc">RpcProxy</span><span class="p">(</span><span class="n">DependencyProvider</span><span class="p">):</span>
+<div class="viewcode-block" id="RpcProxy.rpc_reply_listener">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.rpc_reply_listener">[文档]</a>
+    <span class="n">rpc_reply_listener</span> <span class="o">=</span> <span class="n">ReplyListener</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_service</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+<div class="viewcode-block" id="RpcProxy.target_service">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.target_service">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_service</span> <span class="o">=</span> <span class="n">target_service</span></div>
+
+<div class="viewcode-block" id="RpcProxy.options">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.options">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span></div>
+
+
+<div class="viewcode-block" id="RpcProxy.get_dependency">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.get_dependency">[文档]</a>
+    <span class="k">def</span> <span class="nf">get_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_ctx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ServiceProxy</span><span class="p">(</span>
+            <span class="n">worker_ctx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_service</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpc_reply_listener</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ServiceProxy">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy">[文档]</a>
+<span class="k">class</span> <span class="nc">ServiceProxy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">worker_ctx</span><span class="p">,</span> <span class="n">service_name</span><span class="p">,</span> <span class="n">reply_listener</span><span class="p">:</span> <span class="n">ReplyListener</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span>
+    <span class="p">):</span>
+<div class="viewcode-block" id="ServiceProxy.worker_ctx">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.worker_ctx">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker_ctx</span> <span class="o">=</span> <span class="n">worker_ctx</span></div>
+
+<div class="viewcode-block" id="ServiceProxy.service_name">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.service_name">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">service_name</span> <span class="o">=</span> <span class="n">service_name</span></div>
+
+<div class="viewcode-block" id="ServiceProxy.reply_listener">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.reply_listener">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reply_listener</span> <span class="o">=</span> <span class="n">reply_listener</span></div>
+
+<div class="viewcode-block" id="ServiceProxy.options">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.options">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span></div>
+
+
+<div class="viewcode-block" id="ServiceProxy.__getattr__">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.__getattr__">[文档]</a>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">MethodProxy</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">worker_ctx</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">service_name</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reply_listener</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RpcReply">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply">[文档]</a>
+<span class="k">class</span> <span class="nc">RpcReply</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;解析RPC响应内容&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RpcReply.resp_body">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply.resp_body">[文档]</a>
+    <span class="n">resp_body</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reply_event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+<div class="viewcode-block" id="RpcReply.reply_event">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply.reply_event">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reply_event</span> <span class="o">=</span> <span class="n">reply_event</span></div>
+
+
+<div class="viewcode-block" id="RpcReply.result">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply.result">[文档]</a>
+    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;等待 RPC 响应事件 </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resp_body</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">resp_body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reply_event</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;RPC 响应事件完成 </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resp_body</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resp_body</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;RPC执行结果获取失败&quot;</span><span class="p">)</span>
+
+        <span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resp_body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resp_body</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MethodProxy">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy">[文档]</a>
+<span class="k">class</span> <span class="nc">MethodProxy</span><span class="p">(</span><span class="n">HeaderEncoder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;RPC 方法代理&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MethodProxy.publisher_cls">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.publisher_cls">[文档]</a>
+    <span class="n">publisher_cls</span> <span class="o">=</span> <span class="n">Publisher</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">worker_ctx</span><span class="p">,</span>
+        <span class="n">service_name</span><span class="p">,</span>
+        <span class="n">method_name</span><span class="p">,</span>
+        <span class="n">reply_listener</span><span class="p">:</span> <span class="n">ReplyListener</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">options</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        请注意，抛出 `UnknownService` 异常的机制依赖于代理中启用发布确认。</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MethodProxy.worker_ctx">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.worker_ctx">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker_ctx</span> <span class="o">=</span> <span class="n">worker_ctx</span></div>
+
+<div class="viewcode-block" id="MethodProxy.service_name">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.service_name">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">service_name</span> <span class="o">=</span> <span class="n">service_name</span></div>
+
+<div class="viewcode-block" id="MethodProxy.method_name">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.method_name">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method_name</span> <span class="o">=</span> <span class="n">method_name</span></div>
+
+<div class="viewcode-block" id="MethodProxy.reply_listener">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.reply_listener">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reply_listener</span> <span class="o">=</span> <span class="n">reply_listener</span></div>
+
+
+        <span class="c1"># 向后兼容</span>
+<div class="viewcode-block" id="MethodProxy.compat_attrs">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.compat_attrs">[文档]</a>
+        <span class="n">compat_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;retry&quot;</span><span class="p">,</span> <span class="s2">&quot;retry_policy&quot;</span><span class="p">,</span> <span class="s2">&quot;use_confirms&quot;</span><span class="p">)</span></div>
+
+
+        <span class="k">for</span> <span class="n">compat_attr</span> <span class="ow">in</span> <span class="n">compat_attrs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compat_attr</span><span class="p">):</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; 应在 RpcProxy 实例化时指定，而不是作为类属性。&quot;</span>
+                    <span class="s2">&quot;有关详细信息，请参阅 CHANGES，第 2.7.0 版。&quot;</span>
+                    <span class="s2">&quot;此警告将在第 2.9.0 版中删除。&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">compat_attr</span><span class="p">),</span>
+                    <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">options</span><span class="p">[</span><span class="n">compat_attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compat_attr</span><span class="p">)</span>
+
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;serializer&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializer</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MethodProxy.publisher">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.publisher">[文档]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publisher</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publisher_cls</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">amqp_uri</span><span class="p">,</span>
+            <span class="n">serializer</span><span class="o">=</span><span class="n">serializer</span><span class="p">,</span>
+            <span class="n">ssl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ssl</span><span class="p">,</span>
+            <span class="n">login_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">login_method</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">options</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MethodProxy.__call__">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.__call__">[文档]</a>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reply</span><span class="o">.</span><span class="n">result</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="MethodProxy.container">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.container">[文档]</a>
+    <span class="k">def</span> <span class="nf">container</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO: seems wrong</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker_ctx</span><span class="o">.</span><span class="n">container</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="MethodProxy.amqp_uri">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.amqp_uri">[文档]</a>
+    <span class="k">def</span> <span class="nf">amqp_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">AMQP_URI_CONFIG_KEY</span><span class="p">]</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="MethodProxy.ssl">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.ssl">[文档]</a>
+    <span class="k">def</span> <span class="nf">ssl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">AMQP_SSL_CONFIG_KEY</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="MethodProxy.login_method">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.login_method">[文档]</a>
+    <span class="k">def</span> <span class="nf">login_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LOGIN_METHOD_CONFIG_KEY</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="MethodProxy.serializer">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.serializer">[文档]</a>
+    <span class="k">def</span> <span class="nf">serializer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;用于发布消息有效负载时的默认序列化器。</span>
+
+<span class="sd">        必须作为一个</span>
+<span class="sd">        `kombu 序列化器 &lt;http://bit.do/kombu_serialization&gt;`_ 注册。</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SERIALIZER_CONFIG_KEY</span><span class="p">,</span> <span class="n">DEFAULT_SERIALIZER</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MethodProxy.call_async">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.call_async">[文档]</a>
+    <span class="k">def</span> <span class="nf">call_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reply</span></div>
+
+
+<div class="viewcode-block" id="MethodProxy._call">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy._call">[文档]</a>
+    <span class="k">def</span> <span class="nf">_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;调用 </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> <span class="s2">&quot;kwargs&quot;</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">}</span>
+
+        <span class="c1"># 我们在下面的 `producer.publish` 中使用 `mandatory` 标志来捕捉</span>
+        <span class="c1"># 对不存在服务的 rpc 调用，否则会无限等待一个不会到来的回复。</span>
+        <span class="c1">#</span>
+        <span class="c1"># 然而，basic.return（“没有人监听该主题”）是异步发送的</span>
+        <span class="c1"># 并且有条件的，因此我们无法在通道上等待它</span>
+        <span class="c1"># （在成功交付时会无限等待）。</span>
+        <span class="c1">#</span>
+        <span class="c1"># 相反，我们利用（rabbitmq 扩展）confirm_publish</span>
+        <span class="c1"># (https://www.rabbitmq.com/confirms.html)，这总是</span>
+        <span class="c1"># 通过通道发送回复。此外，在没有队列</span>
+        <span class="c1"># 绑定到交换机的情况下（服务未知），basic.return 首先发送，</span>
+        <span class="c1"># 因此当 kombu 返回（在等待确认后）时</span>
+        <span class="c1"># 我们可以可靠地检查返回的消息。</span>
+
+        <span class="c1"># 请注意，在 RpcProxy 中停用发布确认将禁用</span>
+        <span class="c1"># 此功能，因此 :class:`UnknownService` 将永远不会</span>
+        <span class="c1"># 被引发（并且调用者将挂起）。</span>
+
+        <span class="n">exchange</span> <span class="o">=</span> <span class="n">get_rpc_exchange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">routing_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_name</span><span class="p">)</span>
+
+        <span class="n">reply_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reply_listener</span><span class="o">.</span><span class="n">routing_key</span>
+        <span class="n">correlation_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+
+        <span class="n">extra_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_message_headers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">worker_ctx</span><span class="p">)</span>
+
+        <span class="n">reply_event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reply_listener</span><span class="o">.</span><span class="n">get_reply_event</span><span class="p">(</span><span class="n">correlation_id</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">publisher</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+                <span class="n">msg</span><span class="p">,</span>
+                <span class="n">exchange</span><span class="o">=</span><span class="n">exchange</span><span class="p">,</span>
+                <span class="n">routing_key</span><span class="o">=</span><span class="n">routing_key</span><span class="p">,</span>
+                <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">reply_to</span><span class="o">=</span><span class="n">reply_to</span><span class="p">,</span>
+                <span class="n">correlation_id</span><span class="o">=</span><span class="n">correlation_id</span><span class="p">,</span>
+                <span class="n">extra_headers</span><span class="o">=</span><span class="n">extra_headers</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">UndeliverableMessage</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnknownService</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">RpcReply</span><span class="p">(</span><span class="n">reply_event</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MethodProxy.__repr__">
+<a class="viewcode-back" href="../../autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.__repr__">[文档]</a>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">service_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_name</span>
+        <span class="n">method_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_name</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;proxy method: </span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2015
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=ca28820f"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/open_in_new_tab.js?v=d48564ca"></script>
+    </body>
+</html>

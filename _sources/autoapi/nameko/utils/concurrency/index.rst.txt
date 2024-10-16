@@ -1,0 +1,95 @@
+nameko.utils.concurrency
+========================
+
+.. py:module:: nameko.utils.concurrency
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.utils.concurrency.ContainerT
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.utils.concurrency.SpawningProxy
+   nameko.utils.concurrency.SpawningSet
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.utils.concurrency.fail_fast_imap
+
+
+Package Contents
+----------------
+
+.. py:data:: ContainerT
+
+.. py:function:: fail_fast_imap(pool: eventlet.GreenPool, call: Callable[[Type]], items: Union[Iterable[ContainerT], SpawningSet])
+
+   对给定列表中的每个项运行一个函数，逐个生成每个函数结果，其中函数调用在由提供的池生成的 :class:`~eventlet.greenthread.GreenThread` 中处理。
+
+   如果任何函数引发异常，则所有其他正在进行的线程将被终止，并将异常抛给调用者。
+
+   此函数类似于 :meth:`~eventlet.greenpool.GreenPool.imap`。
+
+   :param pool: 用于生成函数线程的池
+   :type pool: eventlet.greenpool.GreenPool
+   :param call: 要调用的函数，期望从给定列表中接收一个项
+
+
+.. py:class:: SpawningProxy(items: Union[Iterable[ContainerT], SpawningSet], abort_on_error: bool = False)
+
+   Bases: :py:obj:`object`
+
+
+   
+   并行代理类
+
+   将一组可迭代项封装，使得对返回的 `SpawningProxy` 实例的调用将在每个项上生成一个 :class:`~eventlet.greenthread.GreenThread` 。
+
+   当每个生成的线程完成时返回。
+
+   :param items: 要处理的可迭代项集
+   :param abort_on_error: 如果为 True, 任何在单个项调用中引发的异常将导致所有同级项调用线程被终止，并立即将异常传播给调用者。
+
+
+   chatGPT回答:
+
+   SpawningProxy 的主要功能是并行调用一组对象的方法。
+   它使用 eventlet 提供的协程池来管理并发，并支持错误传播机制。
+   如果有多个对象需要并行执行某个相同的操作，此类可以有效封装该逻辑。
+
+
+   .. py:attribute:: _items
+
+
+   .. py:attribute:: abort_on_error
+      :type:  bool
+
+
+   .. py:method:: __getattr__(name: str)
+
+
+.. py:class:: SpawningSet
+
+   Bases: :py:obj:`Set`\ [\ :py:obj:`SpawningProxy`\ ]
+
+
+   一个具有 ``.all`` 属性的集合，该属性将在集合中的每个项上生成一个方法调用，每个调用都会在其自己的（并行）绿色线程中执行。
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+   .. py:property:: all
+
+

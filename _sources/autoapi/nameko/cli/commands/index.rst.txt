@@ -1,0 +1,187 @@
+nameko.cli.commands
+===================
+
+.. py:module:: nameko.cli.commands
+
+.. autoapi-nested-parse::
+
+   命令在此处定义，并且导入语句内联，以避免触发其他子命令的导入
+   （例如，`run` 将导致 eventlet 的猴子补丁，而我们不希望在 `shell` 中发生这种情况）。
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.cli.commands.commands
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.cli.commands.Command
+   nameko.cli.commands.Backdoor
+   nameko.cli.commands.ShowConfig
+   nameko.cli.commands.Run
+   nameko.cli.commands.Shell
+   nameko.cli.commands.Test
+
+
+Module Contents
+---------------
+
+.. py:class:: Command
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: name
+      :value: ''
+
+
+
+   .. py:method:: init_parser(parser: argparse.ArgumentParser)
+      :staticmethod:
+
+      :abstractmethod:
+
+
+
+   .. py:method:: main(args: argparse.Namespace, *unknown_args)
+      :staticmethod:
+
+      :abstractmethod:
+
+
+
+.. py:class:: Backdoor
+
+   Bases: :py:obj:`Command`
+
+
+   连接到 Nameko 后门。
+
+   如果后门正在运行，这将连接到远程 shell。运行器通常可用作 `runner` 。
+
+
+   .. py:attribute:: name
+      :value: 'backdoor'
+
+
+
+   .. py:method:: init_parser(parser)
+      :staticmethod:
+
+
+
+   .. py:method:: main(args, *unknown_args)
+      :staticmethod:
+
+
+
+.. py:class:: ShowConfig
+
+   Bases: :py:obj:`Command`
+
+
+   以 YAML 字符串的形式输出将传递给服务的配置。
+
+   这对于查看从环境变量加载值的配置文件非常有用。
+
+
+   .. py:attribute:: name
+      :value: 'show-config'
+
+
+
+   .. py:method:: init_parser(parser)
+      :staticmethod:
+
+
+
+   .. py:method:: main(args, *unknown_args)
+      :staticmethod:
+
+
+
+.. py:class:: Run
+
+   Bases: :py:obj:`Command`
+
+
+   运行 Nameko 服务。给定一个 Python 模块的路径，该模块包含一个或多个 Nameko 服务，将会托管并运行它们。
+
+   默认情况下，这将尝试找到看起来像服务的类（任何具有 Nameko 入口点的内容），但可以通过 ``nameko run module:ServiceClass`` 指定特定的服务。
+
+
+   .. py:attribute:: name
+      :value: 'run'
+
+
+
+   .. py:method:: init_parser(parser)
+      :staticmethod:
+
+
+
+   .. py:method:: main(args, *unknown_args)
+      :staticmethod:
+
+
+
+.. py:class:: Shell
+
+   Bases: :py:obj:`Command`
+
+
+   启动一个交互式 Python shell, 以便与远程 Nameko 服务进行交互。
+
+   这是一个常规的交互式解释器，内置命名空间中添加了一个特殊模块 ``n``，提供 ``n.rpc`` 和 ``n.dispatch_event``。
+
+
+   .. py:attribute:: name
+      :value: 'shell'
+
+
+
+   .. py:attribute:: SHELLS
+      :value: ['bpython', 'ipython', 'plain']
+
+
+
+   .. py:method:: init_parser(parser)
+      :classmethod:
+
+
+
+   .. py:method:: main(args, *unknown_args)
+      :staticmethod:
+
+
+
+.. py:class:: Test
+
+   Bases: :py:obj:`Command`
+
+
+   .. py:attribute:: name
+      :value: 'test'
+
+
+
+   .. py:method:: init_parser(parser)
+      :staticmethod:
+
+
+
+   .. py:method:: main(args, *unknown_args)
+      :staticmethod:
+
+
+
+.. py:data:: commands
+

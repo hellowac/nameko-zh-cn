@@ -1,0 +1,91 @@
+nameko.web.handlers
+===================
+
+.. py:module:: nameko.web.handlers
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.web.handlers._log
+   nameko.web.handlers.http
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.web.handlers.HttpRequestHandler
+
+
+Module Contents
+---------------
+
+.. py:data:: _log
+
+.. py:class:: HttpRequestHandler(method, url, **kwargs)
+
+   Bases: :py:obj:`nameko.extensions.Entrypoint`
+
+
+   入口点封装类
+
+   :Parameters:
+       expected_exceptions : 异常类或异常类元组
+           指定可能由调用者引起的异常（例如，通过提供错误的参数）。
+           保存在入口点实例中作为 ``entrypoint.expected_exceptions``，供其他扩展（例如监控系统）后续检查。
+       sensitive_arguments : 字符串或字符串元组
+           将参数或参数的一部分标记为敏感。保存在入口点实例中作为 ``entrypoint.sensitive_arguments``，
+           供其他扩展（例如日志系统）后续检查。
+
+           :seealso: :func:`nameko.utils.get_redacted_args`
+
+
+   .. py:attribute:: server
+
+
+   .. py:attribute:: method
+
+
+   .. py:attribute:: url
+
+
+   .. py:method:: get_url_rule()
+
+
+   .. py:method:: setup()
+
+      在容器启动之前调用了绑定的扩展。
+
+      扩展应在此处进行任何必要的初始化。
+
+
+
+   .. py:method:: stop()
+
+      在服务容器开始关闭时调用。
+
+      扩展应在此处执行任何优雅的关闭操作。
+
+
+
+   .. py:method:: get_entrypoint_parameters(request)
+
+
+   .. py:method:: handle_request(request)
+
+
+   .. py:method:: handle_result(event, worker_ctx, result, exc_info)
+
+
+   .. py:method:: response_from_result(result)
+
+
+   .. py:method:: response_from_exception(exc)
+
+
+.. py:data:: http
+

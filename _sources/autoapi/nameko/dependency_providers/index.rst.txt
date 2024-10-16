@@ -1,0 +1,36 @@
+nameko.dependency_providers
+===========================
+
+.. py:module:: nameko.dependency_providers
+
+.. autoapi-nested-parse::
+
+   Nameko 内置依赖
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.dependency_providers.Config
+
+
+Module Contents
+---------------
+
+.. py:class:: Config
+
+   Bases: :py:obj:`nameko.extensions.DependencyProvider`
+
+
+   依赖提供者，用于访问配置值。
+
+
+   .. py:method:: get_dependency(worker_ctx)
+
+      在工作者执行之前调用。依赖提供者应返回一个对象，以便容器将其注入到工作者实例中。
+
+
+

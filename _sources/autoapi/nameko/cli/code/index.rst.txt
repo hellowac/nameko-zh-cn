@@ -1,0 +1,63 @@
+nameko.cli.code
+===============
+
+.. py:module:: nameko.cli.code
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.cli.code.RaisingInteractiveConsole
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.cli.code.interact
+
+
+Module Contents
+---------------
+
+.. py:class:: RaisingInteractiveConsole(locals=None, filename='<console>', raise_expections=False)
+
+   Bases: :py:obj:`code.InteractiveConsole`
+
+
+   Custom InterativeConsole class that allows raising exception if needed.
+       
+
+   Constructor.
+
+   The optional locals argument will be passed to the
+   InteractiveInterpreter base class.
+
+   The optional filename argument should specify the (file)name
+   of the input stream; it will show up in tracebacks.
+
+
+
+   .. py:attribute:: raise_expections
+
+
+   .. py:method:: runcode(code)
+
+      Execute a code object.
+
+      When an exception occurs, self.showtraceback() is called to
+      display a traceback.  All exceptions are caught except
+      SystemExit, which is reraised.
+
+      A note about KeyboardInterrupt: this exception may occur
+      elsewhere in this code, and may not always be caught.  The
+      caller should be prepared to deal with it.
+
+
+
+
+.. py:function:: interact(banner=None, local=None, raise_expections=False)
+

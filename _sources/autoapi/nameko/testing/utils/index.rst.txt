@@ -1,0 +1,191 @@
+nameko.testing.utils
+====================
+
+.. py:module:: nameko.testing.utils
+
+.. autoapi-nested-parse::
+
+   Common testing utilities.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.testing.utils.MockCallArgs
+   nameko.testing.utils.ANY_PARTIAL
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.testing.utils.AnyInstanceOf
+   nameko.testing.utils.DummyProvider
+   nameko.testing.utils.ResourcePipeline
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.testing.utils.get_extension
+   nameko.testing.utils.get_container
+   nameko.testing.utils.wait_for_call
+   nameko.testing.utils.wait_for_worker_idle
+   nameko.testing.utils.assert_stops_raising
+   nameko.testing.utils.unpack_mock_call
+   nameko.testing.utils.get_rabbit_connections
+   nameko.testing.utils.reset_rabbit_connections
+   nameko.testing.utils.find_free_port
+
+
+Module Contents
+---------------
+
+.. py:function:: get_extension(container, extension_cls, **match_attrs)
+
+   Inspect ``container.extensions`` and return the first item that is
+   an instance of ``extension_cls``.
+
+   Optionally also require that the instance has an attribute with a
+   particular value as given in the ``match_attrs`` kwargs.
+
+
+.. py:function:: get_container(runner, service_cls)
+
+   Inspect ``runner.containers`` and return the first item that is
+   hosting an instance of ``service_cls``.
+
+
+.. py:function:: wait_for_call(timeout, mock_method)
+
+   Return a context manager that waits ``timeout`` seconds for
+   ``mock_method`` to be called, yielding the mock if so.
+
+   Raises an :class:`eventlet.Timeout` if the method was not called
+   within ``timeout`` seconds.
+
+
+.. py:function:: wait_for_worker_idle(container, timeout=10)
+
+   Blocks until ``container`` has no running workers.
+
+   Raises an :class:`eventlet.Timeout` if the method was not called
+   within ``timeout`` seconds.
+
+
+.. py:function:: assert_stops_raising(fn, exception_type=Exception, timeout=10, interval=0.1)
+
+   Assert that ``fn`` returns successfully within ``timeout``
+   seconds, trying every ``interval`` seconds.
+
+   If ``exception_type`` is provided, fail unless the exception thrown is
+   an instance of ``exception_type``. If not specified, any
+   `:class:`Exception` instance is allowed.
+
+
+.. py:data:: MockCallArgs
+
+.. py:function:: unpack_mock_call(call)
+
+.. py:class:: AnyInstanceOf(cls)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: cls
+
+
+   .. py:method:: __eq__(other)
+
+
+   .. py:method:: __ne__(other)
+
+
+   .. py:method:: __repr__()
+
+
+.. py:data:: ANY_PARTIAL
+
+.. py:class:: DummyProvider(method_name=None)
+
+   Bases: :py:obj:`nameko.extensions.Entrypoint`
+
+
+   入口点封装类
+
+   :Parameters:
+       expected_exceptions : 异常类或异常类元组
+           指定可能由调用者引起的异常（例如，通过提供错误的参数）。
+           保存在入口点实例中作为 ``entrypoint.expected_exceptions``，供其他扩展（例如监控系统）后续检查。
+       sensitive_arguments : 字符串或字符串元组
+           将参数或参数的一部分标记为敏感。保存在入口点实例中作为 ``entrypoint.sensitive_arguments``，
+           供其他扩展（例如日志系统）后续检查。
+
+           :seealso: :func:`nameko.utils.get_redacted_args`
+
+
+   .. py:attribute:: method_name
+
+      记录了RPC调用的方法名称 
+
+
+
+.. py:function:: get_rabbit_connections(vhost, rabbit_manager)
+
+.. py:function:: reset_rabbit_connections(vhost, rabbit_manager)
+
+.. py:function:: find_free_port(host='127.0.0.1')
+
+.. py:class:: ResourcePipeline(create, destroy, size=3)
+
+   Bases: :py:obj:`object`
+
+
+   Creates and destroys resources in background threads.
+
+   Creates up to `size` resources ahead of time so the caller avoids waiting
+   for lazy creation.
+
+
+   .. py:attribute:: STOP
+
+
+   .. py:attribute:: ready
+
+
+   .. py:attribute:: trash
+
+
+   .. py:attribute:: size
+
+
+   .. py:attribute:: create
+
+
+   .. py:attribute:: destroy
+
+
+   .. py:method:: _start()
+
+
+   .. py:method:: _shutdown()
+
+
+   .. py:method:: _create()
+
+
+   .. py:method:: _destroy()
+
+
+   .. py:method:: get()
+
+
+   .. py:method:: run()
+
+

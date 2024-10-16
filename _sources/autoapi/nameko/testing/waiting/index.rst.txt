@@ -1,0 +1,63 @@
+nameko.testing.waiting
+======================
+
+.. py:module:: nameko.testing.waiting
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.testing.waiting.WaitResult
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.testing.waiting.wait_for_call
+
+
+Module Contents
+---------------
+
+.. py:class:: WaitResult
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: sentinel
+
+
+   .. py:attribute:: res
+
+
+   .. py:attribute:: exc_info
+      :value: None
+
+
+
+   .. py:exception:: NotReady
+
+      Bases: :py:obj:`Exception`
+
+
+      Common base class for all non-exit exceptions.
+
+      Initialize self.  See help(type(self)) for accurate signature.
+
+
+
+   .. py:property:: has_result
+
+
+   .. py:method:: send(res, exc_info)
+
+
+   .. py:method:: get()
+
+
+.. py:function:: wait_for_call(obj, target, callback=None)
+

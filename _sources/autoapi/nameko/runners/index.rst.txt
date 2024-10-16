@@ -1,0 +1,153 @@
+nameko.runners
+==============
+
+.. py:module:: nameko.runners
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.runners._log
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.runners.ServiceRunner
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.runners.run_services
+
+
+Module Contents
+---------------
+
+.. py:data:: _log
+
+.. py:class:: ServiceRunner(config: dict)
+
+   Bases: :py:obj:`object`
+
+
+   允许用户并发提供多个服务。
+   调用者可以为多个服务类注册名称，然后使用
+   start 方法来提供它们，并使用 stop 和 kill 方法
+   来停止它们。wait 方法将阻塞，直到所有服务停止。
+
+   示例::
+
+       runner = ServiceRunner(config)
+       runner.add_service(Foobar)
+       runner.add_service(Spam)
+
+       add_sig_term_handler(runner.kill)
+
+       runner.start()
+
+       runner.wait()
+
+   初始化一个服务运行者
+
+   :param config: 配置字典，从yaml配置文件中解析出来的， 默认为只有1个 AMQP 地址
+   :type config: dict
+
+
+   .. py:attribute:: service_map
+      :type:  Dict[str, nameko.containers.ServiceContainer]
+
+
+   .. py:attribute:: config
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: container_cls
+      :type:  Type[nameko.containers.ServiceContainer]
+
+
+   .. py:property:: service_names
+
+
+   .. py:property:: containers
+
+
+   .. py:method:: add_service(cls: Type)
+
+      将服务类添加到运行器中。
+      对于给定的服务名称，最多只能有一个服务类。
+      服务类必须在调用 start() 之前注册。
+
+
+
+   .. py:method:: start()
+
+      启动所有注册的服务。
+
+      每个服务都会使用 __init__ 方法中提供的容器类创建一个新容器。
+
+      所有容器将并发启动，该方法将在所有容器完成启动例程之前阻塞。
+
+
+
+   .. py:method:: stop()
+
+      并发停止所有正在运行的容器。
+      该方法在所有容器停止之前将阻塞。
+
+
+
+   .. py:method:: kill()
+
+      并发杀死所有正在运行的容器。
+      该方法将在所有容器停止之前将阻塞。
+
+
+
+   .. py:method:: wait()
+
+      等待所有正在运行的容器停止。
+
+
+
+.. py:function:: run_services(config: dict, *services: Type, **kwargs)
+
+   为上下文块提供多个服务。
+   调用者可以指定多个服务类，然后在退出上下文块时
+   停止（默认）或杀死它们。
+
+   示例::
+
+       with run_services(config, Foobar, Spam) as runner:
+           # 与服务交互并在退出块时停止它们
+
+       # 服务已停止
+
+
+   可以通过关键字参数指定额外的配置，以供 :class:``ServiceRunner`` 实例使用::
+
+       with run_services(config, Foobar, Spam, kill_on_exit=True):
+           # 与服务交互
+
+       # 服务已被杀死
+
+   :Parameters:
+       config : dict
+           用于实例化服务容器的配置
+       services : 服务定义
+           在上下文块中提供的服务
+       kill_on_exit : bool (default=False)
+           如果为 ``True``，在退出上下文块时对服务容器调用 ``kill()``。
+           否则在退出块时将调用 ``stop()``。
+
+   :Returns: 配置好的 :class:`ServiceRunner` 实例
+
+
+

@@ -1,0 +1,22 @@
+nameko.cli
+==========
+
+.. py:module:: nameko.cli
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/nameko/cli/actions/index
+   /autoapi/nameko/cli/backdoor/index
+   /autoapi/nameko/cli/code/index
+   /autoapi/nameko/cli/commands/index
+   /autoapi/nameko/cli/main/index
+   /autoapi/nameko/cli/run/index
+   /autoapi/nameko/cli/shell/index
+   /autoapi/nameko/cli/show_config/index
+
+

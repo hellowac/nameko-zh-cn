@@ -1,0 +1,19 @@
+nameko.cli.backdoor
+===================
+
+.. py:module:: nameko.cli.backdoor
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.cli.backdoor.main
+
+
+Module Contents
+---------------
+
+.. py:function:: main(args)
+

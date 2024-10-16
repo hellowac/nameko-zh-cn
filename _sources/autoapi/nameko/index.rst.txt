@@ -1,0 +1,42 @@
+nameko
+======
+
+.. py:module:: nameko
+
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/nameko/amqp/index
+   /autoapi/nameko/cli/index
+   /autoapi/nameko/standalone/index
+   /autoapi/nameko/testing/index
+   /autoapi/nameko/utils/index
+   /autoapi/nameko/web/index
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/nameko/__main__/index
+   /autoapi/nameko/constants/index
+   /autoapi/nameko/containers/index
+   /autoapi/nameko/contextdata/index
+   /autoapi/nameko/dependency_providers/index
+   /autoapi/nameko/events/index
+   /autoapi/nameko/exceptions/index
+   /autoapi/nameko/extensions/index
+   /autoapi/nameko/log_helpers/index
+   /autoapi/nameko/messaging/index
+   /autoapi/nameko/rpc/index
+   /autoapi/nameko/runners/index
+   /autoapi/nameko/serialization/index
+   /autoapi/nameko/timer/index
+
+

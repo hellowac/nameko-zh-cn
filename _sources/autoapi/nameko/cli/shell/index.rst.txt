@@ -1,0 +1,56 @@
+nameko.cli.shell
+================
+
+.. py:module:: nameko.cli.shell
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.cli.shell.ShellRunner
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.cli.shell.make_nameko_helper
+   nameko.cli.shell.main
+
+
+Module Contents
+---------------
+
+.. py:class:: ShellRunner(banner, local)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: banner
+
+
+   .. py:attribute:: local
+
+
+   .. py:method:: bpython()
+
+
+   .. py:method:: ipython()
+
+
+   .. py:method:: plain()
+
+
+   .. py:method:: start_shell(name)
+
+
+.. py:function:: make_nameko_helper(config)
+
+   创建一个虚拟模块，以便为交互式 shell 使用提供一些便捷的 Nameko 独立功能访问。
+
+
+.. py:function:: main(args: argparse.Namespace)
+

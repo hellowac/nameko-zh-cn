@@ -1,0 +1,254 @@
+nameko.web.websocket
+====================
+
+.. py:module:: nameko.web.websocket
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.web.websocket.IDENTIFY_WEBSOCKET_RULES
+   nameko.web.websocket._log
+   nameko.web.websocket.SocketInfo
+   nameko.web.websocket.rpc
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.web.websocket.Connection
+   nameko.web.websocket.WebSocketServer
+   nameko.web.websocket.WebSocketHubProvider
+   nameko.web.websocket.WebSocketHub
+   nameko.web.websocket.WebSocketRpc
+
+
+Module Contents
+---------------
+
+.. py:data:: IDENTIFY_WEBSOCKET_RULES
+
+.. py:data:: _log
+
+.. py:data:: SocketInfo
+
+.. py:class:: Connection(socket_id, context_data)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: socket_id
+
+
+   .. py:attribute:: context_data
+
+
+   .. py:attribute:: subscriptions
+
+
+.. py:class:: WebSocketServer
+
+   Bases: :py:obj:`nameko.extensions.SharedExtension`, :py:obj:`nameko.extensions.ProviderCollector`
+
+
+   请注意，`Extension.__init__` 在 `bind` 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 `setup`。
+
+   此外，`bind` 和 `iter_extensions` 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 `ServiceContainer.__init__` 和 `ServiceContainer.setup` 之间。
+
+   `Extension.container` 属性提供对绑定到该扩展的 `nameko.containers.ServiceContainer` 实例的访问，否则为 `None`。
+
+
+   .. py:attribute:: wsgi_server
+
+
+   .. py:attribute:: sockets
+
+
+   .. py:method:: deserialize_ws_frame(payload)
+
+
+   .. py:method:: serialize_for_ws(payload)
+
+
+   .. py:method:: serialize_event(event, data)
+
+
+   .. py:method:: get_url_rule()
+
+
+   .. py:method:: handle_request(request)
+
+
+   .. py:method:: websocket_mainloop(initial_context_data)
+
+
+   .. py:method:: handle_websocket_request(socket_id, context_data, raw_req)
+
+
+   .. py:method:: get_provider_for_method(method)
+
+
+   .. py:method:: setup()
+
+      在容器启动之前调用了绑定的扩展。
+
+      扩展应在此处进行任何必要的初始化。
+
+
+
+   .. py:method:: stop()
+
+      在服务容器开始关闭时调用。
+
+      扩展应在此处执行任何优雅的关闭操作。
+
+
+
+   .. py:method:: add_websocket(ws, initial_context_data=None)
+
+
+   .. py:method:: remove_socket(socket_id)
+
+
+.. py:class:: WebSocketHubProvider
+
+   Bases: :py:obj:`nameko.extensions.DependencyProvider`
+
+
+   请注意，`Extension.__init__` 在 `bind` 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 `setup`。
+
+   此外，`bind` 和 `iter_extensions` 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 `ServiceContainer.__init__` 和 `ServiceContainer.setup` 之间。
+
+   `Extension.container` 属性提供对绑定到该扩展的 `nameko.containers.ServiceContainer` 实例的访问，否则为 `None`。
+
+
+   .. py:attribute:: hub
+      :value: None
+
+
+
+   .. py:attribute:: server
+
+
+   .. py:method:: setup()
+
+      在容器启动之前调用了绑定的扩展。
+
+      扩展应在此处进行任何必要的初始化。
+
+
+
+   .. py:method:: stop()
+
+      在服务容器开始关闭时调用。
+
+      扩展应在此处执行任何优雅的关闭操作。
+
+
+
+   .. py:method:: get_dependency(worker_ctx)
+
+      在工作者执行之前调用。依赖提供者应返回一个对象，以便容器将其注入到工作者实例中。
+
+
+
+   .. py:method:: cleanup_websocket(socket_id)
+
+
+.. py:class:: WebSocketHub(server)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: _server
+
+
+   .. py:attribute:: connections
+
+
+   .. py:attribute:: subscriptions
+
+
+   .. py:method:: _get_connection(socket_id, create=True)
+
+
+   .. py:method:: get_subscriptions(socket_id)
+
+      返回套接字的所有订阅列表。
+
+
+
+   .. py:method:: subscribe(socket_id, channel)
+
+      将套接字订阅到频道。
+
+
+
+   .. py:method:: unsubscribe(socket_id, channel)
+
+      将套接字从频道中取消订阅。
+
+
+
+   .. py:method:: broadcast(channel, event, data)
+
+      向所有在频道上监听的套接字广播事件。
+
+
+
+   .. py:method:: unicast(socket_id, event, data)
+
+      向单个套接字发送事件。如果成功则返回 `True`，否则返回 `False`。
+              
+
+
+
+.. py:class:: WebSocketRpc(expected_exceptions=(), sensitive_arguments=(), **kwargs)
+
+   Bases: :py:obj:`nameko.extensions.Entrypoint`
+
+
+   入口点封装类
+
+   :Parameters:
+       expected_exceptions : 异常类或异常类元组
+           指定可能由调用者引起的异常（例如，通过提供错误的参数）。
+           保存在入口点实例中作为 ``entrypoint.expected_exceptions``，供其他扩展（例如监控系统）后续检查。
+       sensitive_arguments : 字符串或字符串元组
+           将参数或参数的一部分标记为敏感。保存在入口点实例中作为 ``entrypoint.sensitive_arguments``，
+           供其他扩展（例如日志系统）后续检查。
+
+           :seealso: :func:`nameko.utils.get_redacted_args`
+
+
+   .. py:attribute:: server
+
+
+   .. py:method:: setup()
+
+      在容器启动之前调用了绑定的扩展。
+
+      扩展应在此处进行任何必要的初始化。
+
+
+
+   .. py:method:: stop()
+
+      在服务容器开始关闭时调用。
+
+      扩展应在此处执行任何优雅的关闭操作。
+
+
+
+   .. py:method:: handle_message(socket_id, data, context_data)
+
+
+   .. py:method:: handle_result(event, worker_ctx, result, exc_info)
+
+
+.. py:data:: rpc
+

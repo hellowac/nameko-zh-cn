@@ -1,0 +1,49 @@
+nameko.amqp
+===========
+
+.. py:module:: nameko.amqp
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/nameko/amqp/publish/index
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   nameko.amqp.UndeliverableMessage
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.amqp.get_connection
+   nameko.amqp.get_producer
+
+
+Package Contents
+----------------
+
+.. py:exception:: UndeliverableMessage
+
+   Bases: :py:obj:`Exception`
+
+
+   当启用了发布者确认并且消息无法路由或持久存储时抛出的异常。
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:function:: get_connection(amqp_uri, ssl=None, login_method=None, transport_options=None)
+
+.. py:function:: get_producer(amqp_uri, confirms=True, ssl=None, login_method=None, transport_options=None)
+

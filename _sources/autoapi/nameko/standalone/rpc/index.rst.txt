@@ -1,0 +1,304 @@
+nameko.standalone.rpc
+=====================
+
+.. py:module:: nameko.standalone.rpc
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.standalone.rpc._logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.standalone.rpc.ConsumeEvent
+   nameko.standalone.rpc.PollingQueueConsumer
+   nameko.standalone.rpc.SingleThreadedReplyListener
+   nameko.standalone.rpc.StandaloneProxyBase
+   nameko.standalone.rpc.ServiceRpcProxy
+   nameko.standalone.rpc.ClusterProxy
+   nameko.standalone.rpc.ClusterRpcProxy
+
+
+Module Contents
+---------------
+
+.. py:data:: _logger
+
+.. py:class:: ConsumeEvent(queue_consumer: PollingQueueConsumer, correlation_id: str)
+
+   Bases: :py:obj:`object`
+
+
+   具有与 eventlet.Event 相同接口的 RPC 消费者的事件。
+
+
+   .. py:attribute:: exception
+      :value: None
+
+
+
+   .. py:attribute:: correlation_id
+
+
+   .. py:attribute:: queue_consumer
+
+
+   .. py:method:: send(body)
+
+
+   .. py:method:: send_exception(exc)
+
+
+   .. py:method:: wait()
+
+      对其 `queue_consumer` 进行阻塞调用，直到处理完具有给定 `correlation_id` 的消息。
+
+      在阻塞调用退出时， `self.send()` 将被调用，并传入接收到的消息的主体（参见 :meth:`~nameko.rpc.ReplyListener.handle_message` ）。
+
+      异常将被直接引发。
+
+
+
+.. py:class:: PollingQueueConsumer(timeout=None)
+
+   Bases: :py:obj:`object`
+
+
+   实现了 :class:`~messaging.QueueConsumer` 的最小接口。
+   它不是在单独的线程中处理消息，而是提供了一种轮询方法，以阻塞直到到达具有相同关联 ID 的 RPC 代理调用的消息。
+
+
+   .. py:attribute:: consumer
+      :value: None
+
+
+
+   .. py:attribute:: stopped
+      :value: True
+
+
+
+   .. py:attribute:: timeout
+
+
+   .. py:attribute:: replies
+
+
+   .. py:method:: _setup_consumer()
+
+
+   .. py:method:: register_provider(provider)
+
+
+   .. py:method:: unregister_provider(provider)
+
+
+   .. py:method:: ack_message(msg)
+
+
+   .. py:method:: on_message(body, message)
+
+
+   .. py:method:: get_message(correlation_id)
+
+
+.. py:class:: SingleThreadedReplyListener(timeout=None)
+
+   Bases: :py:obj:`nameko.rpc.ReplyListener`
+
+
+   一个使用自定义队列消费者和 `ConsumeEvent` 的 `ReplyListener` 。
+
+
+   .. py:attribute:: queue_consumer
+      :value: None
+
+
+
+   .. py:attribute:: _reply_events
+      :type:  Dict[str, ConsumeEvent]
+
+
+   .. py:method:: get_reply_event(correlation_id: str)
+
+
+.. py:class:: StandaloneProxyBase(config: dict, context_data=None, timeout=None, reply_listener_cls=SingleThreadedReplyListener)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:class:: ServiceContainer(config)
+
+      Bases: :py:obj:`object`
+
+
+      实现了 :class:`~containers.ServiceContainer` 的最小接口，以供该模块中的子类和 RPC 导入使用。
+
+
+      .. py:attribute:: service_name
+         :value: 'standalone_rpc_proxy'
+
+
+
+      .. py:attribute:: config
+
+
+      .. py:attribute:: shared_extensions
+
+
+
+   .. py:class:: Dummy(expected_exceptions=(), sensitive_arguments=(), **kwargs)
+
+      Bases: :py:obj:`nameko.extensions.Entrypoint`
+
+
+      入口点封装类
+
+      :Parameters:
+          expected_exceptions : 异常类或异常类元组
+              指定可能由调用者引起的异常（例如，通过提供错误的参数）。
+              保存在入口点实例中作为 ``entrypoint.expected_exceptions``，供其他扩展（例如监控系统）后续检查。
+          sensitive_arguments : 字符串或字符串元组
+              将参数或参数的一部分标记为敏感。保存在入口点实例中作为 ``entrypoint.sensitive_arguments``，
+              供其他扩展（例如日志系统）后续检查。
+
+              :seealso: :func:`nameko.utils.get_redacted_args`
+
+
+      .. py:attribute:: method_name
+         :value: 'call'
+
+
+         记录了RPC调用的方法名称 
+
+
+
+
+   .. py:attribute:: _proxy
+      :value: None
+
+
+
+   .. py:attribute:: container
+
+
+   .. py:attribute:: _worker_ctx
+
+
+   .. py:attribute:: _reply_listener
+
+
+   .. py:method:: __enter__()
+
+
+   .. py:method:: __exit__(tpe, value, traceback)
+
+
+   .. py:method:: start()
+
+
+   .. py:method:: stop()
+
+
+.. py:class:: ServiceRpcProxy(service_name, *args, **kwargs)
+
+   Bases: :py:obj:`StandaloneProxyBase`
+
+
+   一个单线程的 RPC 代理，用于命名服务。代理上的方法调用会转换为对服务的 RPC 调用，并直接返回响应。
+
+   允许未托管在 Nameko 中的服务向 Nameko 集群发出 RPC 请求。通常用作上下文管理器，但也可以手动启动和停止。
+
+   *用法*
+
+   作为上下文管理器使用::
+
+       with ServiceRpcProxy('targetservice', config) as proxy:
+           proxy.method()
+
+   等效的调用，手动启动和停止::
+
+       targetservice_proxy = ServiceRpcProxy('targetservice', config)
+       proxy = targetservice_proxy.start()
+       proxy.method()
+       targetservice_proxy.stop()
+
+   如果调用了 ``start()`` ，则必须最终调用 ``stop()`` 以关闭与代理的连接。
+
+   您还可以提供 ``context_data`` ，这是一个数据字典，将被序列化到 AMQP 消息头中，并指定自定义的工作上下文类以序列化它们。
+
+
+   .. py:attribute:: _proxy
+
+
+.. py:class:: ClusterProxy(worker_ctx, reply_listener)
+
+   Bases: :py:obj:`object`
+
+
+   一个单线程的 RPC 代理，用于服务集群。可以通过属性访问各个服务，这些属性返回服务代理。代理上的方法调用会转换为对服务的 RPC 调用，并直接返回响应。
+
+   允许未托管在 Nameko 中的服务向 Nameko 集群发出 RPC 请求。通常用作上下文管理器，但也可以手动启动和停止。
+
+   这类似于服务代理，但可以为所有服务的调用使用一个单独的回复队列，而一组服务代理则会为每个代理拥有一个回复队列。
+
+   *用法*
+
+   作为上下文管理器使用::
+
+       with ClusterRpcProxy(config) as proxy:
+           proxy.service.method()
+           proxy.other_service.method()
+
+   等效的调用，手动启动和停止::
+
+       proxy = ClusterRpcProxy(config)
+       proxy = proxy.start()
+       proxy.targetservice.method()
+       proxy.other_service.method()
+       proxy.stop()
+
+   如果调用了 ``start()`` ，则必须最终调用 ``stop()`` 以关闭与代理的连接。
+
+   您还可以提供 ``context_data`` ，这是一个数据字典，将被序列化到 AMQP 消息头中，并指定自定义的工作上下文类以序列化它们。
+
+   当服务名称在 Python 中不合法时，您也可以使用类似字典的语法::
+
+       with ClusterRpcProxy(config) as proxy:
+           proxy['service-name'].method()
+           proxy['other-service'].method()
+
+
+   .. py:attribute:: _worker_ctx
+
+
+   .. py:attribute:: _reply_listener
+
+
+   .. py:attribute:: _proxies
+
+
+   .. py:method:: __getattr__(name)
+
+
+   .. py:method:: __getitem__(name)
+
+      Enable dict-like access on the proxy.
+
+
+
+.. py:class:: ClusterRpcProxy(*args, **kwargs)
+
+   Bases: :py:obj:`StandaloneProxyBase`
+
+
+   .. py:attribute:: _proxy
+
+

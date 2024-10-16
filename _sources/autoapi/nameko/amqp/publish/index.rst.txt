@@ -1,0 +1,167 @@
+nameko.amqp.publish
+===================
+
+.. py:module:: nameko.amqp.publish
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   nameko.amqp.publish.UndeliverableMessage
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.amqp.publish.Publisher
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.amqp.publish.get_connection
+   nameko.amqp.publish.get_producer
+
+
+Module Contents
+---------------
+
+.. py:exception:: UndeliverableMessage
+
+   Bases: :py:obj:`Exception`
+
+
+   当启用了发布者确认并且消息无法路由或持久存储时抛出的异常。
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:function:: get_connection(amqp_uri, ssl=None, login_method=None, transport_options=None)
+
+.. py:function:: get_producer(amqp_uri, confirms=True, ssl=None, login_method=None, transport_options=None)
+
+.. py:class:: Publisher(amqp_uri, use_confirms=None, serializer=None, compression=None, delivery_mode=None, mandatory=None, priority=None, expiration=None, declare=None, retry=None, retry_policy=None, ssl=None, login_method=None, **publish_kwargs)
+
+   Bases: :py:obj:`object`
+
+
+   用于向 RabbitMQ 发布消息的工具助手。
+
+
+   .. py:attribute:: use_confirms
+      :value: True
+
+
+      为该发布者启用 `confirms <http://www.rabbitmq.com/confirms.html>`_ 。
+
+      发布者将等待来自代理的确认，以确保消息已被接收并适当处理，否则将抛出异常。启用确认会带来性能损耗，但可以保证消息不会丢失，例如由于连接过期导致的丢失。
+
+
+
+   .. py:attribute:: transport_options
+
+      一个用于传递给其他 Kombu 通道实现的附加连接参数的字典。请参考传输文档以了解可用的选项。
+          
+
+
+
+   .. py:attribute:: delivery_mode
+
+      此发布者发布消息的默认投递模式。
+
+
+
+   .. py:attribute:: mandatory
+      :value: False
+
+
+      要求为发布的消息启用 `mandatory <https://www.rabbitmq.com/amqp-0-9-1-reference.html#basic.publish.mandatory>`_ 投递。
+
+
+
+   .. py:attribute:: priority
+      :value: 0
+
+
+      发布消息的优先级值，与 `消费者优先级 <https://www.rabbitmq.com/priority.html>`_ 配合使用 。
+
+
+
+   .. py:attribute:: expiration
+      :value: None
+
+
+      每条消息的 TTL(存活时间), 单位为毫秒。详见 `每条消息 TTL <https://www.rabbitmq.com/ttl.html>`_ 。
+
+
+
+   .. py:attribute:: serializer
+      :value: 'json'
+
+
+      发布消息时使用的序列化器名称。
+
+      必须注册为 `kombu 序列化器 <http://bit.do/kombu_serialization>`_ 。
+
+
+
+   .. py:attribute:: compression
+      :value: None
+
+
+      发布消息时使用的压缩方式名称。
+
+      必须注册为 `kombu 压缩工具 <http://bit.do/kombu-compression>`_ 。
+
+
+
+   .. py:attribute:: retry
+      :value: True
+
+
+      启用自动重试，当由于连接错误导致消息发布失败时。
+
+      根据 :attr:`self.retry_policy` 执行重试。
+
+
+
+   .. py:attribute:: retry_policy
+
+      重试发布消息时应用的策略（如果请求重试）。
+
+      参见 :attr:`self.retry` 。
+
+
+
+   .. py:attribute:: declare
+      :value: []
+
+
+      在发布消息前需要（重新）声明的 Kombu 对象，如 :class:`~kombu.messaging.Queue` 或 :class:`~kombu.messaging.Exchange` 。
+
+
+
+   .. py:attribute:: amqp_uri
+
+
+   .. py:attribute:: ssl
+
+
+   .. py:attribute:: login_method
+
+
+   .. py:attribute:: publish_kwargs
+
+
+   .. py:method:: publish(payload: dict, **kwargs)
+
+      发布一条消息
+
+
+

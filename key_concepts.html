@@ -1,0 +1,560 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="搜索" href="search.html" /><link rel="next" title="安装" href="installation.html" /><link rel="prev" title="什么是 Nameko?" href="what_is_nameko.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>关键概念 - nameko - 一个用于 Python 的微服务框架</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">nameko - 一个用于 Python 的微服务框架</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.svg" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">用户指南</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what_is_nameko.html">什么是 Nameko?</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">关键概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_in_extensions.html">内置扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_in_dependency_providers.html">内置的依赖提供者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_extensions.html">社区</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_extensions.html">编写扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">种示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">API概要</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">更多信息</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about_microservices.html">关于微服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency_injection_benefits.html">依赖注入的好处</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similar_projects.html">类似和相关项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_in_touch.html">联系方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">贡献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发行说明</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">项目链接</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/nameko/nameko">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hellowac/nameko-zh-cn">GitHub 中文文档项目</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nameko.readthedocs.io/en/stable/">readthedocs 英文文档</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nameko.io//">Website</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/nameko/index.html">nameko</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of nameko</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/amqp/index.html">nameko.amqp</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of nameko.amqp</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/amqp/publish/index.html">nameko.amqp.publish</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/cli/index.html">nameko.cli</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of nameko.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/actions/index.html">nameko.cli.actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/backdoor/index.html">nameko.cli.backdoor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/code/index.html">nameko.cli.code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/commands/index.html">nameko.cli.commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/main/index.html">nameko.cli.main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/run/index.html">nameko.cli.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/shell/index.html">nameko.cli.shell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/show_config/index.html">nameko.cli.show_config</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/standalone/index.html">nameko.standalone</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of nameko.standalone</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/standalone/events/index.html">nameko.standalone.events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/standalone/rpc/index.html">nameko.standalone.rpc</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/testing/index.html">nameko.testing</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of nameko.testing</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/pytest/index.html">nameko.testing.pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/rabbit/index.html">nameko.testing.rabbit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/services/index.html">nameko.testing.services</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/utils/index.html">nameko.testing.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/waiting/index.html">nameko.testing.waiting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/websocket/index.html">nameko.testing.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/utils/index.html">nameko.utils</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of nameko.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/utils/concurrency/index.html">nameko.utils.concurrency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/utils/retry/index.html">nameko.utils.retry</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/web/index.html">nameko.web</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of nameko.web</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/handlers/index.html">nameko.web.handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/server/index.html">nameko.web.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/websocket/index.html">nameko.web.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/__main__/index.html">nameko.__main__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/constants/index.html">nameko.constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/containers/index.html">nameko.containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/contextdata/index.html">nameko.contextdata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/dependency_providers/index.html">nameko.dependency_providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/events/index.html">nameko.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/exceptions/index.html">nameko.exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/extensions/index.html">nameko.extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/log_helpers/index.html">nameko.log_helpers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/messaging/index.html">nameko.messaging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/rpc/index.html">nameko.rpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/runners/index.html">nameko.runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/serialization/index.html">nameko.serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/timer/index.html">nameko.timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/key_concepts.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="id1">
+<h1>关键概念<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>本节介绍 Nameko 的核心概念。</p>
+<section id="id2">
+<h2>服务结构<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Nameko 服务只是一个 Python 类。类的方法封装了应用程序逻辑，并将任何 <a class="reference internal" href="#dependencies"><span class="std std-ref">依赖项</span></a> 声明为属性。</p>
+<p>通过 <a class="reference internal" href="#entrypoints"><span class="std std-ref">入口点</span></a> 装饰器，方法向外界公开。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nameko.rpc</span> <span class="kn">import</span> <span class="n">rpc</span><span class="p">,</span> <span class="n">RpcProxy</span>
+
+<span class="k">class</span> <span class="nc">Service</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service&quot;</span>
+
+    <span class="c1"># we depend on the RPC interface of &quot;another_service&quot;</span>
+    <span class="n">other_rpc</span> <span class="o">=</span> <span class="n">RpcProxy</span><span class="p">(</span><span class="s2">&quot;another_service&quot;</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>  <span class="c1"># `method` is exposed over RPC</span>
+    <span class="k">def</span> <span class="nf">method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># application logic goes here</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<section id="entrypoints">
+<span id="id3"></span><h3>入口点<a class="headerlink" href="#entrypoints" title="Link to this heading">¶</a></h3>
+<p>入口点是服务方法的访问通道。它们通常监控外部实体，例如消息队列。当相关事件发生时，入口点可能会“触发”，然后由服务 <a class="reference internal" href="#workers"><span class="std std-ref">worker</span></a> 执行被装饰的方法。</p>
+</section>
+<section id="dependencies">
+<span id="id4"></span><h3>依赖项<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h3>
+<p>大多数服务依赖于自身以外的事物。Nameko 鼓励将这些事物实现为依赖项。</p>
+<p>依赖项是隐藏不属于核心服务逻辑的代码的好机会。依赖项与服务的接口应尽可能简单。</p>
+<p>在服务中声明依赖项是一个好主意，原因有很多 <a class="reference internal" href="dependency_injection_benefits.html#benefits-of-dependency-injection"><span class="std std-ref">好处</span></a>，你应该将其视为服务代码与其他所有内容之间的桥梁。这包括其他服务、外部 API，甚至是数据库。</p>
+</section>
+<section id="worker">
+<span id="workers"></span><h3>Worker<a class="headerlink" href="#worker" title="Link to this heading">¶</a></h3>
+<p>当入口点触发时，会创建一个 worker。worker 只是服务类的一个实例，但依赖声明会被替换为这些依赖的实例（参见 <a class="reference internal" href="#dependency-injection"><span class="std std-ref">依赖注入</span></a> ）。</p>
+<p>需要注意的是，worker 只在执行一个方法时存在——服务在每次调用之间是无状态的，这鼓励使用依赖项。</p>
+<p>一个服务可以同时运行多个 worker，数量上限由用户定义。详细信息请参见 <a class="reference internal" href="#concurrency"><span class="std std-ref">并发</span></a> 。</p>
+</section>
+</section>
+<section id="dependency-injection">
+<span id="id5"></span><h2>依赖注入<a class="headerlink" href="#dependency-injection" title="Link to this heading">¶</a></h2>
+<p>向服务类添加依赖项是声明式的。也就是说，类上的属性是一个声明，而不是 workers 实际可以使用的接口。</p>
+<p>该类属性是一个 <a class="reference internal" href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider" title="nameko.extensions.DependencyProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyProvider</span></code></a> 。它负责提供一个被注入到服务 worker 中的对象。</p>
+<p>依赖提供者实现了一个 <a class="reference internal" href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.get_dependency" title="nameko.extensions.DependencyProvider.get_dependency"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_dependency()</span></code></a> 方法，其结果被注入到新创建的 worker 中。</p>
+<p>worker 的生命周期如下：</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>入口点触发</p></li>
+<li><p>从服务类实例化 worker</p></li>
+<li><p>依赖项注入到 worker 中</p></li>
+<li><p>方法执行</p></li>
+<li><p>worker 被销毁</p></li>
+</ol>
+</div></blockquote>
+<p>在伪代码中，这看起来像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">worker</span> <span class="o">=</span> <span class="n">Service</span><span class="p">()</span>
+<span class="n">worker</span><span class="o">.</span><span class="n">other_rpc</span> <span class="o">=</span> <span class="n">worker</span><span class="o">.</span><span class="n">other_rpc</span><span class="o">.</span><span class="n">get_dependency</span><span class="p">()</span>
+<span class="n">worker</span><span class="o">.</span><span class="n">method</span><span class="p">()</span>
+<span class="k">del</span> <span class="n">worker</span>
+</pre></div>
+</div>
+<p>依赖提供者在服务的整个生命周期内存在，而注入的依赖项可以是每个 worker 唯一的。</p>
+</section>
+<section id="concurrency">
+<span id="id6"></span><h2>并发<a class="headerlink" href="#concurrency" title="Link to this heading">¶</a></h2>
+<p>Nameko 建立在 <a class="reference external" href="http://eventlet.net/">eventlet</a> 库之上，该库通过“绿色线程”提供并发。并发模型是带有隐式让渡的协程。</p>
+<p>隐式让渡依赖于对标准库进行 <a class="reference external" href="http://eventlet.net/doc/patching.html#monkeypatching-the-standard-library">猴子补丁</a>，以在线程等待 I/O 时触发让渡。如果您通过命令行使用 <code class="docutils literal notranslate"><span class="pre">nameko</span> <span class="pre">run</span></code> 托管服务，Nameko 将为您应用猴子补丁。</p>
+<p>每个 worker 在自己的绿色线程中执行。可以根据每个 worker 等待 I/O 的时间调整最大并发 worker 数量。</p>
+<p>worker 是无状态的，因此本质上是线程安全的，但依赖项应确保它们在每个 worker 中是唯一的，或者可以安全地被多个 worker 并发访问。</p>
+<p>请注意，许多使用套接字的 C 扩展，通常被认为是线程安全的，可能与绿色线程不兼容。其中包括 <a class="reference external" href="https://pypi.python.org/pypi/librabbitmq">librabbitmq</a> 、 <a class="reference external" href="http://mysql-python.sourceforge.net/MySQLdb.html">MySQLdb</a> 等。</p>
+</section>
+<section id="extensions">
+<span id="id8"></span><h2>扩展<a class="headerlink" href="#extensions" title="Link to this heading">¶</a></h2>
+<p>所有入口点和依赖提供者都被实现为“扩展”。我们这样称呼它们，因为它们在服务代码之外，但并不是所有服务都需要（例如，一个完全暴露于 AMQP 的服务不会使用 HTTP 入口点）。</p>
+<p>Nameko 具有多种 <a class="reference internal" href="built_in_extensions.html#built-in-extensions"><span class="std std-ref">内置扩展</span></a> ，一些是 <a class="reference internal" href="community_extensions.html#community-extensions"><span class="std std-ref">由社区提供</span></a> ，您也可以 <a class="reference internal" href="writing_extensions.html#writing-extensions"><span class="std std-ref">自己编写</span></a> 。</p>
+</section>
+<section id="running-services">
+<span id="id9"></span><h2>运行服务(Running Services)<a class="headerlink" href="#running-services" title="Link to this heading">¶</a></h2>
+<p>运行服务所需的仅仅是服务类和任何相关的配置。运行一个或多个服务的最简单方法是使用 Nameko CLI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ nameko run module:[ServiceClass]
+</pre></div>
+</div>
+<p>此命令将发现给定 <code class="docutils literal notranslate"><span class="pre">module</span></code>s 中的 Nameko 服务并开始运行它们。您可以选择将其限制为特定的 <code class="docutils literal notranslate"><span class="pre">ServiceClass</span></code>s 。</p>
+<section id="service-containers">
+<span id="containers"></span><h3>服务容器(Service Containers)<a class="headerlink" href="#service-containers" title="Link to this heading">¶</a></h3>
+<p>每个服务类都委托给 <a class="reference internal" href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer" title="nameko.containers.ServiceContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServiceContainer</span></code></a>。容器封装了运行服务所需的所有功能，并且还封装了服务类上的任何 <a class="reference internal" href="#extensions"><span class="std std-ref">扩展</span></a>。</p>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">ServiceContainer</span></code> 运行单个服务：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nameko.containers</span> <span class="kn">import</span> <span class="n">ServiceContainer</span>
+
+<span class="k">class</span> <span class="nc">Service</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service&quot;</span>
+
+<span class="c1"># create a container</span>
+<span class="n">container</span> <span class="o">=</span> <span class="n">ServiceContainer</span><span class="p">(</span><span class="n">Service</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{})</span>
+
+<span class="c1"># ``container.extensions`` exposes all extensions used by the service</span>
+<span class="n">service_extensions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">extensions</span><span class="p">)</span>
+
+<span class="c1"># start service</span>
+<span class="n">container</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># stop service</span>
+<span class="n">container</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="service-runner">
+<span id="runner"></span><h3>服务运行器(Service Runner)<a class="headerlink" href="#service-runner" title="Link to this heading">¶</a></h3>
+<p><a class="reference internal" href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner" title="nameko.runners.ServiceRunner"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServiceRunner</span></code></a> 是对多个容器的一个薄包装，暴露出同时启动和停止所有包装容器的方法。这就是 <code class="docutils literal notranslate"><span class="pre">nameko</span> <span class="pre">run</span></code> 在内部使用的方式，它也可以通过编程构造：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nameko.runners</span> <span class="kn">import</span> <span class="n">ServiceRunner</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.utils</span> <span class="kn">import</span> <span class="n">get_container</span>
+
+<span class="k">class</span> <span class="nc">ServiceA</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service_a&quot;</span>
+
+<span class="k">class</span> <span class="nc">ServiceB</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service_b&quot;</span>
+
+<span class="c1"># create a runner for ServiceA and ServiceB</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">ServiceRunner</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{})</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">add_service</span><span class="p">(</span><span class="n">ServiceA</span><span class="p">)</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">add_service</span><span class="p">(</span><span class="n">ServiceB</span><span class="p">)</span>
+
+<span class="c1"># ``get_container`` will return the container for a particular service</span>
+<span class="n">container_a</span> <span class="o">=</span> <span class="n">get_container</span><span class="p">(</span><span class="n">runner</span><span class="p">,</span> <span class="n">ServiceA</span><span class="p">)</span>
+
+<span class="c1"># start both services</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># stop both services</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>如果您创建自己的运行器而不是使用 <cite>nameko run</cite> ，您还必须应用 eventlet 的 <a class="reference external" href="http://eventlet.net/doc/patching.html#monkeypatching-the-standard-library">monkey patch</a> 。</p>
+<p>有关示例，请参见 <a class="reference internal" href="autoapi/nameko/cli/run/index.html#module-nameko.cli.run" title="nameko.cli.run"><code class="xref py py-mod docutils literal notranslate"><span class="pre">nameko.cli.run</span></code></a> 模块。</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="installation.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">安装</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="what_is_nameko.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">什么是 Nameko?</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2015
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">关键概念</a><ul>
+<li><a class="reference internal" href="#id2">服务结构</a><ul>
+<li><a class="reference internal" href="#entrypoints">入口点</a></li>
+<li><a class="reference internal" href="#dependencies">依赖项</a></li>
+<li><a class="reference internal" href="#worker">Worker</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dependency-injection">依赖注入</a></li>
+<li><a class="reference internal" href="#concurrency">并发</a></li>
+<li><a class="reference internal" href="#extensions">扩展</a></li>
+<li><a class="reference internal" href="#running-services">运行服务(Running Services)</a><ul>
+<li><a class="reference internal" href="#service-containers">服务容器(Service Containers)</a></li>
+<li><a class="reference internal" href="#service-runner">服务运行器(Service Runner)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=ca28820f"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/open_in_new_tab.js?v=d48564ca"></script>
+    </body>
+</html>

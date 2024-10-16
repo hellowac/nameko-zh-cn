@@ -1,0 +1,100 @@
+nameko.testing.rabbit
+=====================
+
+.. py:module:: nameko.testing.rabbit
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.testing.rabbit.Client
+
+
+Module Contents
+---------------
+
+.. py:class:: Client(uri)
+
+   Bases: :py:obj:`object`
+
+
+   Pyrabbit replacement using requests instead of httplib2 
+
+
+   .. py:attribute:: uri
+
+
+   .. py:attribute:: _base_url
+
+
+   .. py:attribute:: _session
+
+
+   .. py:attribute:: auth
+
+
+   .. py:method:: _build_url(args)
+
+
+   .. py:method:: _request(method, *args, **kwargs)
+
+
+   .. py:method:: _get(*args, **kwargs)
+
+
+   .. py:method:: _put(*args, **kwargs)
+
+
+   .. py:method:: _delete(*args, **kwargs)
+
+
+   .. py:method:: _post(*args, **kwargs)
+
+
+   .. py:method:: _verify_api_connection()
+
+
+   .. py:method:: get_connections()
+
+
+   .. py:method:: delete_connection(name)
+
+
+   .. py:method:: get_exchanges(vhost)
+
+
+   .. py:method:: get_all_vhosts()
+
+
+   .. py:method:: create_vhost(vhost)
+
+
+   .. py:method:: delete_vhost(vhost)
+
+
+   .. py:method:: set_vhost_permissions(vhost, username, configure, read, write)
+
+
+   .. py:method:: get_queue(vhost, name)
+
+
+   .. py:method:: create_queue(vhost, name, **properties)
+
+
+   .. py:method:: get_queues(vhost)
+
+
+   .. py:method:: get_queue_bindings(vhost, name)
+
+
+   .. py:method:: create_queue_binding(vhost, exchange, queue, routing_key)
+
+
+   .. py:method:: publish(vhost, name, routing_key, payload, properties=None)
+
+
+   .. py:method:: get_messages(vhost, name, count=1, requeue=False)
+
+

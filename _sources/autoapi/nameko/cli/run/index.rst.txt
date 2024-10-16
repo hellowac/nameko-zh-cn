@@ -1,0 +1,67 @@
+nameko.cli.run
+==============
+
+.. py:module:: nameko.cli.run
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.cli.run.logger
+   nameko.cli.run.MISSING_MODULE_TEMPLATE
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.cli.run.is_type
+   nameko.cli.run.is_entrypoint
+   nameko.cli.run.import_service
+   nameko.cli.run.setup_backdoor
+   nameko.cli.run.run
+   nameko.cli.run.main
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:data:: MISSING_MODULE_TEMPLATE
+   :value: "^No module named '?{}'?$"
+
+
+.. py:function:: is_type(obj: Any)
+
+   判断某个未知对象是否为 类
+
+
+.. py:function:: is_entrypoint(method: Any)
+
+   判断某个函数是否为入口点
+
+
+.. py:function:: import_service(module_name: str)
+
+   导入基于字符串路径的服务类 
+
+
+.. py:function:: setup_backdoor(runner: nameko.runners.ServiceRunner, port: int)
+
+   启动 后门
+
+
+.. py:function:: run(services: List[Type], config: dict, backdoor_port: Optional[int] = None)
+
+   基于配置，运行指定的服务类列表 
+
+
+.. py:function:: main(args: argparse.Namespace)
+
+   args = Namespace(services=['asd'], config='', broker='pyamqp://guest:guest@localhost', backdoor_port=None, main=<function Run.main at 0x70664892feb0>)
+
+

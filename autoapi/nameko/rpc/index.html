@@ -1,0 +1,995 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="索引" href="../../../genindex.html" /><link rel="search" title="搜索" href="../../../search.html" /><link rel="next" title="nameko.runners" href="../runners/index.html" /><link rel="prev" title="nameko.messaging" href="../messaging/index.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>nameko.rpc - nameko - 一个用于 Python 的微服务框架</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">nameko - 一个用于 Python 的微服务框架</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../../_static/logo.svg" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">用户指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../what_is_nameko.html">什么是 Nameko?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../key_concepts.html">关键概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../built_in_extensions.html">内置扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../built_in_dependency_providers.html">内置的依赖提供者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community_extensions.html">社区</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testing.html">测试服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../writing_extensions.html">编写扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">种示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc.html">API概要</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">更多信息</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about_microservices.html">关于微服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dependency_injection_benefits.html">依赖注入的好处</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../similar_projects.html">类似和相关项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_in_touch.html">联系方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">贡献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">许可</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">发行说明</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">项目链接</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/nameko/nameko">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hellowac/nameko-zh-cn">GitHub 中文文档项目</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nameko.readthedocs.io/en/stable/">readthedocs 英文文档</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nameko.io//">Website</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="../index.html">nameko</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of nameko</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../amqp/index.html">nameko.amqp</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of nameko.amqp</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../amqp/publish/index.html">nameko.amqp.publish</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../cli/index.html">nameko.cli</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of nameko.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../cli/actions/index.html">nameko.cli.actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cli/backdoor/index.html">nameko.cli.backdoor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cli/code/index.html">nameko.cli.code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cli/commands/index.html">nameko.cli.commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cli/main/index.html">nameko.cli.main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cli/run/index.html">nameko.cli.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cli/shell/index.html">nameko.cli.shell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cli/show_config/index.html">nameko.cli.show_config</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../standalone/index.html">nameko.standalone</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of nameko.standalone</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../standalone/events/index.html">nameko.standalone.events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../standalone/rpc/index.html">nameko.standalone.rpc</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../testing/index.html">nameko.testing</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of nameko.testing</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../testing/pytest/index.html">nameko.testing.pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../testing/rabbit/index.html">nameko.testing.rabbit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../testing/services/index.html">nameko.testing.services</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../testing/utils/index.html">nameko.testing.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../testing/waiting/index.html">nameko.testing.waiting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../testing/websocket/index.html">nameko.testing.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../utils/index.html">nameko.utils</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of nameko.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../utils/concurrency/index.html">nameko.utils.concurrency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../utils/retry/index.html">nameko.utils.retry</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../web/index.html">nameko.web</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of nameko.web</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../web/handlers/index.html">nameko.web.handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../web/server/index.html">nameko.web.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../web/websocket/index.html">nameko.web.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../__main__/index.html">nameko.__main__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../constants/index.html">nameko.constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../containers/index.html">nameko.containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contextdata/index.html">nameko.contextdata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependency_providers/index.html">nameko.dependency_providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events/index.html">nameko.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exceptions/index.html">nameko.exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../extensions/index.html">nameko.extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../log_helpers/index.html">nameko.log_helpers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messaging/index.html">nameko.messaging</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">nameko.rpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../runners/index.html">nameko.runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../serialization/index.html">nameko.serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../timer/index.html">nameko.timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../../../_sources/autoapi/nameko/rpc/index.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="module-nameko.rpc">
+<span id="nameko-rpc"></span><h1>nameko.rpc<a class="headerlink" href="#module-nameko.rpc" title="Link to this heading">¶</a></h1>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc._log" title="nameko.rpc._log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_log</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nameko.rpc.RPC_QUEUE_TEMPLATE" title="nameko.rpc.RPC_QUEUE_TEMPLATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RPC_QUEUE_TEMPLATE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE" title="nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RPC_REPLY_QUEUE_TEMPLATE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nameko.rpc.RPC_REPLY_QUEUE_TTL" title="nameko.rpc.RPC_REPLY_QUEUE_TTL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RPC_REPLY_QUEUE_TTL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc.rpc" title="nameko.rpc.rpc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rpc</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc.RpcConsumer" title="nameko.rpc.RpcConsumer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RpcConsumer</span></code></a></p></td>
+<td><p>请注意，<cite>Extension.__init__</cite> 在 <cite>bind</cite> 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 <cite>setup</cite>。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nameko.rpc.Rpc" title="nameko.rpc.Rpc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rpc</span></code></a></p></td>
+<td><p>入口点封装类</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc.Responder" title="nameko.rpc.Responder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Responder</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nameko.rpc.ReplyListener" title="nameko.rpc.ReplyListener"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReplyListener</span></code></a></p></td>
+<td><p>请注意，<cite>Extension.__init__</cite> 在 <cite>bind</cite> 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 <cite>setup</cite>。</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc.RpcProxy" title="nameko.rpc.RpcProxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RpcProxy</span></code></a></p></td>
+<td><p>请注意，<cite>Extension.__init__</cite> 在 <cite>bind</cite> 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 <cite>setup</cite>。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nameko.rpc.ServiceProxy" title="nameko.rpc.ServiceProxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ServiceProxy</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc.RpcReply" title="nameko.rpc.RpcReply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RpcReply</span></code></a></p></td>
+<td><p>解析RPC响应内容</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nameko.rpc.MethodProxy" title="nameko.rpc.MethodProxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MethodProxy</span></code></a></p></td>
+<td><p>RPC 方法代理</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nameko.rpc.get_rpc_exchange" title="nameko.rpc.get_rpc_exchange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rpc_exchange</span></code></a>(config)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="nameko.rpc._log">
+<span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">_log</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#_log"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc._log" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="nameko.rpc.RPC_QUEUE_TEMPLATE">
+<span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">RPC_QUEUE_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rpc-{}'</span></em><a class="reference internal" href="../../../_modules/nameko/rpc.html#RPC_QUEUE_TEMPLATE"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RPC_QUEUE_TEMPLATE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE">
+<span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">RPC_REPLY_QUEUE_TEMPLATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rpc.reply-{}-{}'</span></em><a class="reference internal" href="../../../_modules/nameko/rpc.html#RPC_REPLY_QUEUE_TEMPLATE"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="nameko.rpc.RPC_REPLY_QUEUE_TTL">
+<span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">RPC_REPLY_QUEUE_TTL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">300000</span></em><a class="reference internal" href="../../../_modules/nameko/rpc.html#RPC_REPLY_QUEUE_TTL"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RPC_REPLY_QUEUE_TTL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nameko.rpc.get_rpc_exchange">
+<span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">get_rpc_exchange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#get_rpc_exchange"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.get_rpc_exchange" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">RpcConsumer</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../extensions/index.html#nameko.extensions.SharedExtension" title="nameko.extensions.SharedExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameko.extensions.SharedExtension</span></code></a>, <a class="reference internal" href="../extensions/index.html#nameko.extensions.ProviderCollector" title="nameko.extensions.ProviderCollector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameko.extensions.ProviderCollector</span></code></a></p>
+<p>请注意，<cite>Extension.__init__</cite> 在 <cite>bind</cite> 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 <cite>setup</cite>。</p>
+<p>此外，<cite>bind</cite> 和 <cite>iter_extensions</cite> 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 <cite>ServiceContainer.__init__</cite> 和 <cite>ServiceContainer.setup</cite> 之间。</p>
+<p><cite>Extension.container</cite> 属性提供对绑定到该扩展的 <cite>nameko.containers.ServiceContainer</cite> 实例的访问，否则为 <cite>None</cite>。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.queue_consumer">
+<span class="sig-name descname"><span class="pre">queue_consumer</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.queue_consumer"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.queue_consumer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer._unregistering_providers">
+<span class="sig-name descname"><span class="pre">_unregistering_providers</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer._unregistering_providers"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer._unregistering_providers" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer._unregistered_from_queue_consumer">
+<span class="sig-name descname"><span class="pre">_unregistered_from_queue_consumer</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer._unregistered_from_queue_consumer"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer._unregistered_from_queue_consumer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.queue">
+<span class="sig-name descname"><span class="pre">queue</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.queue"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.queue" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.setup"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.setup" title="Link to this definition">¶</a></dt>
+<dd><p>在容器启动之前调用了绑定的扩展。</p>
+<p>扩展应在此处进行任何必要的初始化。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.stop"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.stop" title="Link to this definition">¶</a></dt>
+<dd><p>停止 RpcConsumer。</p>
+<p>当最后一个 Rpc 子类从队列消费者中注销时，RpcConsumer 将正常注销。如果没有注册任何提供者，则我们应该在被请求停止时立即从队列消费者注销。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.unregister_provider">
+<span class="sig-name descname"><span class="pre">unregister_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.unregister_provider"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.unregister_provider" title="Link to this definition">¶</a></dt>
+<dd><p>注销提供者。</p>
+<p>阻塞直到此 RpcConsumer 从其队列消费者中注销，这只有在所有提供者都请求注销时才会发生。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.get_provider_for_method">
+<span class="sig-name descname"><span class="pre">get_provider_for_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routing_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.get_provider_for_method"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.get_provider_for_method" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.handle_message">
+<span class="sig-name descname"><span class="pre">handle_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.handle_message"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.handle_message" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.handle_result">
+<span class="sig-name descname"><span class="pre">handle_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.handle_result"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.handle_result" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcConsumer.requeue_message">
+<span class="sig-name descname"><span class="pre">requeue_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcConsumer.requeue_message"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcConsumer.requeue_message" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.Rpc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">Rpc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_exceptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensitive_arguments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Rpc"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Rpc" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../extensions/index.html#nameko.extensions.Entrypoint" title="nameko.extensions.Entrypoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameko.extensions.Entrypoint</span></code></a>, <a class="reference internal" href="../messaging/index.html#nameko.messaging.HeaderDecoder" title="nameko.messaging.HeaderDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameko.messaging.HeaderDecoder</span></code></a></p>
+<p>入口点封装类</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>expected_exceptions<span class="classifier">异常类或异常类元组</span></dt><dd><p>指定可能由调用者引起的异常（例如，通过提供错误的参数）。
+保存在入口点实例中作为 <code class="docutils literal notranslate"><span class="pre">entrypoint.expected_exceptions</span></code>，供其他扩展（例如监控系统）后续检查。</p>
+</dd>
+<dt>sensitive_arguments<span class="classifier">字符串或字符串元组</span></dt><dd><p>将参数或参数的一部分标记为敏感。保存在入口点实例中作为 <code class="docutils literal notranslate"><span class="pre">entrypoint.sensitive_arguments</span></code>，
+供其他扩展（例如日志系统）后续检查。</p>
+<dl class="field-list simple">
+<dt class="field-odd">seealso<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../utils/index.html#nameko.utils.get_redacted_args" title="nameko.utils.get_redacted_args"><code class="xref py py-func docutils literal notranslate"><span class="pre">nameko.utils.get_redacted_args()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Rpc.rpc_consumer">
+<span class="sig-name descname"><span class="pre">rpc_consumer</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Rpc.rpc_consumer"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Rpc.rpc_consumer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.Rpc.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Rpc.setup"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Rpc.setup" title="Link to this definition">¶</a></dt>
+<dd><p>在容器启动之前调用了绑定的扩展。</p>
+<p>扩展应在此处进行任何必要的初始化。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.Rpc.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Rpc.stop"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Rpc.stop" title="Link to this definition">¶</a></dt>
+<dd><p>在服务容器开始关闭时调用。</p>
+<p>扩展应在此处执行任何优雅的关闭操作。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.Rpc.handle_message">
+<span class="sig-name descname"><span class="pre">handle_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Rpc.handle_message"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Rpc.handle_message" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.Rpc.handle_result">
+<span class="sig-name descname"><span class="pre">handle_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worker_ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Rpc.handle_result"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Rpc.handle_result" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="nameko.rpc.rpc">
+<span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">rpc</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#rpc"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.rpc" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.Responder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">Responder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amqp_uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exchange</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">login_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.publisher_cls">
+<span class="sig-name descname"><span class="pre">publisher_cls</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.publisher_cls"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.publisher_cls" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.amqp_uri">
+<span class="sig-name descname"><span class="pre">amqp_uri</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.amqp_uri"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.amqp_uri" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.serializer">
+<span class="sig-name descname"><span class="pre">serializer</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.serializer"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.serializer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.message">
+<span class="sig-name descname"><span class="pre">message</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.message"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.message" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.exchange">
+<span class="sig-name descname"><span class="pre">exchange</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.exchange"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.exchange" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.ssl">
+<span class="sig-name descname"><span class="pre">ssl</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.ssl"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.ssl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.login_method">
+<span class="sig-name descname"><span class="pre">login_method</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.login_method"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.login_method" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.Responder.send_response">
+<span class="sig-name descname"><span class="pre">send_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#Responder.send_response"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.Responder.send_response" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.ReplyListener">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">ReplyListener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ReplyListener"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ReplyListener" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../extensions/index.html#nameko.extensions.SharedExtension" title="nameko.extensions.SharedExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameko.extensions.SharedExtension</span></code></a></p>
+<p>请注意，<cite>Extension.__init__</cite> 在 <cite>bind</cite> 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 <cite>setup</cite>。</p>
+<p>此外，<cite>bind</cite> 和 <cite>iter_extensions</cite> 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 <cite>ServiceContainer.__init__</cite> 和 <cite>ServiceContainer.setup</cite> 之间。</p>
+<p><cite>Extension.container</cite> 属性提供对绑定到该扩展的 <cite>nameko.containers.ServiceContainer</cite> 实例的访问，否则为 <cite>None</cite>。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.ReplyListener.queue_consumer">
+<span class="sig-name descname"><span class="pre">queue_consumer</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ReplyListener.queue_consumer"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ReplyListener.queue_consumer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.ReplyListener._reply_events">
+<span class="sig-name descname"><span class="pre">_reply_events</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ReplyListener._reply_events"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ReplyListener._reply_events" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.ReplyListener.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ReplyListener.setup"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ReplyListener.setup" title="Link to this definition">¶</a></dt>
+<dd><p>在容器启动之前调用了绑定的扩展。</p>
+<p>扩展应在此处进行任何必要的初始化。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.ReplyListener.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ReplyListener.stop"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ReplyListener.stop" title="Link to this definition">¶</a></dt>
+<dd><p>在服务容器开始关闭时调用。</p>
+<p>扩展应在此处执行任何优雅的关闭操作。</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.ReplyListener.get_reply_event">
+<span class="sig-name descname"><span class="pre">get_reply_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ReplyListener.get_reply_event"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ReplyListener.get_reply_event" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.ReplyListener.handle_message">
+<span class="sig-name descname"><span class="pre">handle_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ReplyListener.handle_message"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ReplyListener.handle_message" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.RpcProxy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">RpcProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_service</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcProxy"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcProxy" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../extensions/index.html#nameko.extensions.DependencyProvider" title="nameko.extensions.DependencyProvider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameko.extensions.DependencyProvider</span></code></a></p>
+<p>请注意，<cite>Extension.__init__</cite> 在 <cite>bind</cite> 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 <cite>setup</cite>。</p>
+<p>此外，<cite>bind</cite> 和 <cite>iter_extensions</cite> 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 <cite>ServiceContainer.__init__</cite> 和 <cite>ServiceContainer.setup</cite> 之间。</p>
+<p><cite>Extension.container</cite> 属性提供对绑定到该扩展的 <cite>nameko.containers.ServiceContainer</cite> 实例的访问，否则为 <cite>None</cite>。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcProxy.rpc_reply_listener">
+<span class="sig-name descname"><span class="pre">rpc_reply_listener</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcProxy.rpc_reply_listener"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcProxy.rpc_reply_listener" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcProxy.target_service">
+<span class="sig-name descname"><span class="pre">target_service</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcProxy.target_service"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcProxy.target_service" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcProxy.options">
+<span class="sig-name descname"><span class="pre">options</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcProxy.options"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcProxy.options" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcProxy.get_dependency">
+<span class="sig-name descname"><span class="pre">get_dependency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">worker_ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcProxy.get_dependency"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcProxy.get_dependency" title="Link to this definition">¶</a></dt>
+<dd><p>在工作者执行之前调用。依赖提供者应返回一个对象，以便容器将其注入到工作者实例中。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.ServiceProxy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">ServiceProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">worker_ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reply_listener</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nameko.rpc.ReplyListener" title="nameko.rpc.ReplyListener"><span class="pre">ReplyListener</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ServiceProxy"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ServiceProxy" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.ServiceProxy.worker_ctx">
+<span class="sig-name descname"><span class="pre">worker_ctx</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ServiceProxy.worker_ctx"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ServiceProxy.worker_ctx" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.ServiceProxy.service_name">
+<span class="sig-name descname"><span class="pre">service_name</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ServiceProxy.service_name"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ServiceProxy.service_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.ServiceProxy.reply_listener">
+<span class="sig-name descname"><span class="pre">reply_listener</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ServiceProxy.reply_listener"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ServiceProxy.reply_listener" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.ServiceProxy.options">
+<span class="sig-name descname"><span class="pre">options</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ServiceProxy.options"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ServiceProxy.options" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.ServiceProxy.__getattr__">
+<span class="sig-name descname"><span class="pre">__getattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#ServiceProxy.__getattr__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.ServiceProxy.__getattr__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.RpcReply">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">RpcReply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reply_event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">eventlet.event.Event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcReply"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcReply" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>解析RPC响应内容</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcReply.resp_body">
+<span class="sig-name descname"><span class="pre">resp_body</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcReply.resp_body"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcReply.resp_body" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.RpcReply.reply_event">
+<span class="sig-name descname"><span class="pre">reply_event</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcReply.reply_event"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcReply.reply_event" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.RpcReply.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#RpcReply.result"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.RpcReply.result" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nameko.rpc.</span></span><span class="sig-name descname"><span class="pre">MethodProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">worker_ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reply_listener</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nameko.rpc.ReplyListener" title="nameko.rpc.ReplyListener"><span class="pre">ReplyListener</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../messaging/index.html#nameko.messaging.HeaderEncoder" title="nameko.messaging.HeaderEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameko.messaging.HeaderEncoder</span></code></a></p>
+<p>RPC 方法代理</p>
+<p>请注意，抛出 <cite>UnknownService</cite> 异常的机制依赖于代理中启用发布确认。</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.publisher_cls">
+<span class="sig-name descname"><span class="pre">publisher_cls</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.publisher_cls"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.publisher_cls" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.worker_ctx">
+<span class="sig-name descname"><span class="pre">worker_ctx</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.worker_ctx"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.worker_ctx" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.service_name">
+<span class="sig-name descname"><span class="pre">service_name</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.service_name"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.service_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.method_name">
+<span class="sig-name descname"><span class="pre">method_name</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.method_name"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.method_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.reply_listener">
+<span class="sig-name descname"><span class="pre">reply_listener</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.reply_listener"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.reply_listener" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.compat_attrs">
+<span class="sig-name descname"><span class="pre">compat_attrs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('retry',</span> <span class="pre">'retry_policy',</span> <span class="pre">'use_confirms')</span></em><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.compat_attrs"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.compat_attrs" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.serializer">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serializer</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.serializer"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.serializer" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">用于发布消息有效负载时的默认序列化器。</span></span></dt>
+<dd><p>必须作为一个
+<a class="reference external" href="http://bit.do/kombu_serialization">kombu 序列化器</a> 注册。</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.publisher">
+<span class="sig-name descname"><span class="pre">publisher</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.publisher"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.publisher" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.__call__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.__call__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.container">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.container"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.container" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.amqp_uri">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amqp_uri</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.amqp_uri"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.amqp_uri" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.ssl">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ssl</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.ssl"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.ssl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.login_method">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">login_method</span></span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.login_method"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.login_method" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.call_async">
+<span class="sig-name descname"><span class="pre">call_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.call_async"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.call_async" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy._call">
+<span class="sig-name descname"><span class="pre">_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy._call"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy._call" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nameko.rpc.MethodProxy.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/nameko/rpc.html#MethodProxy.__repr__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#nameko.rpc.MethodProxy.__repr__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../runners/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">nameko.runners</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../messaging/index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">nameko.messaging</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2015
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">nameko.rpc</a><ul>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#nameko.rpc._log"><code class="docutils literal notranslate"><span class="pre">_log</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RPC_QUEUE_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">RPC_QUEUE_TEMPLATE</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">RPC_REPLY_QUEUE_TEMPLATE</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RPC_REPLY_QUEUE_TTL"><code class="docutils literal notranslate"><span class="pre">RPC_REPLY_QUEUE_TTL</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.get_rpc_exchange"><code class="docutils literal notranslate"><span class="pre">get_rpc_exchange()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer"><code class="docutils literal notranslate"><span class="pre">RpcConsumer</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.queue_consumer"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.queue_consumer</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer._unregistering_providers"><code class="docutils literal notranslate"><span class="pre">RpcConsumer._unregistering_providers</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer._unregistered_from_queue_consumer"><code class="docutils literal notranslate"><span class="pre">RpcConsumer._unregistered_from_queue_consumer</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.queue"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.queue</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.setup"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.setup()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.stop"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.stop()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.unregister_provider"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.unregister_provider()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.get_provider_for_method"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.get_provider_for_method()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.handle_message"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.handle_message()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.handle_result"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.handle_result()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcConsumer.requeue_message"><code class="docutils literal notranslate"><span class="pre">RpcConsumer.requeue_message()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nameko.rpc.Rpc"><code class="docutils literal notranslate"><span class="pre">Rpc</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.Rpc.rpc_consumer"><code class="docutils literal notranslate"><span class="pre">Rpc.rpc_consumer</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Rpc.setup"><code class="docutils literal notranslate"><span class="pre">Rpc.setup()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Rpc.stop"><code class="docutils literal notranslate"><span class="pre">Rpc.stop()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Rpc.handle_message"><code class="docutils literal notranslate"><span class="pre">Rpc.handle_message()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Rpc.handle_result"><code class="docutils literal notranslate"><span class="pre">Rpc.handle_result()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nameko.rpc.rpc"><code class="docutils literal notranslate"><span class="pre">rpc</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder"><code class="docutils literal notranslate"><span class="pre">Responder</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.Responder.publisher_cls"><code class="docutils literal notranslate"><span class="pre">Responder.publisher_cls</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder.amqp_uri"><code class="docutils literal notranslate"><span class="pre">Responder.amqp_uri</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder.serializer"><code class="docutils literal notranslate"><span class="pre">Responder.serializer</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder.message"><code class="docutils literal notranslate"><span class="pre">Responder.message</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder.exchange"><code class="docutils literal notranslate"><span class="pre">Responder.exchange</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder.ssl"><code class="docutils literal notranslate"><span class="pre">Responder.ssl</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder.login_method"><code class="docutils literal notranslate"><span class="pre">Responder.login_method</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.Responder.send_response"><code class="docutils literal notranslate"><span class="pre">Responder.send_response()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nameko.rpc.ReplyListener"><code class="docutils literal notranslate"><span class="pre">ReplyListener</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.ReplyListener.queue_consumer"><code class="docutils literal notranslate"><span class="pre">ReplyListener.queue_consumer</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ReplyListener._reply_events"><code class="docutils literal notranslate"><span class="pre">ReplyListener._reply_events</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ReplyListener.setup"><code class="docutils literal notranslate"><span class="pre">ReplyListener.setup()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ReplyListener.stop"><code class="docutils literal notranslate"><span class="pre">ReplyListener.stop()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ReplyListener.get_reply_event"><code class="docutils literal notranslate"><span class="pre">ReplyListener.get_reply_event()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ReplyListener.handle_message"><code class="docutils literal notranslate"><span class="pre">ReplyListener.handle_message()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nameko.rpc.RpcProxy"><code class="docutils literal notranslate"><span class="pre">RpcProxy</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.RpcProxy.rpc_reply_listener"><code class="docutils literal notranslate"><span class="pre">RpcProxy.rpc_reply_listener</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcProxy.target_service"><code class="docutils literal notranslate"><span class="pre">RpcProxy.target_service</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcProxy.options"><code class="docutils literal notranslate"><span class="pre">RpcProxy.options</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcProxy.get_dependency"><code class="docutils literal notranslate"><span class="pre">RpcProxy.get_dependency()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nameko.rpc.ServiceProxy"><code class="docutils literal notranslate"><span class="pre">ServiceProxy</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.ServiceProxy.worker_ctx"><code class="docutils literal notranslate"><span class="pre">ServiceProxy.worker_ctx</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ServiceProxy.service_name"><code class="docutils literal notranslate"><span class="pre">ServiceProxy.service_name</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ServiceProxy.reply_listener"><code class="docutils literal notranslate"><span class="pre">ServiceProxy.reply_listener</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ServiceProxy.options"><code class="docutils literal notranslate"><span class="pre">ServiceProxy.options</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.ServiceProxy.__getattr__"><code class="docutils literal notranslate"><span class="pre">ServiceProxy.__getattr__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nameko.rpc.RpcReply"><code class="docutils literal notranslate"><span class="pre">RpcReply</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.RpcReply.resp_body"><code class="docutils literal notranslate"><span class="pre">RpcReply.resp_body</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcReply.reply_event"><code class="docutils literal notranslate"><span class="pre">RpcReply.reply_event</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.RpcReply.result"><code class="docutils literal notranslate"><span class="pre">RpcReply.result()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy"><code class="docutils literal notranslate"><span class="pre">MethodProxy</span></code></a><ul>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.publisher_cls"><code class="docutils literal notranslate"><span class="pre">MethodProxy.publisher_cls</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.worker_ctx"><code class="docutils literal notranslate"><span class="pre">MethodProxy.worker_ctx</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.service_name"><code class="docutils literal notranslate"><span class="pre">MethodProxy.service_name</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.method_name"><code class="docutils literal notranslate"><span class="pre">MethodProxy.method_name</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.reply_listener"><code class="docutils literal notranslate"><span class="pre">MethodProxy.reply_listener</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.compat_attrs"><code class="docutils literal notranslate"><span class="pre">MethodProxy.compat_attrs</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.serializer"><code class="docutils literal notranslate"><span class="pre">MethodProxy.serializer</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.publisher"><code class="docutils literal notranslate"><span class="pre">MethodProxy.publisher</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.__call__"><code class="docutils literal notranslate"><span class="pre">MethodProxy.__call__()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.container"><code class="docutils literal notranslate"><span class="pre">MethodProxy.container</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.amqp_uri"><code class="docutils literal notranslate"><span class="pre">MethodProxy.amqp_uri</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.ssl"><code class="docutils literal notranslate"><span class="pre">MethodProxy.ssl</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.login_method"><code class="docutils literal notranslate"><span class="pre">MethodProxy.login_method</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.call_async"><code class="docutils literal notranslate"><span class="pre">MethodProxy.call_async()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy._call"><code class="docutils literal notranslate"><span class="pre">MethodProxy._call()</span></code></a></li>
+<li><a class="reference internal" href="#nameko.rpc.MethodProxy.__repr__"><code class="docutils literal notranslate"><span class="pre">MethodProxy.__repr__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=ca28820f"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/open_in_new_tab.js?v=d48564ca"></script>
+    </body>
+</html>

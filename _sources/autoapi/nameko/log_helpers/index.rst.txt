@@ -1,0 +1,32 @@
+nameko.log_helpers
+==================
+
+.. py:module:: nameko.log_helpers
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.log_helpers.make_timing_logger
+
+
+Module Contents
+---------------
+
+.. py:function:: make_timing_logger(logger, precision=3, level=logging.DEBUG)
+
+   返回一个计时记录器。
+
+   用法::
+
+       >>> logger = logging.getLogger('foobar')
+       >>> log_time = make_timing_logger(
+       ...     logger, level=logging.INFO, precision=2)
+       >>>
+       >>> with log_time("hello %s", "world"):
+       ...     time.sleep(1)
+       INFO:foobar:hello world in 1.00s
+
+

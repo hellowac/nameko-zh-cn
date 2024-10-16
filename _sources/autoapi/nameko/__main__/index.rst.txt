@@ -1,0 +1,6 @@
+nameko.__main__
+===============
+
+.. py:module:: nameko.__main__
+
+

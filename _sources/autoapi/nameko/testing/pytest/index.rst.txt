@@ -1,0 +1,123 @@
+nameko.testing.pytest
+=====================
+
+.. py:module:: nameko.testing.pytest
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.testing.pytest.parse_config_option
+   nameko.testing.pytest.pytest_addoption
+   nameko.testing.pytest.pytest_configure
+   nameko.testing.pytest.pytest_sessionstart
+   nameko.testing.pytest.empty_config
+   nameko.testing.pytest.mock_container
+   nameko.testing.pytest.rabbit_manager
+   nameko.testing.pytest.vhost_pipeline
+   nameko.testing.pytest.rabbit_config
+   nameko.testing.pytest.rabbit_ssl_config
+   nameko.testing.pytest.amqp_uri
+   nameko.testing.pytest.fast_teardown
+   nameko.testing.pytest.get_message_from_queue
+   nameko.testing.pytest.container_factory
+   nameko.testing.pytest.runner_factory
+   nameko.testing.pytest.predictable_call_ids
+   nameko.testing.pytest.web_config
+   nameko.testing.pytest.web_config_port
+   nameko.testing.pytest.web_session
+   nameko.testing.pytest.websocket
+
+
+Module Contents
+---------------
+
+.. py:function:: parse_config_option(text)
+
+.. py:function:: pytest_addoption(parser)
+
+.. py:function:: pytest_configure(config)
+
+.. py:function:: pytest_sessionstart(session)
+
+.. py:function:: empty_config()
+
+.. py:function:: mock_container(request, empty_config)
+
+.. py:function:: rabbit_manager(request)
+
+.. py:function:: vhost_pipeline(request, rabbit_manager)
+
+.. py:function:: rabbit_config(request, vhost_pipeline, rabbit_manager)
+
+.. py:function:: rabbit_ssl_config(request, rabbit_config)
+
+.. py:function:: amqp_uri(rabbit_config)
+
+.. py:function:: fast_teardown(request)
+
+   This fixture fixes the order of the `container_factory`, `runner_factory`
+   and `rabbit_config` fixtures to get the fastest possible teardown of tests
+   that use them.
+
+   Without this fixture, the teardown order depends on the fixture resolution
+   defined by the test, for example::
+
+   def test_foo(container_factory, rabbit_config):
+       pass  # rabbit_config tears down first
+
+   def test_bar(rabbit_config, container_factory):
+       pass  # container_factory tears down first
+
+   This fixture ensures the teardown order is:
+
+       1. `fast_teardown`  (this fixture)
+       2. `rabbit_config`
+       3. `container_factory` / `runner_factory`
+
+   That is, `rabbit_config` teardown, which removes the vhost created for
+   the test, happens *before* the consumers are stopped.
+
+   Deleting the vhost causes the broker to sends a "basic-cancel" message
+   to any connected consumers, which will include the consumers in all
+   containers created by the `container_factory` and `runner_factory`
+   fixtures.
+
+   This speeds up test teardown because the "basic-cancel" breaks
+   the consumers' `drain_events` loop (http://bit.do/kombu-drain-events)
+   which would otherwise wait for up to a second for the socket read to time
+   out before gracefully shutting down.
+
+   For even faster teardown, we monkeypatch the consumers to ensure they
+   don't try to reconnect between the "basic-cancel" and being explicitly
+   stopped when their container is killed.
+
+   In older versions of RabbitMQ, the monkeypatch also protects against a
+   race-condition that can lead to hanging tests.
+
+   Modern RabbitMQ raises a `NotAllowed` exception if you try to connect to
+   a vhost that doesn't exist, but older versions (including 3.4.3, used by
+   Travis) just raise a `socket.error`. This is classed as a recoverable
+   error, and consumers attempt to reconnect. Kombu's reconnection code blocks
+   until a connection is established, so consumers that attempt to reconnect
+   before being killed get stuck there.
+
+
+.. py:function:: get_message_from_queue(amqp_uri)
+
+.. py:function:: container_factory()
+
+.. py:function:: runner_factory()
+
+.. py:function:: predictable_call_ids(request)
+
+.. py:function:: web_config(empty_config)
+
+.. py:function:: web_config_port(web_config)
+
+.. py:function:: web_session(web_config_port)
+
+.. py:function:: websocket(web_config_port)
+

@@ -1,0 +1,2366 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="#" /><link rel="search" title="搜索" href="search.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 --><title>索引 - nameko - 一个用于 Python 的微服务框架</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">nameko - 一个用于 Python 的微服务框架</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.svg" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">用户指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="what_is_nameko.html">什么是 Nameko?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="key_concepts.html">关键概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_in_extensions.html">内置扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_in_dependency_providers.html">内置的依赖提供者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_extensions.html">社区</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_extensions.html">编写扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">种示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">API概要</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">更多信息</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about_microservices.html">关于微服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency_injection_benefits.html">依赖注入的好处</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similar_projects.html">类似和相关项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_in_touch.html">联系方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">贡献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发行说明</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">项目链接</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/nameko/nameko">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hellowac/nameko-zh-cn">GitHub 中文文档项目</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nameko.readthedocs.io/en/stable/">readthedocs 英文文档</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nameko.io//">Website</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/nameko/index.html">nameko</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of nameko</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/amqp/index.html">nameko.amqp</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of nameko.amqp</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/amqp/publish/index.html">nameko.amqp.publish</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/cli/index.html">nameko.cli</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of nameko.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/actions/index.html">nameko.cli.actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/backdoor/index.html">nameko.cli.backdoor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/code/index.html">nameko.cli.code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/commands/index.html">nameko.cli.commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/main/index.html">nameko.cli.main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/run/index.html">nameko.cli.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/shell/index.html">nameko.cli.shell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/show_config/index.html">nameko.cli.show_config</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/standalone/index.html">nameko.standalone</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of nameko.standalone</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/standalone/events/index.html">nameko.standalone.events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/standalone/rpc/index.html">nameko.standalone.rpc</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/testing/index.html">nameko.testing</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of nameko.testing</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/pytest/index.html">nameko.testing.pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/rabbit/index.html">nameko.testing.rabbit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/services/index.html">nameko.testing.services</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/utils/index.html">nameko.testing.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/waiting/index.html">nameko.testing.waiting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/websocket/index.html">nameko.testing.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/utils/index.html">nameko.utils</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of nameko.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/utils/concurrency/index.html">nameko.utils.concurrency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/utils/retry/index.html">nameko.utils.retry</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/web/index.html">nameko.web</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of nameko.web</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/handlers/index.html">nameko.web.handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/server/index.html">nameko.web.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/websocket/index.html">nameko.web.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/__main__/index.html">nameko.__main__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/constants/index.html">nameko.constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/containers/index.html">nameko.containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/contextdata/index.html">nameko.contextdata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/dependency_providers/index.html">nameko.dependency_providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/events/index.html">nameko.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/exceptions/index.html">nameko.exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/extensions/index.html">nameko.extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/log_helpers/index.html">nameko.log_helpers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/messaging/index.html">nameko.messaging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/rpc/index.html">nameko.rpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/runners/index.html">nameko.runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/serialization/index.html">nameko.serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/timer/index.html">nameko.timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          
+<section class="genindex-section">
+  <h1 id="index">索引</h1>
+  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#Q"><strong>Q</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a> | <a href="#调"><strong>调</strong></a></div>
+</section>
+<section id="_" class="genindex-section">
+  <h2>_</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/cli/actions/index.html#nameko.cli.actions.FlagAction.__call__">__call__() （nameko.cli.actions.FlagAction 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.__call__">__call__() （nameko.rpc.MethodProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WsgiApp.__call__">__call__() （nameko.web.server.WsgiApp 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.__enter__">__enter__() （nameko.standalone.rpc.StandaloneProxyBase 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.AnyInstanceOf.__eq__">__eq__() （nameko.testing.utils.AnyInstanceOf 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.__exit__">__exit__() （nameko.standalone.rpc.StandaloneProxyBase 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.__getattr__">__getattr__() （nameko.rpc.ServiceProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterProxy.__getattr__">__getattr__() （nameko.standalone.rpc.ClusterProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.SpawningProxy.__getattr__">__getattr__() （nameko.utils.concurrency.SpawningProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterProxy.__getitem__">__getitem__() （nameko.standalone.rpc.ClusterProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.AnyInstanceOf.__ne__">__ne__() （nameko.testing.utils.AnyInstanceOf 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.__params">__params（nameko.extensions.Extension 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.__repr__">__repr__() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.__repr__">__repr__() （nameko.containers.WorkerContext 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.__repr__">__repr__() （nameko.extensions.DependencyProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.__repr__">__repr__() （nameko.extensions.Entrypoint 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.__repr__">__repr__() （nameko.extensions.Extension 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.__repr__">__repr__() （nameko.rpc.MethodProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.AnyInstanceOf.__repr__">__repr__() （nameko.testing.utils.AnyInstanceOf 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.UnknownService.__str__">__str__() （nameko.exceptions.UnknownService 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.UnserializableValueError.__str__">__str__() （nameko.exceptions.UnserializableValueError 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._base_url">_base_url（nameko.testing.rabbit.Client 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._being_killed">_being_killed（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._build_url">_build_url() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy._call">_call() （nameko.rpc.MethodProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext._call_id_stack">_call_id_stack（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext._call_id">_call_id（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer._cancel_consumers_if_requested">_cancel_consumers_if_requested() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer._consumers_ready">_consumers_ready（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer._consumers">_consumers（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline._create">_create() （nameko.testing.utils.ResourcePipeline 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._delete">_delete() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline._destroy">_destroy() （nameko.testing.utils.ResourcePipeline 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._died">_died（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._get">_get() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub._get_connection">_get_connection() （nameko.web.websocket.WebSocketHub 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderEncoder._get_header_name">_get_header_name() （nameko.messaging.HeaderEncoder 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer._gt">_gt（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer._gt">_gt（nameko.web.server.WebServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._handle_managed_thread_exited">_handle_managed_thread_exited() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._handle_thread_exited">_handle_thread_exited() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer._handle_thread_exited">_handle_thread_exited() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._handle_worker_thread_exited">_handle_worker_thread_exited() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._inject_dependencies">_inject_dependencies() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer._is_accepting">_is_accepting（nameko.web.server.WebServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.SpawningProxy._items">_items（nameko.utils.concurrency.SpawningProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._kill_managed_threads">_kill_managed_threads() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._kill_worker_threads">_kill_worker_threads() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector._last_provider_unregistered">_last_provider_unregistered（nameko.extensions.ProviderCollector 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers._log">_log()（在 nameko.containers 模块中）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events._log">_log()（在 nameko.events 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions._log">_log()（在 nameko.extensions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging._log">_log()（在 nameko.messaging 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc._log">_log()（在 nameko.rpc 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners._log">_log()（在 nameko.runners 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer._log">_log()（在 nameko.timer 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers._log">_log()（在 nameko.web.handlers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket._log">_log()（在 nameko.web.websocket 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers._log_time">_log_time()（在 nameko.containers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc._logger">_logger()（在 nameko.standalone.rpc 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._managed_threads">_managed_threads（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext._parent_call_id_stack">_parent_call_id_stack（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer._pending_remove_providers">_pending_remove_providers（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._post">_post() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector._providers_registered">_providers_registered（nameko.extensions.ProviderCollector 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector._providers">_providers（nameko.extensions.ProviderCollector 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterProxy._proxies">_proxies（nameko.standalone.rpc.ClusterProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterRpcProxy._proxy">_proxy（nameko.standalone.rpc.ClusterRpcProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ServiceRpcProxy._proxy">_proxy（nameko.standalone.rpc.ServiceRpcProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase._proxy">_proxy（nameko.standalone.rpc.StandaloneProxyBase 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._put">_put() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services._replace_dependencies">_replace_dependencies()（在 nameko.testing.services 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main._replace_env_var">_replace_env_var()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener._reply_events">_reply_events（nameko.rpc.ReplyListener 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.SingleThreadedReplyListener._reply_events">_reply_events（nameko.standalone.rpc.SingleThreadedReplyListener 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterProxy._reply_listener">_reply_listener（nameko.standalone.rpc.ClusterProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase._reply_listener">_reply_listener（nameko.standalone.rpc.StandaloneProxyBase 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._request">_request() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer._run">_run() （nameko.timer.Timer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._run_worker">_run_worker() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub._server">_server（nameko.web.websocket.WebSocketHub 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.UnknownService._service_name">_service_name（nameko.exceptions.UnknownService 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer._serv">_serv（nameko.web.server.WebServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._session">_session（nameko.testing.rabbit.Client 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer._setup_consumer">_setup_consumer() （nameko.standalone.rpc.PollingQueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline._shutdown">_shutdown() （nameko.testing.utils.ResourcePipeline 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer._sock">_sock（nameko.web.server.WebServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline._start">_start() （nameko.testing.utils.ResourcePipeline 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer._starting">_starting（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer._starting">_starting（nameko.web.server.WebServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderDecoder._strip_header_name">_strip_header_name() （nameko.messaging.HeaderDecoder 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer._unregistered_from_queue_consumer">_unregistered_from_queue_consumer（nameko.rpc.RpcConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer._unregistering_providers">_unregistering_providers（nameko.rpc.RpcConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client._verify_api_connection">_verify_api_connection() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterProxy._worker_ctx">_worker_ctx（nameko.standalone.rpc.ClusterProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase._worker_ctx">_worker_ctx（nameko.standalone.rpc.StandaloneProxyBase 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._worker_pool">_worker_pool（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._worker_result">_worker_result() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._worker_setup">_worker_setup() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._worker_teardown">_worker_teardown() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer._worker_threads">_worker_threads（nameko.containers.ServiceContainer 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.SpawningProxy.abort_on_error">abort_on_error（nameko.utils.concurrency.SpawningProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.ACCEPT_CONFIG_KEY">ACCEPT_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.accept">accept（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.ack_message">ack_message() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.ack_message">ack_message() （nameko.standalone.rpc.PollingQueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.add_service">add_service() （nameko.runners.ServiceRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.add_websocket">add_websocket() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.SpawningSet.all">all（nameko.utils.concurrency.SpawningSet 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.AMQP_SSL_CONFIG_KEY">AMQP_SSL_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.amqp_uri">amqp_uri()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.AMQP_URI_CONFIG_KEY">AMQP_URI_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.amqp_uri">amqp_uri（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.amqp_uri">amqp_uri（nameko.messaging.Publisher 属性）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.amqp_uri">amqp_uri（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.amqp_uri">amqp_uri（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.amqp_uri">amqp_uri（nameko.rpc.Responder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ANY_PARTIAL">ANY_PARTIAL()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.AnyInstanceOf">AnyInstanceOf（nameko.testing.utils 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.args">args（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.Once.args">args（nameko.testing.services.Once 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.assert_stops_raising">assert_stops_raising()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.attr_name">attr_name（nameko.extensions.DependencyProvider 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.MockDependencyProvider.attr_name">attr_name（nameko.testing.services.MockDependencyProvider 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.AUTH_TOKEN_CONTEXT_KEY">AUTH_TOKEN_CONTEXT_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.AuthToken">AuthToken（nameko.contextdata 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.auth">auth（nameko.testing.rabbit.Client 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Backdoor">Backdoor（nameko.cli.commands 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/retry/index.html#nameko.utils.retry.RetryDelay.backoff">backoff（nameko.utils.retry.RetryDelay 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.BadRequest">BadRequest</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.ShellRunner.banner">banner（nameko.cli.shell.ShellRunner 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.bind">bind() （nameko.extensions.DependencyProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.bind">bind() （nameko.extensions.Entrypoint 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.bind">bind() （nameko.extensions.Extension 方法）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.SharedExtension.bind">bind() （nameko.extensions.SharedExtension 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.bind_addr">bind_addr（nameko.web.server.WebServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.BindAddress">BindAddress()（在 nameko.web.server 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.ShellRunner.bpython">bpython() （nameko.cli.shell.ShellRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub.broadcast">broadcast() （nameko.web.websocket.WebSocketHub 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.BROADCAST">BROADCAST()（在 nameko.events 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandler.broadcast_identifier">broadcast_identifier（nameko.events.EventHandler 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.call_async">call_async() （nameko.rpc.MethodProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.CALL_ID_STACK_CONTEXT_KEY">CALL_ID_STACK_CONTEXT_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.call_id_stack">call_id_stack（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.call_id">call_id（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.check_signature">check_signature() （nameko.extensions.Entrypoint 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHubProvider.cleanup_websocket">cleanup_websocket() （nameko.web.websocket.WebSocketHubProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client">Client（nameko.testing.rabbit 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.AnyInstanceOf.cls">cls（nameko.testing.utils.AnyInstanceOf 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterProxy">ClusterProxy（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ClusterRpcProxy">ClusterRpcProxy（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.CommandError">CommandError</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.commands">commands()（在 nameko.cli.commands 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Command">Command（nameko.cli.commands 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.compat_attrs">compat_attrs（nameko.messaging.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.compat_attrs">compat_attrs（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.compression">compression（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.ConfigurationError">ConfigurationError</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.config">config（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.config">config（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/dependency_providers/index.html#nameko.dependency_providers.Config">Config（nameko.dependency_providers 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.config">config（nameko.runners.ServiceRunner 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.ServiceContainer.config">config（nameko.standalone.rpc.StandaloneProxyBase.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.ConnectionNotFound">ConnectionNotFound</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub.connections">connections（nameko.web.websocket.WebSocketHub 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.connection">connection（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.Connection">Connection（nameko.web.websocket 中的类）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.consume">consume()（在 nameko.messaging 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ConsumeEvent">ConsumeEvent（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer">Consumer（nameko.messaging 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.consumer">consumer（nameko.standalone.rpc.PollingQueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.container_cls">container_cls（nameko.runners.ServiceRunner 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.container_factory">container_factory()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.ContainerBeingKilled">ContainerBeingKilled</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.containers">containers（nameko.runners.ServiceRunner 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.ContainerT">ContainerT()（在 nameko.utils.concurrency 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.container">container（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.container">container（nameko.extensions.Extension 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.container">container（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.container">container（nameko.standalone.rpc.StandaloneProxyBase 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.context_data_from_headers">context_data_from_headers() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.context_data">context_data（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.Connection.context_data">context_data（nameko.web.websocket.Connection 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.AuthToken.context_key">context_key（nameko.contextdata.AuthToken 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.ContextDataProvider.context_key">context_key（nameko.contextdata.ContextDataProvider 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.Language.context_key">context_key（nameko.contextdata.Language 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.UserAgent.context_key">context_key（nameko.contextdata.UserAgent 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.UserId.context_key">context_key（nameko.contextdata.UserId 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.ContextDataProvider">ContextDataProvider（nameko.contextdata 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ConsumeEvent.correlation_id">correlation_id（nameko.standalone.rpc.ConsumeEvent 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.create_queue">create_queue() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.create_queue_binding">create_queue_binding() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.create_vhost">create_vhost() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.create">create（nameko.testing.utils.ResourcePipeline 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.data">data（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.declare">declare（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.declare">declare（nameko.messaging.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.decorator">decorator()（nameko.extensions.Entrypoint 类方法）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.DEFAULT_HEARTBEAT">DEFAULT_HEARTBEAT()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.DEFAULT_MAX_WORKERS">DEFAULT_MAX_WORKERS()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.DEFAULT_PARENT_CALLS_TRACKED">DEFAULT_PARENT_CALLS_TRACKED()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.DEFAULT_RETRY_POLICY">DEFAULT_RETRY_POLICY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.DEFAULT_SERIALIZER">DEFAULT_SERIALIZER()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.DEFAULT_TRANSPORT_OPTIONS">DEFAULT_TRANSPORT_OPTIONS()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/retry/index.html#nameko.utils.retry.RetryDelay.delay">delay（nameko.utils.retry.RetryDelay 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.delete_connection">delete_connection() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.delete_vhost">delete_vhost() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.delivery_mode">delivery_mode（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.dependencies">dependencies（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.dependency_attrs">dependency_attrs（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider">DependencyProvider（nameko.extensions 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.MockDependencyProvider.dependency">dependency（nameko.testing.services.MockDependencyProvider 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.deserialize">deserialize()（在 nameko.exceptions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.deserialize_to_instance">deserialize_to_instance()（在 nameko.exceptions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.deserialize_ws_frame">deserialize_ws_frame() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.destroy">destroy（nameko.testing.utils.ResourcePipeline 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.dummy">dummy()（在 nameko.testing.services 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.DummyProvider">DummyProvider（nameko.testing.utils 中的类）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.eager">eager（nameko.timer.Timer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.empty_config">empty_config()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ENTRYPOINT_EXTENSIONS_ATTR">ENTRYPOINT_EXTENSIONS_ATTR()（在 nameko.extensions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.entrypoint_hook">entrypoint_hook()（在 nameko.testing.services 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.entrypoint_waiter">entrypoint_waiter()（在 nameko.testing.services 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.entrypoints_methods">entrypoints_methods（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.entrypoints">entrypoints（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.EntrypointWaiterTimeout">EntrypointWaiterTimeout</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.entrypoint">entrypoint（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint">Entrypoint（nameko.extensions 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main.env_var_constructor">env_var_constructor()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/events/index.html#nameko.standalone.events.event_dispatcher">event_dispatcher()（在 nameko.standalone.events 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.event_handler">event_handler()（在 nameko.events 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandler.event_type">event_type（nameko.events.EventHandler 属性）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventDispatcher">EventDispatcher（nameko.events 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandlerConfigurationError">EventHandlerConfigurationError</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandler">EventHandler（nameko.events 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult.exc_info">exc_info（nameko.testing.waiting.WaitResult 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.RemoteError.exc_type">exc_type（nameko.exceptions.RemoteError 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ConsumeEvent.exception">exception（nameko.standalone.rpc.ConsumeEvent 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.exchange">exchange（nameko.messaging.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.exchange">exchange（nameko.rpc.Responder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.expected_exceptions">expected_exceptions（nameko.extensions.Entrypoint 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.Once.expected_exceptions">expected_exceptions（nameko.testing.services.Once 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.expiration">expiration（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.ExtensionNotFound">ExtensionNotFound</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.extensions">extensions（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension">Extension（nameko.extensions 中的类）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.fail_fast_imap">fail_fast_imap()（在 nameko.utils.concurrency 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.fast_teardown">fast_teardown()（在 nameko.testing.pytest 模块中）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.find_free_port">find_free_port()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.HttpOnlyProtocol.finish">finish() （nameko.web.server.HttpOnlyProtocol 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/actions/index.html#nameko.cli.actions.FlagAction">FlagAction（nameko.cli.actions 中的类）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.get">get() （nameko.testing.utils.ResourcePipeline 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult.get">get() （nameko.testing.waiting.WaitResult 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.get_all_vhosts">get_all_vhosts() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/index.html#nameko.amqp.get_connection">get_connection()（在 nameko.amqp 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.get_connection">get_connection()（在 nameko.amqp.publish 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.get_connections">get_connections() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.get_consumers">get_consumers() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.get_container">get_container()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.get_container_cls">get_container_cls()（在 nameko.containers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.ContextDataProvider.get_dependency">get_dependency() （nameko.contextdata.ContextDataProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/dependency_providers/index.html#nameko.dependency_providers.Config.get_dependency">get_dependency() （nameko.dependency_providers.Config 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventDispatcher.get_dependency">get_dependency() （nameko.events.EventDispatcher 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.get_dependency">get_dependency() （nameko.extensions.DependencyProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.get_dependency">get_dependency() （nameko.messaging.Publisher 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.get_dependency">get_dependency() （nameko.rpc.RpcProxy 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.MockDependencyProvider.get_dependency">get_dependency() （nameko.testing.services.MockDependencyProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHubProvider.get_dependency">get_dependency() （nameko.web.websocket.WebSocketHubProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.get_entrypoint_parameters">get_entrypoint_parameters() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/events/index.html#nameko.standalone.events.get_event_exchange">get_event_exchange()（在 nameko.standalone.events 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.get_exchanges">get_exchanges() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.get_extension">get_extension()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.get_message">get_message() （nameko.standalone.rpc.PollingQueueConsumer 方法）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.get_message_from_queue">get_message_from_queue()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderEncoder.get_message_headers">get_message_headers() （nameko.messaging.HeaderEncoder 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.get_messages">get_messages() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.get_module_path">get_module_path()（在 nameko.exceptions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/index.html#nameko.amqp.get_producer">get_producer()（在 nameko.amqp 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.get_producer">get_producer()（在 nameko.amqp.publish 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.get_provider_for_method">get_provider_for_method() （nameko.rpc.RpcConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.get_provider_for_method">get_provider_for_method() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.get_queue">get_queue() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.get_queue_bindings">get_queue_bindings() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.get_queues">get_queues() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.get_rabbit_connections">get_rabbit_connections()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/index.html#nameko.utils.get_redacted_args">get_redacted_args()（在 nameko.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.get_reply_event">get_reply_event() （nameko.rpc.ReplyListener 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.SingleThreadedReplyListener.get_reply_event">get_reply_event() （nameko.standalone.rpc.SingleThreadedReplyListener 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.get_rpc_exchange">get_rpc_exchange()（在 nameko.rpc 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.get_service_name">get_service_name()（在 nameko.containers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub.get_subscriptions">get_subscriptions() （nameko.web.websocket.WebSocketHub 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.get_url_rule">get_url_rule() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.get_url_rule">get_url_rule() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.get_wsgi_app">get_wsgi_app() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.get_wsgi_server">get_wsgi_server() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.gt">gt（nameko.timer.Timer 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.handle_message">handle_message() （nameko.messaging.Consumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.handle_message">handle_message() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.handle_message">handle_message() （nameko.rpc.ReplyListener 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.handle_message">handle_message() （nameko.rpc.Rpc 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.handle_message">handle_message() （nameko.rpc.RpcConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketRpc.handle_message">handle_message() （nameko.web.websocket.WebSocketRpc 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.handle_message_processed">handle_message_processed() （nameko.messaging.Consumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.handle_request">handle_request() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.handle_request">handle_request() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.handle_result">handle_result() （nameko.messaging.Consumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.handle_result">handle_result() （nameko.rpc.Rpc 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.handle_result">handle_result() （nameko.rpc.RpcConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.handle_result">handle_result() （nameko.timer.Timer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.handle_result">handle_result() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketRpc.handle_result">handle_result() （nameko.web.websocket.WebSocketRpc 方法）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.handle_timer_tick">handle_timer_tick() （nameko.timer.Timer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.handle_websocket_request">handle_websocket_request() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandler.handler_type">handler_type（nameko.events.EventHandler 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main.has_regex_module">has_regex_module()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult.has_result">has_result（nameko.testing.waiting.WaitResult 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.HEADER_PREFIX">HEADER_PREFIX()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderDecoder.header_prefix">header_prefix（nameko.messaging.HeaderDecoder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderEncoder.header_prefix">header_prefix（nameko.messaging.HeaderEncoder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderDecoder">HeaderDecoder（nameko.messaging 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderEncoder">HeaderEncoder（nameko.messaging 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.HEARTBEAT_CONFIG_KEY">HEARTBEAT_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.http">http()（在 nameko.web.handlers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.HttpOnlyProtocol">HttpOnlyProtocol（nameko.web.server 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler">HttpRequestHandler（nameko.web.handlers 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHubProvider.hub">hub（nameko.web.websocket.WebSocketHubProvider 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.IDENTIFY_WEBSOCKET_RULES">IDENTIFY_WEBSOCKET_RULES()（在 nameko.web.websocket 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.immediate_parent_call_id">immediate_parent_call_id（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main.IMPLICIT_ENV_VAR_MATCHER">IMPLICIT_ENV_VAR_MATCHER()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/index.html#nameko.utils.import_from_path">import_from_path()（在 nameko.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.import_service">import_service()（在 nameko.cli.run 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.IncorrectSignature">IncorrectSignature</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Backdoor.init_parser">init_parser()（nameko.cli.commands.Backdoor 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Command.init_parser">init_parser()（nameko.cli.commands.Command 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Run.init_parser">init_parser()（nameko.cli.commands.Run 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Shell.init_parser">init_parser()（nameko.cli.commands.Shell 类方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.ShowConfig.init_parser">init_parser()（nameko.cli.commands.ShowConfig 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Test.init_parser">init_parser()（nameko.cli.commands.Test 静态方法）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/cli/code/index.html#nameko.cli.code.interact">interact()（在 nameko.cli.code 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.interface">interface（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.interval">interval（nameko.timer.Timer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.ShellRunner.ipython">ipython() （nameko.cli.shell.ShellRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.is_bound">is_bound() （nameko.extensions.Extension 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.is_dependency">is_dependency()（在 nameko.extensions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.is_entrypoint">is_entrypoint()（在 nameko.cli.run 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.is_entrypoint">is_entrypoint()（在 nameko.extensions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.is_extension">is_extension()（在 nameko.extensions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.is_method">is_method()（在 nameko.containers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.is_type">is_type()（在 nameko.cli.run 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.iter_extensions">iter_extensions()（在 nameko.extensions 模块中）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="K" class="genindex-section">
+  <h2>K</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.kill">kill() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.kill">kill() （nameko.extensions.Extension 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.kill">kill() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.kill">kill() （nameko.runners.ServiceRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.kill">kill() （nameko.timer.Timer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.kwargs">kwargs（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.Once.kwargs">kwargs（nameko.testing.services.Once 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.LANGUAGE_CONTEXT_KEY">LANGUAGE_CONTEXT_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.Language">Language（nameko.contextdata 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.ShellRunner.local">local（nameko.cli.shell.ShellRunner 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.logger">logger()（在 nameko.cli.run 模块中）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.LOGIN_METHOD_CONFIG_KEY">LOGIN_METHOD_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.login_method">login_method（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.login_method">login_method（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.login_method">login_method（nameko.rpc.Responder 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Backdoor.main">main()（nameko.cli.commands.Backdoor 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Command.main">main()（nameko.cli.commands.Command 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Run.main">main()（nameko.cli.commands.Run 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Shell.main">main()（nameko.cli.commands.Shell 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.ShowConfig.main">main()（nameko.cli.commands.ShowConfig 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Test.main">main()（nameko.cli.commands.Test 静态方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/backdoor/index.html#nameko.cli.backdoor.main">main()（在 nameko.cli.backdoor 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main.main">main()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.main">main()（在 nameko.cli.run 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.main">main()（在 nameko.cli.shell 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/show_config/index.html#nameko.cli.show_config.main">main()（在 nameko.cli.show_config 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.make_nameko_helper">make_nameko_helper()（在 nameko.cli.shell 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/log_helpers/index.html#nameko.log_helpers.make_timing_logger">make_timing_logger()（在 nameko.log_helpers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.make_url_map">make_url_map() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/websocket/index.html#nameko.testing.websocket.make_virtual_socket">make_virtual_socket()（在 nameko.testing.websocket 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.MalformedRequest">MalformedRequest</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.mandatory">mandatory（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/retry/index.html#nameko.utils.retry.RetryDelay.max_delay">max_delay（nameko.utils.retry.RetryDelay 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.MAX_WORKERS_CONFIG_KEY">MAX_WORKERS_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.max_workers">max_workers（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.RemoteError.message">message（nameko.exceptions.RemoteError 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.message">message（nameko.rpc.Responder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.method_name">method_name（nameko.extensions.Entrypoint 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.method_name">method_name（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.Dummy.method_name">method_name（nameko.standalone.rpc.StandaloneProxyBase.Dummy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.DummyProvider.method_name">method_name（nameko.testing.utils.DummyProvider 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.MethodNotFound">MethodNotFound</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy">MethodProxy（nameko.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.method">method（nameko.web.handlers.HttpRequestHandler 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.MISSING_MODULE_TEMPLATE">MISSING_MODULE_TEMPLATE()（在 nameko.cli.run 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.mock_container">mock_container()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.MockCallArgs">MockCallArgs()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.MockDependencyProvider">MockDependencyProvider（nameko.testing.services 中的类）</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="autoapi/nameko/index.html#module-nameko">nameko</a>
+</li>
+          <li><a href="autoapi/nameko/__main__/index.html#module-nameko.__main__">nameko.__main__</a>
+</li>
+          <li><a href="autoapi/nameko/amqp/index.html#module-nameko.amqp">nameko.amqp</a>
+</li>
+          <li><a href="autoapi/nameko/amqp/publish/index.html#module-nameko.amqp.publish">nameko.amqp.publish</a>
+</li>
+          <li><a href="autoapi/nameko/cli/index.html#module-nameko.cli">nameko.cli</a>
+</li>
+          <li><a href="autoapi/nameko/cli/actions/index.html#module-nameko.cli.actions">nameko.cli.actions</a>
+</li>
+          <li><a href="autoapi/nameko/cli/backdoor/index.html#module-nameko.cli.backdoor">nameko.cli.backdoor</a>
+</li>
+          <li><a href="autoapi/nameko/cli/code/index.html#module-nameko.cli.code">nameko.cli.code</a>
+</li>
+          <li><a href="autoapi/nameko/cli/commands/index.html#module-nameko.cli.commands">nameko.cli.commands</a>
+</li>
+          <li><a href="autoapi/nameko/cli/main/index.html#module-nameko.cli.main">nameko.cli.main</a>
+</li>
+          <li><a href="autoapi/nameko/cli/run/index.html#module-nameko.cli.run">nameko.cli.run</a>
+</li>
+          <li><a href="autoapi/nameko/cli/shell/index.html#module-nameko.cli.shell">nameko.cli.shell</a>
+</li>
+          <li><a href="autoapi/nameko/cli/show_config/index.html#module-nameko.cli.show_config">nameko.cli.show_config</a>
+</li>
+          <li><a href="autoapi/nameko/constants/index.html#module-nameko.constants">nameko.constants</a>
+</li>
+          <li><a href="autoapi/nameko/containers/index.html#module-nameko.containers">nameko.containers</a>
+</li>
+          <li><a href="autoapi/nameko/contextdata/index.html#module-nameko.contextdata">nameko.contextdata</a>
+</li>
+          <li><a href="autoapi/nameko/dependency_providers/index.html#module-nameko.dependency_providers">nameko.dependency_providers</a>
+</li>
+          <li><a href="autoapi/nameko/events/index.html#module-nameko.events">nameko.events</a>
+</li>
+          <li><a href="autoapi/nameko/exceptions/index.html#module-nameko.exceptions">nameko.exceptions</a>
+</li>
+          <li><a href="autoapi/nameko/extensions/index.html#module-nameko.extensions">nameko.extensions</a>
+</li>
+          <li><a href="autoapi/nameko/log_helpers/index.html#module-nameko.log_helpers">nameko.log_helpers</a>
+</li>
+          <li><a href="autoapi/nameko/messaging/index.html#module-nameko.messaging">nameko.messaging</a>
+</li>
+          <li><a href="autoapi/nameko/rpc/index.html#module-nameko.rpc">nameko.rpc</a>
+</li>
+          <li><a href="autoapi/nameko/runners/index.html#module-nameko.runners">nameko.runners</a>
+</li>
+          <li><a href="autoapi/nameko/serialization/index.html#module-nameko.serialization">nameko.serialization</a>
+</li>
+          <li><a href="autoapi/nameko/standalone/index.html#module-nameko.standalone">nameko.standalone</a>
+</li>
+          <li><a href="autoapi/nameko/standalone/events/index.html#module-nameko.standalone.events">nameko.standalone.events</a>
+</li>
+          <li><a href="autoapi/nameko/standalone/rpc/index.html#module-nameko.standalone.rpc">nameko.standalone.rpc</a>
+</li>
+          <li><a href="autoapi/nameko/testing/index.html#module-nameko.testing">nameko.testing</a>
+</li>
+          <li><a href="autoapi/nameko/testing/pytest/index.html#module-nameko.testing.pytest">nameko.testing.pytest</a>
+</li>
+          <li><a href="autoapi/nameko/testing/rabbit/index.html#module-nameko.testing.rabbit">nameko.testing.rabbit</a>
+</li>
+          <li><a href="autoapi/nameko/testing/services/index.html#module-nameko.testing.services">nameko.testing.services</a>
+</li>
+          <li><a href="autoapi/nameko/testing/utils/index.html#module-nameko.testing.utils">nameko.testing.utils</a>
+</li>
+          <li><a href="autoapi/nameko/testing/waiting/index.html#module-nameko.testing.waiting">nameko.testing.waiting</a>
+</li>
+          <li><a href="autoapi/nameko/testing/websocket/index.html#module-nameko.testing.websocket">nameko.testing.websocket</a>
+</li>
+          <li><a href="autoapi/nameko/timer/index.html#module-nameko.timer">nameko.timer</a>
+</li>
+          <li><a href="autoapi/nameko/utils/index.html#module-nameko.utils">nameko.utils</a>
+</li>
+          <li><a href="autoapi/nameko/utils/concurrency/index.html#module-nameko.utils.concurrency">nameko.utils.concurrency</a>
+</li>
+          <li><a href="autoapi/nameko/utils/retry/index.html#module-nameko.utils.retry">nameko.utils.retry</a>
+</li>
+          <li><a href="autoapi/nameko/web/index.html#module-nameko.web">nameko.web</a>
+</li>
+          <li><a href="autoapi/nameko/web/handlers/index.html#module-nameko.web.handlers">nameko.web.handlers</a>
+</li>
+          <li><a href="autoapi/nameko/web/server/index.html#module-nameko.web.server">nameko.web.server</a>
+</li>
+          <li><a href="autoapi/nameko/web/websocket/index.html#module-nameko.web.websocket">nameko.web.websocket</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    nameko
+
+        <ul>
+          <li><a href="autoapi/nameko/index.html#module-nameko">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.__main__
+
+        <ul>
+          <li><a href="autoapi/nameko/__main__/index.html#module-nameko.__main__">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.amqp
+
+        <ul>
+          <li><a href="autoapi/nameko/amqp/index.html#module-nameko.amqp">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.amqp.publish
+
+        <ul>
+          <li><a href="autoapi/nameko/amqp/publish/index.html#module-nameko.amqp.publish">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/index.html#module-nameko.cli">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.actions
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/actions/index.html#module-nameko.cli.actions">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.backdoor
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/backdoor/index.html#module-nameko.cli.backdoor">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.code
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/code/index.html#module-nameko.cli.code">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.commands
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/commands/index.html#module-nameko.cli.commands">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.main
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/main/index.html#module-nameko.cli.main">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.run
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/run/index.html#module-nameko.cli.run">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.shell
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/shell/index.html#module-nameko.cli.shell">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.cli.show_config
+
+        <ul>
+          <li><a href="autoapi/nameko/cli/show_config/index.html#module-nameko.cli.show_config">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.constants
+
+        <ul>
+          <li><a href="autoapi/nameko/constants/index.html#module-nameko.constants">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.containers
+
+        <ul>
+          <li><a href="autoapi/nameko/containers/index.html#module-nameko.containers">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.contextdata
+
+        <ul>
+          <li><a href="autoapi/nameko/contextdata/index.html#module-nameko.contextdata">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.dependency_providers
+
+        <ul>
+          <li><a href="autoapi/nameko/dependency_providers/index.html#module-nameko.dependency_providers">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.events
+
+        <ul>
+          <li><a href="autoapi/nameko/events/index.html#module-nameko.events">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.exceptions
+
+        <ul>
+          <li><a href="autoapi/nameko/exceptions/index.html#module-nameko.exceptions">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.extensions
+
+        <ul>
+          <li><a href="autoapi/nameko/extensions/index.html#module-nameko.extensions">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.log_helpers
+
+        <ul>
+          <li><a href="autoapi/nameko/log_helpers/index.html#module-nameko.log_helpers">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.messaging
+
+        <ul>
+          <li><a href="autoapi/nameko/messaging/index.html#module-nameko.messaging">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.rpc
+
+        <ul>
+          <li><a href="autoapi/nameko/rpc/index.html#module-nameko.rpc">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.runners
+
+        <ul>
+          <li><a href="autoapi/nameko/runners/index.html#module-nameko.runners">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    nameko.serialization
+
+        <ul>
+          <li><a href="autoapi/nameko/serialization/index.html#module-nameko.serialization">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.standalone
+
+        <ul>
+          <li><a href="autoapi/nameko/standalone/index.html#module-nameko.standalone">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.standalone.events
+
+        <ul>
+          <li><a href="autoapi/nameko/standalone/events/index.html#module-nameko.standalone.events">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.standalone.rpc
+
+        <ul>
+          <li><a href="autoapi/nameko/standalone/rpc/index.html#module-nameko.standalone.rpc">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.testing
+
+        <ul>
+          <li><a href="autoapi/nameko/testing/index.html#module-nameko.testing">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.testing.pytest
+
+        <ul>
+          <li><a href="autoapi/nameko/testing/pytest/index.html#module-nameko.testing.pytest">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.testing.rabbit
+
+        <ul>
+          <li><a href="autoapi/nameko/testing/rabbit/index.html#module-nameko.testing.rabbit">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.testing.services
+
+        <ul>
+          <li><a href="autoapi/nameko/testing/services/index.html#module-nameko.testing.services">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.testing.utils
+
+        <ul>
+          <li><a href="autoapi/nameko/testing/utils/index.html#module-nameko.testing.utils">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.testing.waiting
+
+        <ul>
+          <li><a href="autoapi/nameko/testing/waiting/index.html#module-nameko.testing.waiting">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.testing.websocket
+
+        <ul>
+          <li><a href="autoapi/nameko/testing/websocket/index.html#module-nameko.testing.websocket">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.timer
+
+        <ul>
+          <li><a href="autoapi/nameko/timer/index.html#module-nameko.timer">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.utils
+
+        <ul>
+          <li><a href="autoapi/nameko/utils/index.html#module-nameko.utils">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.utils.concurrency
+
+        <ul>
+          <li><a href="autoapi/nameko/utils/concurrency/index.html#module-nameko.utils.concurrency">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.utils.retry
+
+        <ul>
+          <li><a href="autoapi/nameko/utils/retry/index.html#module-nameko.utils.retry">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.web
+
+        <ul>
+          <li><a href="autoapi/nameko/web/index.html#module-nameko.web">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.web.handlers
+
+        <ul>
+          <li><a href="autoapi/nameko/web/handlers/index.html#module-nameko.web.handlers">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.web.server
+
+        <ul>
+          <li><a href="autoapi/nameko/web/server/index.html#module-nameko.web.server">module</a>
+</li>
+        </ul></li>
+        <li>
+    nameko.web.websocket
+
+        <ul>
+          <li><a href="autoapi/nameko/web/websocket/index.html#module-nameko.web.websocket">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Backdoor.name">name（nameko.cli.commands.Backdoor 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Command.name">name（nameko.cli.commands.Command 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Run.name">name（nameko.cli.commands.Run 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Shell.name">name（nameko.cli.commands.Shell 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.ShowConfig.name">name（nameko.cli.commands.ShowConfig 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Test.name">name（nameko.cli.commands.Test 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/actions/index.html#nameko.cli.actions.FlagAction.negative_strings">negative_strings（nameko.cli.actions.FlagAction 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.new_call_id">new_call_id()（在 nameko.containers 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/retry/index.html#nameko.utils.retry.RetryDelay.next">next() （nameko.utils.retry.RetryDelay 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.NON_PERSISTENT">NON_PERSISTENT()（在 nameko.constants 模块中）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.on_connection_error">on_connection_error() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.on_consume_ready">on_consume_ready() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.on_iteration">on_iteration() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.on_message">on_message() （nameko.standalone.rpc.PollingQueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.once">once()（在 nameko.testing.services 模块中）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.Once">Once（nameko.testing.services 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.options">options（nameko.messaging.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.options">options（nameko.rpc.RpcProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.options">options（nameko.rpc.ServiceProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.origin_call_id">origin_call_id（nameko.containers.WorkerContext 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.PARENT_CALLS_CONFIG_KEY">PARENT_CALLS_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.parse_address">parse_address()（在 nameko.web.server 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.parse_config_option">parse_config_option()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.PERSISTENT">PERSISTENT()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.ShellRunner.plain">plain() （nameko.cli.shell.ShellRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer">PollingQueueConsumer（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/actions/index.html#nameko.cli.actions.FlagAction.positive_strings">positive_strings（nameko.cli.actions.FlagAction 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.predictable_call_ids">predictable_call_ids()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.prefetch_count">prefetch_count（nameko.messaging.QueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.priority">priority（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.process_request">process_request() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector">ProviderCollector（nameko.extensions 中的类）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.publish">publish() （nameko.amqp.publish.Publisher 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.publish">publish() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.publish_kwargs">publish_kwargs（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.publisher_cls">publisher_cls（nameko.messaging.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.publisher_cls">publisher_cls（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.publisher_cls">publisher_cls（nameko.rpc.Responder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher">Publisher（nameko.amqp.publish 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher">Publisher（nameko.messaging 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.publisher">publisher（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.pytest_addoption">pytest_addoption()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.pytest_configure">pytest_configure()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.pytest_sessionstart">pytest_sessionstart()（在 nameko.testing.pytest 模块中）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="Q" class="genindex-section">
+  <h2>Q</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.queue_consumer">queue_consumer（nameko.messaging.Consumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.queue_consumer">queue_consumer（nameko.rpc.ReplyListener 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.queue_consumer">queue_consumer（nameko.rpc.RpcConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ConsumeEvent.queue_consumer">queue_consumer（nameko.standalone.rpc.ConsumeEvent 属性）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.SingleThreadedReplyListener.queue_consumer">queue_consumer（nameko.standalone.rpc.SingleThreadedReplyListener 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumerStopped">QueueConsumerStopped</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer">QueueConsumer（nameko.messaging 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.queue">queue（nameko.messaging.Consumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.queue">queue（nameko.rpc.RpcConsumer 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.rabbit_config">rabbit_config()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.rabbit_manager">rabbit_manager()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.rabbit_ssl_config">rabbit_ssl_config()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/code/index.html#nameko.cli.code.RaisingInteractiveConsole.raise_expections">raise_expections（nameko.cli.code.RaisingInteractiveConsole 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/code/index.html#nameko.cli.code.RaisingInteractiveConsole">RaisingInteractiveConsole（nameko.cli.code 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.ready">ready（nameko.testing.utils.ResourcePipeline 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main.RECURSIVE_ENV_VAR_MATCHER">RECURSIVE_ENV_VAR_MATCHER()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/index.html#nameko.utils.REDACTED">REDACTED()（在 nameko.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.register_entrypoint">register_entrypoint()（在 nameko.extensions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector.register_provider">register_provider() （nameko.extensions.ProviderCollector 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.register_provider">register_provider() （nameko.standalone.rpc.PollingQueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.registry">registry()（在 nameko.exceptions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandler.reliable_delivery">reliable_delivery（nameko.events.EventHandler 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.RemoteError">RemoteError</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.remove_socket">remove_socket() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.replace_dependencies">replace_dependencies()（在 nameko.testing.services 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.replies">replies（nameko.standalone.rpc.PollingQueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply.reply_event">reply_event（nameko.rpc.RpcReply 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.reply_listener">reply_listener（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.reply_listener">reply_listener（nameko.rpc.ServiceProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener">ReplyListener（nameko.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.ReplyQueueExpiredWithPendingReplies">ReplyQueueExpiredWithPendingReplies</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.requeue_message">requeue_message() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.requeue_message">requeue_message() （nameko.rpc.RpcConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.requeue_on_error">requeue_on_error（nameko.messaging.Consumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.reset_rabbit_connections">reset_rabbit_connections()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline">ResourcePipeline（nameko.testing.utils 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply.resp_body">resp_body（nameko.rpc.RpcReply 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder">Responder（nameko.rpc 中的类）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.response_from_exception">response_from_exception() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.response_from_result">response_from_result() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.restrict_entrypoints">restrict_entrypoints()（在 nameko.testing.services 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply.result">result() （nameko.rpc.RpcReply 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult.res">res（nameko.testing.waiting.WaitResult 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/retry/index.html#nameko.utils.retry.retry">retry()（在 nameko.utils.retry 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.retry_policy">retry_policy（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/retry/index.html#nameko.utils.retry.RetryDelay">RetryDelay（nameko.utils.retry 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.retry">retry（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.rpc">rpc()（在 nameko.rpc 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.rpc">rpc()（在 nameko.web.websocket 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.rpc_consumer">rpc_consumer（nameko.rpc.Rpc 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.RPC_EXCHANGE_CONFIG_KEY">RPC_EXCHANGE_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RPC_QUEUE_TEMPLATE">RPC_QUEUE_TEMPLATE()（在 nameko.rpc 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.rpc_reply_listener">rpc_reply_listener（nameko.rpc.RpcProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE">RPC_REPLY_QUEUE_TEMPLATE()（在 nameko.rpc 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RPC_REPLY_QUEUE_TTL">RPC_REPLY_QUEUE_TTL()（在 nameko.rpc 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer">RpcConsumer（nameko.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy">RpcProxy（nameko.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcReply">RpcReply（nameko.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.RpcTimeout">RpcTimeout</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Rpc">Rpc（nameko.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.run">run() （nameko.testing.utils.ResourcePipeline 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.run">run() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.run">run()（在 nameko.cli.run 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.run_services">run_services()（在 nameko.runners 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/code/index.html#nameko.cli.code.RaisingInteractiveConsole.runcode">runcode() （nameko.cli.code.RaisingInteractiveConsole 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.runner_factory">runner_factory()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Run">Run（nameko.cli.commands 中的类）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.safe_for_serialization">safe_for_serialization()（在 nameko.exceptions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/index.html#nameko.utils.sanitize_url">sanitize_url()（在 nameko.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ConsumeEvent.send">send() （nameko.standalone.rpc.ConsumeEvent 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult.send">send() （nameko.testing.waiting.WaitResult 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ConsumeEvent.send_exception">send_exception() （nameko.standalone.rpc.ConsumeEvent 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.send_response">send_response() （nameko.rpc.Responder 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.sensitive_arguments">sensitive_arguments（nameko.extensions.Entrypoint 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.Once.sensitive_arguments">sensitive_arguments（nameko.testing.services.Once 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Entrypoint.sensitive_variables">sensitive_variables（nameko.extensions.Entrypoint 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.Once.sensitive_variables">sensitive_variables（nameko.testing.services.Once 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult.sentinel">sentinel（nameko.testing.waiting.WaitResult 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.serialize">serialize()（在 nameko.exceptions 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.serialize_event">serialize_event() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.serialize_for_ws">serialize_for_ws() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.SERIALIZER_CONFIG_KEY">SERIALIZER_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.SERIALIZERS_CONFIG_KEY">SERIALIZERS_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.serializer">serializer（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.serializer">serializer（nameko.messaging.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.serializer">serializer（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.serializer">serializer（nameko.rpc.Responder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.server">server（nameko.web.handlers.HttpRequestHandler 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WsgiApp.server">server（nameko.web.server.WsgiApp 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHubProvider.server">server（nameko.web.websocket.WebSocketHubProvider 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketRpc.server">server（nameko.web.websocket.WebSocketRpc 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.service_cls">service_cls（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.service_map">service_map（nameko.runners.ServiceRunner 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.service_names">service_names（nameko.runners.ServiceRunner 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.service_name">service_name（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.service_name">service_name（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.service_name">service_name（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.service_name">service_name（nameko.rpc.ServiceProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.ServiceContainer.service_name">service_name（nameko.standalone.rpc.StandaloneProxyBase.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.SERVICE_POOL">SERVICE_POOL()（在 nameko.events 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer">ServiceContainer（nameko.containers 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy">ServiceProxy（nameko.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ServiceRpcProxy">ServiceRpcProxy（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner">ServiceRunner（nameko.runners 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.service">service（nameko.containers.WorkerContext 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.set_vhost_permissions">set_vhost_permissions() （nameko.testing.rabbit.Client 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventDispatcher.setup">setup() （nameko.events.EventDispatcher 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandler.setup">setup() （nameko.events.EventHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.setup">setup() （nameko.extensions.Extension 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.setup">setup() （nameko.messaging.Consumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Publisher.setup">setup() （nameko.messaging.Publisher 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.setup">setup() （nameko.rpc.ReplyListener 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.setup">setup() （nameko.rpc.Rpc 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.setup">setup() （nameko.rpc.RpcConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.setup">setup() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHubProvider.setup">setup() （nameko.web.websocket.WebSocketHubProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketRpc.setup">setup() （nameko.web.websocket.WebSocketRpc 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.setup">setup() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/serialization/index.html#nameko.serialization.setup">setup()（在 nameko.serialization 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/run/index.html#nameko.cli.run.setup_backdoor">setup_backdoor()（在 nameko.cli.run 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main.setup_parser">setup_parser()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/main/index.html#nameko.cli.main.setup_yaml_parser">setup_yaml_parser()（在 nameko.cli.main 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.shared_extensions">shared_extensions（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.ServiceContainer.shared_extensions">shared_extensions（nameko.standalone.rpc.StandaloneProxyBase.ServiceContainer 属性）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.SharedExtension">SharedExtension（nameko.extensions 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.SharedExtension.sharing_key">sharing_key（nameko.extensions.SharedExtension 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.ShellRunner">ShellRunner（nameko.cli.shell 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Shell.SHELLS">SHELLS（nameko.cli.commands.Shell 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Shell">Shell（nameko.cli.commands 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.should_stop">should_stop（nameko.timer.Timer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.ShowConfig">ShowConfig（nameko.cli.commands 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.SingleThreadedReplyListener">SingleThreadedReplyListener（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.SINGLETON">SINGLETON()（在 nameko.events 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.size">size（nameko.testing.utils.ResourcePipeline 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.Connection.socket_id">socket_id（nameko.web.websocket.Connection 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.SocketInfo">SocketInfo()（在 nameko.web.websocket 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.sockets">sockets（nameko.web.websocket.WebSocketServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/events/index.html#nameko.events.EventHandler.source_service">source_service（nameko.events.EventHandler 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.spawn_managed_thread">spawn_managed_thread() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.spawn_worker">spawn_worker() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.SpawningProxy">SpawningProxy（nameko.utils.concurrency 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/utils/concurrency/index.html#nameko.utils.concurrency.SpawningSet">SpawningSet（nameko.utils.concurrency 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.ssl">ssl（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.ssl">ssl（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Responder.ssl">ssl（nameko.rpc.Responder 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.Dummy">StandaloneProxyBase.Dummy（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.ServiceContainer">StandaloneProxyBase.ServiceContainer（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase">StandaloneProxyBase（nameko.standalone.rpc 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.start">start() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.start">start() （nameko.extensions.Extension 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.start">start() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.start">start() （nameko.runners.ServiceRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.start">start() （nameko.standalone.rpc.StandaloneProxyBase 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.Once.start">start() （nameko.testing.services.Once 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.start">start() （nameko.timer.Timer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.start">start() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/shell/index.html#nameko.cli.shell.ShellRunner.start_shell">start_shell() （nameko.cli.shell.ShellRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.started">started（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.STATE_IDLE">STATE_IDLE()（在 nameko.web.server 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.stop">stop() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.Extension.stop">stop() （nameko.extensions.Extension 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector.stop">stop() （nameko.extensions.ProviderCollector 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.Consumer.stop">stop() （nameko.messaging.Consumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.stop">stop() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ReplyListener.stop">stop() （nameko.rpc.ReplyListener 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.Rpc.stop">stop() （nameko.rpc.Rpc 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.stop">stop() （nameko.rpc.RpcConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.stop">stop() （nameko.runners.ServiceRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.StandaloneProxyBase.stop">stop() （nameko.standalone.rpc.StandaloneProxyBase 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.stop">stop() （nameko.timer.Timer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.stop">stop() （nameko.web.handlers.HttpRequestHandler 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer.stop">stop() （nameko.web.server.WebServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHubProvider.stop">stop() （nameko.web.websocket.WebSocketHubProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketRpc.stop">stop() （nameko.web.websocket.WebSocketRpc 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.stop">stop() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.stopped">stopped（nameko.standalone.rpc.PollingQueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.STOP">STOP（nameko.testing.utils.ResourcePipeline 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/actions/index.html#nameko.cli.actions.FlagAction.strings">strings（nameko.cli.actions.FlagAction 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.subextensions">subextensions（nameko.containers.ServiceContainer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub.subscribe">subscribe() （nameko.web.websocket.WebSocketHub 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.Connection.subscriptions">subscriptions（nameko.web.websocket.Connection 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub.subscriptions">subscriptions（nameko.web.websocket.WebSocketHub 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcProxy.target_service">target_service（nameko.rpc.RpcProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/cli/commands/index.html#nameko.cli.commands.Test">Test（nameko.cli.commands 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.timeout">timeout（nameko.standalone.rpc.PollingQueueConsumer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.timer">timer()（在 nameko.timer 模块中）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer">Timer（nameko.timer 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.TRANSPORT_OPTIONS_CONFIG_KEY">TRANSPORT_OPTIONS_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.transport_options">transport_options（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.ResourcePipeline.trash">trash（nameko.testing.utils.ResourcePipeline 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/amqp/index.html#nameko.amqp.UndeliverableMessage">UndeliverableMessage</a>, <a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.UndeliverableMessage">[1]</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub.unicast">unicast() （nameko.web.websocket.WebSocketHub 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.UnknownService">UnknownService</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.HeaderDecoder.unpack_message_headers">unpack_message_headers() （nameko.messaging.HeaderDecoder 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.unpack_mock_call">unpack_mock_call()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector.unregister_provider">unregister_provider() （nameko.extensions.ProviderCollector 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/messaging/index.html#nameko.messaging.QueueConsumer.unregister_provider">unregister_provider() （nameko.messaging.QueueConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.RpcConsumer.unregister_provider">unregister_provider() （nameko.rpc.RpcConsumer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.PollingQueueConsumer.unregister_provider">unregister_provider() （nameko.standalone.rpc.PollingQueueConsumer 方法）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.UnserializableValueError">UnserializableValueError</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub.unsubscribe">unsubscribe() （nameko.web.websocket.WebSocketHub 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/rabbit/index.html#nameko.testing.rabbit.Client.uri">uri（nameko.testing.rabbit.Client 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WsgiApp.url_map">url_map（nameko.web.server.WsgiApp 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/handlers/index.html#nameko.web.handlers.HttpRequestHandler.url">url（nameko.web.handlers.HttpRequestHandler 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/amqp/publish/index.html#nameko.amqp.publish.Publisher.use_confirms">use_confirms（nameko.amqp.publish.Publisher 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.USER_AGENT_CONTEXT_KEY">USER_AGENT_CONTEXT_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.USER_ID_CONTEXT_KEY">USER_ID_CONTEXT_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.UserAgent">UserAgent（nameko.contextdata 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/contextdata/index.html#nameko.contextdata.UserId">UserId（nameko.contextdata 中的类）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/exceptions/index.html#nameko.exceptions.RemoteError.value">value（nameko.exceptions.RemoteError 属性）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.vhost_pipeline">vhost_pipeline()（在 nameko.testing.pytest 模块中）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.ServiceContainer.wait">wait() （nameko.containers.ServiceContainer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/runners/index.html#nameko.runners.ServiceRunner.wait">wait() （nameko.runners.ServiceRunner 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/standalone/rpc/index.html#nameko.standalone.rpc.ConsumeEvent.wait">wait() （nameko.standalone.rpc.ConsumeEvent 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.wait_for_call">wait_for_call()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.wait_for_call">wait_for_call()（在 nameko.testing.waiting 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.ProviderCollector.wait_for_providers">wait_for_providers() （nameko.extensions.ProviderCollector 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/utils/index.html#nameko.testing.utils.wait_for_worker_idle">wait_for_worker_idle()（在 nameko.testing.utils 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult.NotReady">WaitResult.NotReady</a>
+</li>
+        <li><a href="autoapi/nameko/testing/waiting/index.html#nameko.testing.waiting.WaitResult">WaitResult（nameko.testing.waiting 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.web_config">web_config()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.web_config_port">web_config_port()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/constants/index.html#nameko.constants.WEB_SERVER_CONFIG_KEY">WEB_SERVER_CONFIG_KEY()（在 nameko.constants 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.web_session">web_session()（在 nameko.testing.pytest 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WebServer">WebServer（nameko.web.server 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/pytest/index.html#nameko.testing.pytest.websocket">websocket()（在 nameko.testing.pytest 模块中）</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.websocket_mainloop">websocket_mainloop() （nameko.web.websocket.WebSocketServer 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHubProvider">WebSocketHubProvider（nameko.web.websocket 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketHub">WebSocketHub（nameko.web.websocket 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketRpc">WebSocketRpc（nameko.web.websocket 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer">WebSocketServer（nameko.web.websocket 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/timer/index.html#nameko.timer.Timer.worker_complete">worker_complete（nameko.timer.Timer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.MethodProxy.worker_ctx">worker_ctx（nameko.rpc.MethodProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/rpc/index.html#nameko.rpc.ServiceProxy.worker_ctx">worker_ctx（nameko.rpc.ServiceProxy 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/testing/services/index.html#nameko.testing.services.worker_factory">worker_factory()（在 nameko.testing.services 模块中）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.worker_result">worker_result() （nameko.extensions.DependencyProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.worker_setup">worker_setup() （nameko.extensions.DependencyProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/extensions/index.html#nameko.extensions.DependencyProvider.worker_teardown">worker_teardown() （nameko.extensions.DependencyProvider 方法）</a>
+</li>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext">WorkerContext（nameko.containers 中的类）</a>
+</li>
+        <li><a href="autoapi/nameko/web/websocket/index.html#nameko.web.websocket.WebSocketServer.wsgi_server">wsgi_server（nameko.web.websocket.WebSocketServer 属性）</a>
+</li>
+        <li><a href="autoapi/nameko/web/server/index.html#nameko.web.server.WsgiApp">WsgiApp（nameko.web.server 中的类）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="调" class="genindex-section">
+  <h2>调</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/nameko/containers/index.html#nameko.containers.WorkerContext.ID">调用ID（nameko.containers.WorkerContext 属性）</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2015
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=ca28820f"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/open_in_new_tab.js?v=d48564ca"></script>
+    </body>
+</html>

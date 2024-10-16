@@ -1,0 +1,19 @@
+nameko.cli.show_config
+======================
+
+.. py:module:: nameko.cli.show_config
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.cli.show_config.main
+
+
+Module Contents
+---------------
+
+.. py:function:: main(args)
+

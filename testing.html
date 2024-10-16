@@ -1,0 +1,1082 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="搜索" href="search.html" /><link rel="next" title="编写扩展" href="writing_extensions.html" /><link rel="prev" title="社区" href="community_extensions.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>测试服务 - nameko - 一个用于 Python 的微服务框架</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">nameko - 一个用于 Python 的微服务框架</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.svg" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">用户指南</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what_is_nameko.html">什么是 Nameko?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="key_concepts.html">关键概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_in_extensions.html">内置扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="built_in_dependency_providers.html">内置的依赖提供者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_extensions.html">社区</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">测试服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_extensions.html">编写扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">种示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc.html">API概要</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">更多信息</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about_microservices.html">关于微服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency_injection_benefits.html">依赖注入的好处</a></li>
+<li class="toctree-l1"><a class="reference internal" href="similar_projects.html">类似和相关项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_in_touch.html">联系方式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">贡献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发行说明</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">项目链接</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/nameko/nameko">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hellowac/nameko-zh-cn">GitHub 中文文档项目</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nameko.readthedocs.io/en/stable/">readthedocs 英文文档</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.nameko.io//">Website</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/nameko/index.html">nameko</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of nameko</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/amqp/index.html">nameko.amqp</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of nameko.amqp</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/amqp/publish/index.html">nameko.amqp.publish</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/cli/index.html">nameko.cli</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of nameko.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/actions/index.html">nameko.cli.actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/backdoor/index.html">nameko.cli.backdoor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/code/index.html">nameko.cli.code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/commands/index.html">nameko.cli.commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/main/index.html">nameko.cli.main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/run/index.html">nameko.cli.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/shell/index.html">nameko.cli.shell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/cli/show_config/index.html">nameko.cli.show_config</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/standalone/index.html">nameko.standalone</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of nameko.standalone</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/standalone/events/index.html">nameko.standalone.events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/standalone/rpc/index.html">nameko.standalone.rpc</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/testing/index.html">nameko.testing</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of nameko.testing</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/pytest/index.html">nameko.testing.pytest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/rabbit/index.html">nameko.testing.rabbit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/services/index.html">nameko.testing.services</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/utils/index.html">nameko.testing.utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/waiting/index.html">nameko.testing.waiting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/testing/websocket/index.html">nameko.testing.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/utils/index.html">nameko.utils</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of nameko.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/utils/concurrency/index.html">nameko.utils.concurrency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/utils/retry/index.html">nameko.utils.retry</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/nameko/web/index.html">nameko.web</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of nameko.web</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/handlers/index.html">nameko.web.handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/server/index.html">nameko.web.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/nameko/web/websocket/index.html">nameko.web.websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/__main__/index.html">nameko.__main__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/constants/index.html">nameko.constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/containers/index.html">nameko.containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/contextdata/index.html">nameko.contextdata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/dependency_providers/index.html">nameko.dependency_providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/events/index.html">nameko.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/exceptions/index.html">nameko.exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/extensions/index.html">nameko.extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/log_helpers/index.html">nameko.log_helpers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/messaging/index.html">nameko.messaging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/rpc/index.html">nameko.rpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/runners/index.html">nameko.runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/serialization/index.html">nameko.serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/nameko/timer/index.html">nameko.timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/testing.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="id1">
+<h1>测试服务<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>哲学<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Nameko 的约定旨在使测试尽可能简单。服务通常是小型且单一用途的，而依赖注入则使得替换和隔离功能模块变得简单。</p>
+<p>以下示例使用 <a class="reference external" href="http://pytest.org/latest/">pytest</a> ，这是 Nameko 自身测试套件所使用的，但这些辅助工具与测试框架无关。</p>
+</section>
+<section id="id3">
+<h2>单元测试<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>在 Nameko 中，单元测试通常意味着在隔离环境中测试单个服务——换句话说，不依赖于任何或大部分依赖项。</p>
+<p><a class="reference internal" href="autoapi/nameko/testing/services/index.html#nameko.testing.services.worker_factory" title="nameko.testing.services.worker_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">worker_factory()</span></code></a> 工具将从给定的服务类创建一个 worker，其依赖项被 <code class="xref py py-class docutils literal notranslate"><span class="pre">mock.MagicMock</span></code> 对象替代。然后可以通过添加 <code class="xref py py-attr docutils literal notranslate"><span class="pre">side_effect</span></code> 和 <code class="xref py py-attr docutils literal notranslate"><span class="pre">return_value</span></code> 来模拟依赖功能：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot; Service unit testing best practice.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">nameko.rpc</span> <span class="kn">import</span> <span class="n">RpcProxy</span><span class="p">,</span> <span class="n">rpc</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.services</span> <span class="kn">import</span> <span class="n">worker_factory</span>
+
+
+<span class="k">class</span> <span class="nc">ConversionService</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Service under test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;conversions&quot;</span>
+
+    <span class="n">maths_rpc</span> <span class="o">=</span> <span class="n">RpcProxy</span><span class="p">(</span><span class="s2">&quot;maths&quot;</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">inches_to_cm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inches</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">inches</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">cms_to_inches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cms</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">cms</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_conversion_service</span><span class="p">():</span>
+    <span class="c1"># create worker with mock dependencies</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">worker_factory</span><span class="p">(</span><span class="n">ConversionService</span><span class="p">)</span>
+
+    <span class="c1"># add side effects to the mock proxy to the &quot;maths&quot; service</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">divide</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+
+    <span class="c1"># test inches_to_cm business logic</span>
+    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">inches_to_cm</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span> <span class="o">==</span> <span class="mi">762</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">)</span>
+
+    <span class="c1"># test cms_to_inches business logic</span>
+    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">cms_to_inches</span><span class="p">(</span><span class="mi">762</span><span class="p">)</span> <span class="o">==</span> <span class="mi">300</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">divide</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="mi">762</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在某些情况下，提供替代依赖项而不是使用 mock 是有帮助的。这可以是一个完全功能的替代品（例如，测试数据库会话），或是一个提供部分功能的轻量级适配器。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot; Service unit testing best practice, with an alternative dependency.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">declarative_base</span><span class="p">,</span> <span class="n">sessionmaker</span>
+
+<span class="kn">from</span> <span class="nn">nameko.rpc</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.services</span> <span class="kn">import</span> <span class="n">worker_factory</span>
+
+<span class="c1"># using community extension from http://pypi.python.org/pypi/nameko-sqlalchemy</span>
+<span class="kn">from</span> <span class="nn">nameko_sqlalchemy</span> <span class="kn">import</span> <span class="n">Session</span>
+
+
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;model&#39;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">Service</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Service under test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service&quot;</span>
+
+    <span class="n">db</span> <span class="o">=</span> <span class="n">Session</span><span class="p">(</span><span class="n">Base</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">session</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Create a test database and session</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///:memory:&#39;</span><span class="p">)</span>
+    <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+    <span class="n">session_cls</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">session_cls</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">test_service</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
+
+    <span class="c1"># create instance, providing the test database session</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">worker_factory</span><span class="p">(</span><span class="n">Service</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">session</span><span class="p">)</span>
+
+    <span class="c1"># verify ``save`` logic by querying the test database</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;helloworld&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Result</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="o">==</span> <span class="p">[(</span><span class="s2">&quot;helloworld&quot;</span><span class="p">,)]</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>集成测试<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>在 Nameko 中，集成测试意味着测试多个服务之间的接口。推荐的方法是以正常方式运行所有被测试的服务，并通过使用助手“触发”一个入口点来引发行为：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot; Service integration testing best practice.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">nameko.rpc</span> <span class="kn">import</span> <span class="n">rpc</span><span class="p">,</span> <span class="n">RpcProxy</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.utils</span> <span class="kn">import</span> <span class="n">get_container</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.services</span> <span class="kn">import</span> <span class="n">entrypoint_hook</span>
+
+
+<span class="k">class</span> <span class="nc">ServiceX</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Service under test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service_x&quot;</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">RpcProxy</span><span class="p">(</span><span class="s2">&quot;service_y&quot;</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">remote_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-x&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">append_identifier</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ServiceY</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Service under test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service_y&quot;</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">append_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-y&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_service_x_y_integration</span><span class="p">(</span><span class="n">runner_factory</span><span class="p">,</span> <span class="n">rabbit_config</span><span class="p">):</span>
+
+    <span class="c1"># run services in the normal manner</span>
+    <span class="n">runner</span> <span class="o">=</span> <span class="n">runner_factory</span><span class="p">(</span><span class="n">rabbit_config</span><span class="p">,</span> <span class="n">ServiceX</span><span class="p">,</span> <span class="n">ServiceY</span><span class="p">)</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># artificially fire the &quot;remote_method&quot; entrypoint on ServiceX</span>
+    <span class="c1"># and verify response</span>
+    <span class="n">container</span> <span class="o">=</span> <span class="n">get_container</span><span class="p">(</span><span class="n">runner</span><span class="p">,</span> <span class="n">ServiceX</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">entrypoint_hook</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="s2">&quot;remote_method&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">entrypoint</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">entrypoint</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;value-x-y&quot;</span>
+</pre></div>
+</div>
+<p>请注意，这里 <code class="docutils literal notranslate"><span class="pre">ServiceX</span></code> 和 <code class="docutils literal notranslate"><span class="pre">ServiceY</span></code> 之间的接口就像在正常操作下一样。</p>
+<p>对于特定测试不在范围内的接口，可以使用以下测试助手之一来禁用：</p>
+<section id="id5">
+<h3>限制入口点<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">nameko.testing.services.</span></span><span class="sig-name descname"><span class="pre">restrict_entrypoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">entrypoints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nameko/testing/services.html#restrict_entrypoints"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a></dt>
+<dd><p>限制 <code class="docutils literal notranslate"><span class="pre">container</span></code> 上的入口点，仅限于 <code class="docutils literal notranslate"><span class="pre">entrypoints</span></code> 中指定的名称。</p>
+<p>此方法必须在容器启动之前调用。</p>
+<p><strong>用法</strong></p>
+<p>以下服务定义有两个入口点：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service&quot;</span>
+
+    <span class="nd">@timer</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">baz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<span class="n">container</span> <span class="o">=</span> <span class="n">ServiceContainer</span><span class="p">(</span><span class="n">Service</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>要禁用 <code class="docutils literal notranslate"><span class="pre">foo</span></code> 上的计时器入口点，仅保留 RPC 入口点：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">restrict_entrypoints</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>请注意，无法单独识别同一方法上的多个入口点。</p>
+</dd></dl>
+
+</section>
+<section id="id6">
+<h3>替换依赖项<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">nameko.testing.services.</span></span><span class="sig-name descname"><span class="pre">replace_dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">dependencies</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">dependency_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nameko/testing/services.html#replace_dependencies"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a></dt>
+<dd><p>用 <cite>MockDependencyProvider</cite> 的实例替换 <code class="docutils literal notranslate"><span class="pre">container</span></code> 上的依赖提供者。</p>
+<p>在 *dependencies 中命名的依赖项将被替换为 <cite>MockDependencyProvider</cite> ，该提供者注入一个 MagicMock 作为依赖项。</p>
+<p>另外，您可以使用关键字参数来命名依赖项并提供 <cite>MockDependencyProvider</cite> 应该注入的替代值。</p>
+<p>返回在 (*dependencies) 参数中指定的每个依赖项的 <cite>MockDependencyProvider.dependency</cite> ，以便可以检查对被替代依赖项的调用。如果只替换了一个依赖项，则返回单个对象；否则返回一个生成器，按与 <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> 相同的顺序生成替代项。请注意，通过关键字参数 <cite>**dependency_map</cite> 指定的任何被替代依赖项将不会被返回。</p>
+<p>替代项在容器实例上进行替换，对服务类没有影响。因此，新容器实例不会受到先前实例上的替代项的影响。</p>
+<p><strong>用法</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nameko.rpc</span> <span class="kn">import</span> <span class="n">RpcProxy</span><span class="p">,</span> <span class="n">rpc</span>
+<span class="kn">from</span> <span class="nn">nameko.standalone.rpc</span> <span class="kn">import</span> <span class="n">ServiceRpcProxy</span>
+
+<span class="k">class</span> <span class="nc">ConversionService</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;conversions&quot;</span>
+
+    <span class="n">maths_rpc</span> <span class="o">=</span> <span class="n">RpcProxy</span><span class="p">(</span><span class="s2">&quot;maths&quot;</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">inches_to_cm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inches</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">inches</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">cm_to_inches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cms</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maths_rpc</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">cms</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">)</span>
+
+<span class="n">container</span> <span class="o">=</span> <span class="n">ServiceContainer</span><span class="p">(</span><span class="n">ConversionService</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">mock_maths_rpc</span> <span class="o">=</span> <span class="n">replace_dependencies</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="s2">&quot;maths_rpc&quot;</span><span class="p">)</span>
+<span class="n">mock_maths_rpc</span><span class="o">.</span><span class="n">divide</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="mf">39.37</span>
+
+<span class="n">container</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">ServiceRpcProxy</span><span class="p">(</span><span class="s1">&#39;conversions&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> <span class="k">as</span> <span class="n">proxy</span><span class="p">:</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">cm_to_inches</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># assert that the dependency was called as expected</span>
+<span class="n">mock_maths_rpc</span><span class="o">.</span><span class="n">divide</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mf">2.54</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>通过关键字提供特定的替代项：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">StubMaths</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val1</span> <span class="o">/</span> <span class="n">val2</span>
+
+<span class="n">replace_dependencies</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">maths_rpc</span><span class="o">=</span><span class="n">StubMaths</span><span class="p">())</span>
+
+<span class="n">container</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">ServiceRpcProxy</span><span class="p">(</span><span class="s1">&#39;conversions&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> <span class="k">as</span> <span class="n">proxy</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">proxy</span><span class="o">.</span><span class="n">cm_to_inches</span><span class="p">(</span><span class="mi">127</span><span class="p">)</span> <span class="o">==</span> <span class="mf">50.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="id7">
+<h3>完整示例<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p>以下集成测试示例使用了两个作用域限制助手：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">该文件定义了几个玩具服务，它们相互作用形成著名的 ACME 公司的商店。</span>
+<span class="sd">`AcmeShopService` 依赖于 `StockService`、`InvoiceService` 和 `PaymentService` 来履行订单。</span>
+<span class="sd">这些服务并不是最佳实践示例！它们是为文件底部的测试提供的最小服务。</span>
+
+<span class="sd">``test_shop_integration`` 是对 ACME 商店“结账流程”的完整集成测试。</span>
+<span class="sd">它演示了如何结合测试多个 ACME 服务，包括通过替换某些入口点和依赖项来限制服务交互。</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">nameko.extensions</span> <span class="kn">import</span> <span class="n">DependencyProvider</span>
+<span class="kn">from</span> <span class="nn">nameko.events</span> <span class="kn">import</span> <span class="n">EventDispatcher</span><span class="p">,</span> <span class="n">event_handler</span>
+<span class="kn">from</span> <span class="nn">nameko.exceptions</span> <span class="kn">import</span> <span class="n">RemoteError</span>
+<span class="kn">from</span> <span class="nn">nameko.rpc</span> <span class="kn">import</span> <span class="n">rpc</span><span class="p">,</span> <span class="n">RpcProxy</span>
+<span class="kn">from</span> <span class="nn">nameko.standalone.rpc</span> <span class="kn">import</span> <span class="n">ServiceRpcProxy</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.services</span> <span class="kn">import</span> <span class="n">replace_dependencies</span><span class="p">,</span> <span class="n">restrict_entrypoints</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.utils</span> <span class="kn">import</span> <span class="n">get_container</span>
+<span class="kn">from</span> <span class="nn">nameko.timer</span> <span class="kn">import</span> <span class="n">timer</span>
+
+
+<span class="k">class</span> <span class="nc">NotLoggedInError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">ItemOutOfStockError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">ItemDoesNotExistError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">ShoppingBasket</span><span class="p">(</span><span class="n">DependencyProvider</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A shopping basket tied to the current ``user_id``.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baskets</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_ctx</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">Basket</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+            <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basket</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_basket</span> <span class="o">=</span> <span class="n">basket</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">worker_ctx</span> <span class="o">=</span> <span class="n">worker_ctx</span>
+
+            <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_basket</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_basket</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">item</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">worker_ctx</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotLoggedInError</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Basket</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baskets</span><span class="p">[</span><span class="n">user_id</span><span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">AcmeShopService</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;acmeshopservice&quot;</span>
+
+    <span class="n">user_basket</span> <span class="o">=</span> <span class="n">ShoppingBasket</span><span class="p">()</span>
+    <span class="n">stock_rpc</span> <span class="o">=</span> <span class="n">RpcProxy</span><span class="p">(</span><span class="s2">&quot;stockservice&quot;</span><span class="p">)</span>
+    <span class="n">invoice_rpc</span> <span class="o">=</span> <span class="n">RpcProxy</span><span class="p">(</span><span class="s2">&quot;invoiceservice&quot;</span><span class="p">)</span>
+    <span class="n">payment_rpc</span> <span class="o">=</span> <span class="n">RpcProxy</span><span class="p">(</span><span class="s2">&quot;paymentservice&quot;</span><span class="p">)</span>
+
+    <span class="n">fire_event</span> <span class="o">=</span> <span class="n">EventDispatcher</span><span class="p">()</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">add_to_basket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add item identified by ``item_code`` to the shopping basket.</span>
+
+<span class="sd">        This is a toy example! Ignore the obvious race condition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stock_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stock_rpc</span><span class="o">.</span><span class="n">check_stock</span><span class="p">(</span><span class="n">item_code</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stock_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_basket</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item_code</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fire_event</span><span class="p">(</span><span class="s2">&quot;item_added_to_basket&quot;</span><span class="p">,</span> <span class="n">item_code</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">item_code</span>
+
+        <span class="k">raise</span> <span class="n">ItemOutOfStockError</span><span class="p">(</span><span class="n">item_code</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Take payment for all items in the shopping basket.&quot;&quot;&quot;</span>
+        <span class="n">total_price</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stock_rpc</span><span class="o">.</span><span class="n">check_price</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_basket</span><span class="p">)</span>
+
+        <span class="c1"># prepare invoice</span>
+        <span class="n">invoice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoice_rpc</span><span class="o">.</span><span class="n">prepare_invoice</span><span class="p">(</span><span class="n">total_price</span><span class="p">)</span>
+
+        <span class="c1"># take payment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">payment_rpc</span><span class="o">.</span><span class="n">take_payment</span><span class="p">(</span><span class="n">invoice</span><span class="p">)</span>
+
+        <span class="c1"># fire checkout event if prepare_invoice and take_payment succeeded</span>
+        <span class="n">checkout_event_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;invoice&quot;</span><span class="p">:</span> <span class="n">invoice</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_basket</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fire_event</span><span class="p">(</span><span class="s2">&quot;checkout_complete&quot;</span><span class="p">,</span> <span class="n">checkout_event_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_price</span>
+
+
+<span class="k">class</span> <span class="nc">Warehouse</span><span class="p">(</span><span class="n">DependencyProvider</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A database of items in the warehouse.</span>
+
+<span class="sd">    This is a toy example! A dictionary is not a database.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;anvil&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;stock&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+            <span class="s2">&quot;dehydrated_boulders&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mi">999</span><span class="p">,</span> <span class="s2">&quot;stock&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">},</span>
+            <span class="s2">&quot;invisible_paint&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;stock&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">},</span>
+            <span class="s2">&quot;toothpicks&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;stock&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">get_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_ctx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span>
+
+
+<span class="k">class</span> <span class="nc">StockService</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;stockservice&quot;</span>
+
+    <span class="n">warehouse</span> <span class="o">=</span> <span class="n">Warehouse</span><span class="p">()</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">check_price</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the price of an item.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">warehouse</span><span class="p">[</span><span class="n">item_code</span><span class="p">][</span><span class="s2">&quot;price&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ItemDoesNotExistError</span><span class="p">(</span><span class="n">item_code</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">check_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the stock level of an item.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">warehouse</span><span class="p">[</span><span class="n">item_code</span><span class="p">][</span><span class="s2">&quot;stock&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ItemDoesNotExistError</span><span class="p">(</span><span class="n">item_code</span><span class="p">)</span>
+
+    <span class="nd">@rpc</span>
+    <span class="nd">@timer</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">monitor_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Periodic stock monitoring method. Can also be triggered manually</span>
+<span class="sd">        over RPC.</span>
+
+<span class="sd">        This is an expensive process that we don&#39;t want to exercise during</span>
+<span class="sd">        integration testing...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="nd">@event_handler</span><span class="p">(</span><span class="s2">&quot;acmeshopservice&quot;</span><span class="p">,</span> <span class="s2">&quot;checkout_complete&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">dispatch_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dispatch items from stock on successful checkouts.</span>
+
+<span class="sd">        This is an expensive process that we don&#39;t want to exercise during</span>
+<span class="sd">        integration testing...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">AddressBook</span><span class="p">(</span><span class="n">DependencyProvider</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A database of user details, keyed on user_id.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address_book</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;wile_e_coyote&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;wile_e_coyote&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;fullname&quot;</span><span class="p">:</span> <span class="s2">&quot;Wile E Coyote&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="s2">&quot;12 Long Road, High Cliffs, Utah&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">get_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_ctx</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">get_user_details</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user_id</span> <span class="o">=</span> <span class="n">worker_ctx</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NotLoggedInError</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">address_book</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">get_user_details</span>
+
+
+<span class="k">class</span> <span class="nc">InvoiceService</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;invoiceservice&quot;</span>
+
+    <span class="n">get_user_details</span> <span class="o">=</span> <span class="n">AddressBook</span><span class="p">()</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">prepare_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare an invoice for ``amount`` for the current user.&quot;&quot;&quot;</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_user_details</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span>
+        <span class="n">fullname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_user_details</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fullname&quot;</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_user_details</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;username&quot;</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Dear </span><span class="si">{}</span><span class="s2">. Please pay $</span><span class="si">{}</span><span class="s2"> to ACME Corp.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+        <span class="n">invoice</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="p">,</span>
+            <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">amount</span><span class="p">,</span>
+            <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+            <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">invoice</span>
+
+
+<span class="k">class</span> <span class="nc">PaymentService</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;paymentservice&quot;</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">take_payment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invoice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Take payment from a customer according to ``invoice``.</span>
+
+<span class="sd">        This is an expensive process that we don&#39;t want to exercise during</span>
+<span class="sd">        integration testing...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Begin test</span>
+<span class="c1"># =============================================================================</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">rpc_proxy_factory</span><span class="p">(</span><span class="n">rabbit_config</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory fixture for standalone RPC proxies.</span>
+
+<span class="sd">    Proxies are started automatically so they can be used without a ``with``</span>
+<span class="sd">    statement. All created proxies are stopped at the end of the test, when</span>
+<span class="sd">    this fixture closes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_proxies</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">make_proxy</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="n">ServiceRpcProxy</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">rabbit_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">all_proxies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">proxy</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">yield</span> <span class="n">make_proxy</span>
+
+    <span class="k">for</span> <span class="n">proxy</span> <span class="ow">in</span> <span class="n">all_proxies</span><span class="p">:</span>
+        <span class="n">proxy</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">test_shop_checkout_integration</span><span class="p">(</span><span class="n">rabbit_config</span><span class="p">,</span> <span class="n">runner_factory</span><span class="p">,</span> <span class="n">rpc_proxy_factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate a checkout flow as an integration test.</span>
+
+<span class="sd">    Requires instances of AcmeShopService, StockService and InvoiceService</span>
+<span class="sd">    to be running. Explicitly replaces the rpc proxy to PaymentService so</span>
+<span class="sd">    that service doesn&#39;t need to be hosted.</span>
+
+<span class="sd">    Also replaces the event dispatcher dependency on AcmeShopService and</span>
+<span class="sd">    disables the timer entrypoint on StockService. Limiting the interactions</span>
+<span class="sd">    of services in this way reduces the scope of the integration test and</span>
+<span class="sd">    eliminates undesirable side-effects (e.g. processing events unnecessarily).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="s2">&quot;wile_e_coyote&quot;</span><span class="p">}</span>
+    <span class="n">shop</span> <span class="o">=</span> <span class="n">rpc_proxy_factory</span><span class="p">(</span><span class="s2">&quot;acmeshopservice&quot;</span><span class="p">,</span> <span class="n">context_data</span><span class="o">=</span><span class="n">context_data</span><span class="p">)</span>
+
+    <span class="n">runner</span> <span class="o">=</span> <span class="n">runner_factory</span><span class="p">(</span>
+        <span class="n">rabbit_config</span><span class="p">,</span> <span class="n">AcmeShopService</span><span class="p">,</span> <span class="n">StockService</span><span class="p">,</span> <span class="n">InvoiceService</span>
+    <span class="p">)</span>
+
+    <span class="c1"># replace ``event_dispatcher`` and ``payment_rpc``  dependencies on</span>
+    <span class="c1"># AcmeShopService with ``MockDependencyProvider``\s</span>
+    <span class="n">shop_container</span> <span class="o">=</span> <span class="n">get_container</span><span class="p">(</span><span class="n">runner</span><span class="p">,</span> <span class="n">AcmeShopService</span><span class="p">)</span>
+    <span class="n">fire_event</span><span class="p">,</span> <span class="n">payment_rpc</span> <span class="o">=</span> <span class="n">replace_dependencies</span><span class="p">(</span>
+        <span class="n">shop_container</span><span class="p">,</span> <span class="s2">&quot;fire_event&quot;</span><span class="p">,</span> <span class="s2">&quot;payment_rpc&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># restrict entrypoints on StockService</span>
+    <span class="n">stock_container</span> <span class="o">=</span> <span class="n">get_container</span><span class="p">(</span><span class="n">runner</span><span class="p">,</span> <span class="n">StockService</span><span class="p">)</span>
+    <span class="n">restrict_entrypoints</span><span class="p">(</span><span class="n">stock_container</span><span class="p">,</span> <span class="s2">&quot;check_price&quot;</span><span class="p">,</span> <span class="s2">&quot;check_stock&quot;</span><span class="p">)</span>
+
+    <span class="n">runner</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># add some items to the basket</span>
+    <span class="k">assert</span> <span class="n">shop</span><span class="o">.</span><span class="n">add_to_basket</span><span class="p">(</span><span class="s2">&quot;anvil&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;anvil&quot;</span>
+    <span class="k">assert</span> <span class="n">shop</span><span class="o">.</span><span class="n">add_to_basket</span><span class="p">(</span><span class="s2">&quot;invisible_paint&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;invisible_paint&quot;</span>
+
+    <span class="c1"># try to buy something that&#39;s out of stock</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">RemoteError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc_info</span><span class="p">:</span>
+        <span class="n">shop</span><span class="o">.</span><span class="n">add_to_basket</span><span class="p">(</span><span class="s2">&quot;toothpicks&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">exc_info</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">exc_type</span> <span class="o">==</span> <span class="s2">&quot;ItemOutOfStockError&quot;</span>
+
+    <span class="c1"># provide a mock response from the payment service</span>
+    <span class="n">payment_rpc</span><span class="o">.</span><span class="n">take_payment</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s2">&quot;Payment complete.&quot;</span>
+
+    <span class="c1"># checkout</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">shop</span><span class="o">.</span><span class="n">checkout</span><span class="p">()</span>
+
+    <span class="n">total_amount</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">+</span> <span class="mi">10</span>
+    <span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="n">total_amount</span>
+
+    <span class="c1"># verify integration with mocked out payment service</span>
+    <span class="n">payment_rpc</span><span class="o">.</span><span class="n">take_payment</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;wile_e_coyote&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="s2">&quot;12 Long Road, High Cliffs, Utah&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">total_amount</span><span class="p">,</span>
+            <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Dear Wile E Coyote. Please pay $110 to ACME Corp.&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># verify events fired as expected</span>
+    <span class="k">assert</span> <span class="n">fire_event</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">3</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+
+    <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>其他助手<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<section id="id9">
+<h3>入口点钩子<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<p>入口点钩子允许手动调用服务入口点。这在集成测试中非常有用，特别是当很难或昂贵地模拟导致入口点被触发的外部事件时。</p>
+<p>您可以为调用提供 <cite>context_data</cite> ，以模拟特定的调用上下文，例如语言、用户代理或身份验证令牌。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">nameko.contextdata</span> <span class="kn">import</span> <span class="n">Language</span>
+<span class="kn">from</span> <span class="nn">nameko.rpc</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.services</span> <span class="kn">import</span> <span class="n">entrypoint_hook</span>
+
+
+<span class="k">class</span> <span class="nc">HelloService</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Service under test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;hello_service&quot;</span>
+
+    <span class="n">language</span> <span class="o">=</span> <span class="n">Language</span><span class="p">()</span>
+
+    <span class="nd">@rpc</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">greeting</span> <span class="o">=</span> <span class="s2">&quot;Hello&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">==</span> <span class="s2">&quot;fr&quot;</span><span class="p">:</span>
+            <span class="n">greeting</span> <span class="o">=</span> <span class="s2">&quot;Bonjour&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">==</span> <span class="s2">&quot;de&quot;</span><span class="p">:</span>
+            <span class="n">greeting</span> <span class="o">=</span> <span class="s2">&quot;Gutentag&quot;</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">greeting</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;language, greeting&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="s2">&quot;Bonjour&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;de&quot;</span><span class="p">,</span> <span class="s2">&quot;Gutentag&quot;</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_hello_languages</span><span class="p">(</span><span class="n">language</span><span class="p">,</span> <span class="n">greeting</span><span class="p">,</span> <span class="n">container_factory</span><span class="p">,</span> <span class="n">rabbit_config</span><span class="p">):</span>
+
+    <span class="n">container</span> <span class="o">=</span> <span class="n">container_factory</span><span class="p">(</span><span class="n">HelloService</span><span class="p">,</span> <span class="n">rabbit_config</span><span class="p">)</span>
+    <span class="n">container</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">context_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">}</span>
+    <span class="k">with</span> <span class="n">entrypoint_hook</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="n">context_data</span><span class="p">)</span> <span class="k">as</span> <span class="n">hook</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">hook</span><span class="p">(</span><span class="s2">&quot;Matt&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, Matt!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>入口点等待器<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<p>入口点等待器是一个上下文管理器，直到指定的入口点被触发并完成时才会退出。这在测试服务之间的异步集成点时非常有用，例如接收事件：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nameko.events</span> <span class="kn">import</span> <span class="n">event_handler</span>
+<span class="kn">from</span> <span class="nn">nameko.standalone.events</span> <span class="kn">import</span> <span class="n">event_dispatcher</span>
+<span class="kn">from</span> <span class="nn">nameko.testing.services</span> <span class="kn">import</span> <span class="n">entrypoint_waiter</span>
+
+
+<span class="k">class</span> <span class="nc">ServiceB</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Event listening service.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;service_b&quot;</span>
+
+    <span class="nd">@event_handler</span><span class="p">(</span><span class="s2">&quot;service_a&quot;</span><span class="p">,</span> <span class="s2">&quot;event_type&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">handle_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;service b received&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_event_interface</span><span class="p">(</span><span class="n">container_factory</span><span class="p">,</span> <span class="n">rabbit_config</span><span class="p">):</span>
+
+    <span class="n">container</span> <span class="o">=</span> <span class="n">container_factory</span><span class="p">(</span><span class="n">ServiceB</span><span class="p">,</span> <span class="n">rabbit_config</span><span class="p">)</span>
+    <span class="n">container</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">dispatch</span> <span class="o">=</span> <span class="n">event_dispatcher</span><span class="p">(</span><span class="n">rabbit_config</span><span class="p">)</span>
+
+    <span class="c1"># prints &quot;service b received payload&quot; before &quot;exited&quot;</span>
+    <span class="k">with</span> <span class="n">entrypoint_waiter</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="s1">&#39;handle_event&#39;</span><span class="p">):</span>
+        <span class="n">dispatch</span><span class="p">(</span><span class="s2">&quot;service_a&quot;</span><span class="p">,</span> <span class="s2">&quot;event_type&quot;</span><span class="p">,</span> <span class="s2">&quot;payload&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exited&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>请注意，该上下文管理器不仅等待入口点方法的完成，还等待任何依赖项的拆解。例如，基于依赖项的日志记录器（TODO: 链接到捆绑的日志记录器）也会完成。</p>
+</section>
+</section>
+<section id="id11">
+<h2>使用 pytest<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
+<p>Nameko 的测试套件使用 pytest，并为您选择使用 pytest 时提供一些有用的配置和固件。</p>
+<p>它们包含在 <a class="reference internal" href="autoapi/nameko/testing/pytest/index.html#module-nameko.testing.pytest" title="nameko.testing.pytest"><code class="xref py py-mod docutils literal notranslate"><span class="pre">nameko.testing.pytest</span></code></a> 中。该模块作为 <a class="reference external" href="https://docs.pytest.org/en/latest/plugins.html">pytest 插件</a> 通过 setuptools 注册。Pytest 会自动识别并使用它。</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="writing_extensions.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">编写扩展</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="community_extensions.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">社区</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2015
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">测试服务</a><ul>
+<li><a class="reference internal" href="#id2">哲学</a></li>
+<li><a class="reference internal" href="#id3">单元测试</a></li>
+<li><a class="reference internal" href="#id4">集成测试</a><ul>
+<li><a class="reference internal" href="#id5">限制入口点</a></li>
+<li><a class="reference internal" href="#id6">替换依赖项</a></li>
+<li><a class="reference internal" href="#id7">完整示例</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">其他助手</a><ul>
+<li><a class="reference internal" href="#id9">入口点钩子</a></li>
+<li><a class="reference internal" href="#id10">入口点等待器</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11">使用 pytest</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=ca28820f"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/open_in_new_tab.js?v=d48564ca"></script>
+    </body>
+</html>

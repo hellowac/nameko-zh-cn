@@ -1,0 +1,30 @@
+nameko.standalone.events
+========================
+
+.. py:module:: nameko.standalone.events
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.standalone.events.get_event_exchange
+   nameko.standalone.events.event_dispatcher
+
+
+Module Contents
+---------------
+
+.. py:function:: get_event_exchange(service_name, config)
+
+   获取 ``service_name`` 事件的交换机。
+       
+
+
+.. py:function:: event_dispatcher(nameko_config, **kwargs)
+
+   返回一个用于分发 Nameko 事件的函数。
+       
+
+

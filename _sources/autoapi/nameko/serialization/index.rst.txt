@@ -1,0 +1,22 @@
+nameko.serialization
+====================
+
+.. py:module:: nameko.serialization
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.serialization.setup
+
+
+Module Contents
+---------------
+
+.. py:function:: setup(config: dict)
+
+   启用序列化, 并向kombu.serialization 注册 
+
+

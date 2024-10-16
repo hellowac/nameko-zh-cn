@@ -1,0 +1,19 @@
+nameko.testing.websocket
+========================
+
+.. py:module:: nameko.testing.websocket
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.testing.websocket.make_virtual_socket
+
+
+Module Contents
+---------------
+
+.. py:function:: make_virtual_socket(host, port, path='/ws')
+

@@ -1,0 +1,142 @@
+nameko.constants
+================
+
+.. py:module:: nameko.constants
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.constants.AMQP_URI_CONFIG_KEY
+   nameko.constants.WEB_SERVER_CONFIG_KEY
+   nameko.constants.RPC_EXCHANGE_CONFIG_KEY
+   nameko.constants.SERIALIZER_CONFIG_KEY
+   nameko.constants.SERIALIZERS_CONFIG_KEY
+   nameko.constants.ACCEPT_CONFIG_KEY
+   nameko.constants.HEARTBEAT_CONFIG_KEY
+   nameko.constants.AMQP_SSL_CONFIG_KEY
+   nameko.constants.TRANSPORT_OPTIONS_CONFIG_KEY
+   nameko.constants.LOGIN_METHOD_CONFIG_KEY
+   nameko.constants.MAX_WORKERS_CONFIG_KEY
+   nameko.constants.PARENT_CALLS_CONFIG_KEY
+   nameko.constants.DEFAULT_MAX_WORKERS
+   nameko.constants.DEFAULT_PARENT_CALLS_TRACKED
+   nameko.constants.DEFAULT_SERIALIZER
+   nameko.constants.DEFAULT_RETRY_POLICY
+   nameko.constants.DEFAULT_HEARTBEAT
+   nameko.constants.DEFAULT_TRANSPORT_OPTIONS
+   nameko.constants.CALL_ID_STACK_CONTEXT_KEY
+   nameko.constants.AUTH_TOKEN_CONTEXT_KEY
+   nameko.constants.LANGUAGE_CONTEXT_KEY
+   nameko.constants.USER_ID_CONTEXT_KEY
+   nameko.constants.USER_AGENT_CONTEXT_KEY
+   nameko.constants.HEADER_PREFIX
+   nameko.constants.NON_PERSISTENT
+   nameko.constants.PERSISTENT
+
+
+Module Contents
+---------------
+
+.. py:data:: AMQP_URI_CONFIG_KEY
+   :value: 'AMQP_URI'
+
+
+.. py:data:: WEB_SERVER_CONFIG_KEY
+   :value: 'WEB_SERVER_ADDRESS'
+
+
+.. py:data:: RPC_EXCHANGE_CONFIG_KEY
+   :value: 'rpc_exchange'
+
+
+.. py:data:: SERIALIZER_CONFIG_KEY
+   :value: 'serializer'
+
+
+.. py:data:: SERIALIZERS_CONFIG_KEY
+   :value: 'SERIALIZERS'
+
+
+.. py:data:: ACCEPT_CONFIG_KEY
+   :value: 'ACCEPT'
+
+
+.. py:data:: HEARTBEAT_CONFIG_KEY
+   :value: 'HEARTBEAT'
+
+
+.. py:data:: AMQP_SSL_CONFIG_KEY
+   :value: 'AMQP_SSL'
+
+
+.. py:data:: TRANSPORT_OPTIONS_CONFIG_KEY
+   :value: 'TRANSPORT_OPTIONS'
+
+
+.. py:data:: LOGIN_METHOD_CONFIG_KEY
+   :value: 'LOGIN_METHOD'
+
+
+.. py:data:: MAX_WORKERS_CONFIG_KEY
+   :value: 'max_workers'
+
+
+.. py:data:: PARENT_CALLS_CONFIG_KEY
+   :value: 'parent_calls_tracked'
+
+
+.. py:data:: DEFAULT_MAX_WORKERS
+   :value: 10
+
+
+.. py:data:: DEFAULT_PARENT_CALLS_TRACKED
+   :value: 10
+
+
+.. py:data:: DEFAULT_SERIALIZER
+   :value: 'json'
+
+
+.. py:data:: DEFAULT_RETRY_POLICY
+
+.. py:data:: DEFAULT_HEARTBEAT
+   :value: 60
+
+
+.. py:data:: DEFAULT_TRANSPORT_OPTIONS
+
+.. py:data:: CALL_ID_STACK_CONTEXT_KEY
+   :value: 'call_id_stack'
+
+
+.. py:data:: AUTH_TOKEN_CONTEXT_KEY
+   :value: 'auth_token'
+
+
+.. py:data:: LANGUAGE_CONTEXT_KEY
+   :value: 'language'
+
+
+.. py:data:: USER_ID_CONTEXT_KEY
+   :value: 'user_id'
+
+
+.. py:data:: USER_AGENT_CONTEXT_KEY
+   :value: 'user_agent'
+
+
+.. py:data:: HEADER_PREFIX
+   :value: 'nameko'
+
+
+.. py:data:: NON_PERSISTENT
+   :value: 1
+
+
+.. py:data:: PERSISTENT
+   :value: 2
+
+

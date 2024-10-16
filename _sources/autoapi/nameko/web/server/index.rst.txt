@@ -1,0 +1,152 @@
+nameko.web.server
+=================
+
+.. py:module:: nameko.web.server
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.web.server.STATE_IDLE
+   nameko.web.server.BindAddress
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.web.server.HttpOnlyProtocol
+   nameko.web.server.WebServer
+   nameko.web.server.WsgiApp
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.web.server.parse_address
+
+
+Module Contents
+---------------
+
+.. py:data:: STATE_IDLE
+
+.. py:data:: BindAddress
+
+.. py:function:: parse_address(address_string)
+
+.. py:class:: HttpOnlyProtocol(conn_state, server)
+
+   Bases: :py:obj:`eventlet.wsgi.HttpProtocol`
+
+
+   This class is used to handle the HTTP requests that arrive
+   at the server.
+
+   The handler will parse the request and the headers, then call a method
+   specific to the request type.
+
+   :param conn_state: The given connection status.
+   :param server: The server accessible by the request handler.
+
+
+   .. py:method:: finish()
+
+
+.. py:class:: WebServer
+
+   Bases: :py:obj:`nameko.extensions.ProviderCollector`, :py:obj:`nameko.extensions.SharedExtension`
+
+
+   一个 `SharedExtension`，用于包装 WSGI 接口以处理 HTTP 请求。
+
+   `WebServer` 可以被子类化，通过重写 `get_wsgi_server` 和 `get_wsgi_app` 方法来添加额外的 WSGI 功能。
+
+
+   .. py:attribute:: _gt
+      :value: None
+
+
+
+   .. py:attribute:: _sock
+      :value: None
+
+
+
+   .. py:attribute:: _serv
+      :value: None
+
+
+
+   .. py:attribute:: _starting
+      :value: False
+
+
+
+   .. py:attribute:: _is_accepting
+      :value: True
+
+
+
+   .. py:property:: bind_addr
+
+
+   .. py:method:: run()
+
+
+   .. py:method:: process_request(sock, address)
+
+
+   .. py:method:: start()
+
+      在容器成功启动时调用绑定的扩展。
+
+      此方法仅在所有其他扩展成功返回 `Extension.setup` 后被调用。如果扩展对外部事件做出反应，它现在应该开始对此进行响应。
+
+
+
+   .. py:method:: get_wsgi_app()
+
+      获取用于处理请求的 WSGI 应用程序。
+
+      此方法可以被重写，以应用 WSGI 中间件或完全替换 WSGI 应用程序。
+
+
+
+   .. py:method:: get_wsgi_server(sock, wsgi_app, protocol=HttpOnlyProtocol, debug=False)
+
+      Get the WSGI server used to process requests.
+
+
+
+   .. py:method:: stop()
+
+      使用 `ProviderCollector` 作为混入类的子类的默认 `:meth:Extension.stop()` 实现。
+
+
+
+   .. py:method:: make_url_map()
+
+
+   .. py:method:: context_data_from_headers(request)
+
+
+.. py:class:: WsgiApp(server)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: server
+
+
+   .. py:attribute:: url_map
+
+
+   .. py:method:: __call__(environ, start_response)
+
+

@@ -1,0 +1,52 @@
+nameko.cli.main
+===============
+
+.. py:module:: nameko.cli.main
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.cli.main.has_regex_module
+   nameko.cli.main.IMPLICIT_ENV_VAR_MATCHER
+   nameko.cli.main.RECURSIVE_ENV_VAR_MATCHER
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.cli.main.setup_parser
+   nameko.cli.main._replace_env_var
+   nameko.cli.main.env_var_constructor
+   nameko.cli.main.setup_yaml_parser
+   nameko.cli.main.main
+
+
+Module Contents
+---------------
+
+.. py:data:: has_regex_module
+   :value: False
+
+
+.. py:data:: IMPLICIT_ENV_VAR_MATCHER
+
+.. py:data:: RECURSIVE_ENV_VAR_MATCHER
+
+.. py:function:: setup_parser()
+
+   启动时，设置 argparser 以及定义的命令行
+
+
+.. py:function:: _replace_env_var(match: regex.Match)
+
+.. py:function:: env_var_constructor(loader: yaml.SafeLoader, node: yaml.Node, raw: bool = False)
+
+.. py:function:: setup_yaml_parser()
+
+.. py:function:: main()
+

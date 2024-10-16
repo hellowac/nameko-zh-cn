@@ -1,0 +1,255 @@
+nameko.exceptions
+=================
+
+.. py:module:: nameko.exceptions
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.exceptions.registry
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   nameko.exceptions.ExtensionNotFound
+   nameko.exceptions.RpcTimeout
+   nameko.exceptions.ReplyQueueExpiredWithPendingReplies
+   nameko.exceptions.ContainerBeingKilled
+   nameko.exceptions.RemoteError
+   nameko.exceptions.BadRequest
+   nameko.exceptions.MalformedRequest
+   nameko.exceptions.MethodNotFound
+   nameko.exceptions.IncorrectSignature
+   nameko.exceptions.UnknownService
+   nameko.exceptions.UnserializableValueError
+   nameko.exceptions.ConfigurationError
+   nameko.exceptions.CommandError
+   nameko.exceptions.ConnectionNotFound
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.exceptions.get_module_path
+   nameko.exceptions.safe_for_serialization
+   nameko.exceptions.serialize
+   nameko.exceptions.deserialize
+   nameko.exceptions.deserialize_to_instance
+
+
+Module Contents
+---------------
+
+.. py:exception:: ExtensionNotFound
+
+   Bases: :py:obj:`AttributeError`
+
+
+   Attribute not found.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: RpcTimeout
+
+   Bases: :py:obj:`Exception`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: ReplyQueueExpiredWithPendingReplies
+
+   Bases: :py:obj:`Exception`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: ContainerBeingKilled
+
+   Bases: :py:obj:`Exception`
+
+
+   在 :meth:`Container.spawn_worker` 启动 ``kill`` 序列时引发。
+
+   入口点应捕获此异常，并作出反应，仿佛它们一开始就不可用，例如，RPC 消费者可能应重新排队该消息。
+
+   我们需要这个，因为在执行 :meth:`Container.kill` 时，Eventlet 可能会让出控制权，从而使入口点在它们自己被杀死之前有机会执行。
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:data:: registry
+
+.. py:function:: get_module_path(exc_type)
+
+   返回 `exc_type` 的点分模块路径，包括类名。
+
+   e.g.::
+
+       >>> get_module_path(MethodNotFound)
+       >>> "nameko.exceptions.MethodNotFound"
+
+
+
+.. py:exception:: RemoteError(exc_type=None, value='')
+
+   Bases: :py:obj:`Exception`
+
+
+   如果远程工作者发生异常，则在调用者处引发的异常。
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+   .. py:attribute:: exc_type
+
+
+   .. py:attribute:: value
+
+
+   .. py:attribute:: message
+
+
+.. py:function:: safe_for_serialization(value)
+
+   在准备将值序列化为 JSON 时进行转换。
+
+   对于字符串，映射和可迭代对象不进行操作，其条目被处理为安全；对于所有其他值，进行字符串化，如果失败则使用回退值。
+
+
+.. py:function:: serialize(exc)
+
+   将 `self.exc` 序列化为表示它的数据字典。
+
+
+.. py:function:: deserialize(data)
+
+   将 `data` 反序列化为异常实例。
+
+   如果 `exc_path` 值与注册为“可反序列化”的异常匹配，则返回该异常类型的实例。否则，返回一个描述发生异常的 `RemoteError` 实例。
+
+
+.. py:function:: deserialize_to_instance(exc_type)
+
+   装饰器，将 `exc_type` 注册为可反序列化为实例，而不是 :class:`RemoteError`。参见 :func:`deserialize`。
+
+
+.. py:exception:: BadRequest
+
+   Bases: :py:obj:`Exception`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: MalformedRequest
+
+   Bases: :py:obj:`BadRequest`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: MethodNotFound
+
+   Bases: :py:obj:`BadRequest`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: IncorrectSignature
+
+   Bases: :py:obj:`BadRequest`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: UnknownService(service_name)
+
+   Bases: :py:obj:`Exception`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+   .. py:attribute:: _service_name
+
+
+   .. py:method:: __str__()
+
+      Return str(self).
+
+
+
+.. py:exception:: UnserializableValueError(value)
+
+   Bases: :py:obj:`Exception`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+   .. py:method:: __str__()
+
+      Return str(self).
+
+
+
+.. py:exception:: ConfigurationError
+
+   Bases: :py:obj:`Exception`
+
+
+   Common base class for all non-exit exceptions.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: CommandError
+
+   Bases: :py:obj:`Exception`
+
+
+   从子命令中引发，以将错误报告回用户。
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:exception:: ConnectionNotFound
+
+   Bases: :py:obj:`BadRequest`
+
+
+   Unknown websocket connection id
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+

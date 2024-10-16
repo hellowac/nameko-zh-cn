@@ -1,0 +1,112 @@
+nameko.timer
+============
+
+.. py:module:: nameko.timer
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.timer._log
+   nameko.timer.timer
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.timer.Timer
+
+
+Module Contents
+---------------
+
+.. py:data:: _log
+
+.. py:class:: Timer(interval, eager=False, **kwargs)
+
+   Bases: :py:obj:`nameko.extensions.Entrypoint`
+
+
+   入口点封装类
+
+   定时器入口点。每隔 `interval` 秒触发一次，或在上一个工作线程完成后立即触发（如果上一个工作线程耗时更长）。
+
+   默认行为是在第一次触发之前等待 `interval` 秒。
+   如果希望入口点在服务启动时立即触发，请传递 `eager=True`。
+
+   示例::
+
+       timer = Timer.decorator
+
+       class Service(object):
+           name = "service"
+
+           @timer(interval=5)
+           def tick(self):
+               pass
+
+
+
+   .. py:attribute:: interval
+
+
+   .. py:attribute:: eager
+
+
+   .. py:attribute:: should_stop
+
+
+   .. py:attribute:: worker_complete
+
+
+   .. py:attribute:: gt
+      :value: None
+
+
+
+   .. py:method:: start()
+
+      在容器成功启动时调用绑定的扩展。
+
+      此方法仅在所有其他扩展成功返回 `Extension.setup` 后被调用。如果扩展对外部事件做出反应，它现在应该开始对此进行响应。
+
+
+
+   .. py:method:: stop()
+
+      在服务容器开始关闭时调用。
+
+      扩展应在此处执行任何优雅的关闭操作。
+
+
+
+   .. py:method:: kill()
+
+      在没有优雅关闭的情况下调用以停止此扩展。
+
+      扩展应在此处紧急关闭。这意味着尽快停止，省略清理操作。对于某些依赖项，这可能与 `stop()` 不同。
+
+      例如，`messaging.QueueConsumer` 类跟踪正在处理的消息和待处理的消息确认。它的 `kill` 实现会尽快丢弃这些消息并与 Rabbit 断开连接。
+
+      在执行 kill 时，扩展不应引发异常，因为容器已经在关闭。相反，它们应该记录适当的信息，并捕获异常，以允许容器继续关闭。
+
+
+
+   .. py:method:: _run()
+
+      运行间隔循环。
+
+
+
+   .. py:method:: handle_timer_tick()
+
+
+   .. py:method:: handle_result(worker_ctx, result, exc_info)
+
+
+.. py:data:: timer
+

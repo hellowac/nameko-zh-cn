@@ -1,0 +1,44 @@
+nameko.utils.retry
+==================
+
+.. py:module:: nameko.utils.retry
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.utils.retry.RetryDelay
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.utils.retry.retry
+
+
+Module Contents
+---------------
+
+.. py:class:: RetryDelay(delay, backoff, max_delay)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: delay
+
+
+   .. py:attribute:: backoff
+
+
+   .. py:attribute:: max_delay
+
+
+   .. py:method:: next()
+
+
+.. py:function:: retry(wrapped=None, for_exceptions=Exception, max_attempts=3, delay=1, backoff=1, max_delay=None)
+

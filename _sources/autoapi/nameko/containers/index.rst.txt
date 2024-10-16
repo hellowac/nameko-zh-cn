@@ -1,0 +1,332 @@
+nameko.containers
+=================
+
+.. py:module:: nameko.containers
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.containers._log
+   nameko.containers._log_time
+   nameko.containers.is_method
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.containers.WorkerContext
+   nameko.containers.ServiceContainer
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.containers.get_service_name
+   nameko.containers.get_container_cls
+   nameko.containers.new_call_id
+
+
+Module Contents
+---------------
+
+.. py:data:: _log
+
+.. py:data:: _log_time
+
+.. py:data:: is_method
+
+.. py:function:: get_service_name(service_cls: Type)
+
+   获取微服务名称
+
+
+.. py:function:: get_container_cls(config: dict) -> Union[Type[ServiceContainer], Any]
+
+   获取容器类
+
+
+.. py:function:: new_call_id()
+
+.. py:class:: WorkerContext(container: ServiceContainer, service: Type, entrypoint: nameko.extensions.Entrypoint, args=None, kwargs=None, data=None)
+
+   Bases: :py:obj:`object`
+
+
+   工作者上下文
+
+
+   .. py:attribute:: _call_id
+      :value: None
+
+
+
+   .. py:attribute:: _call_id_stack
+      :value: None
+
+
+
+   .. py:attribute:: _parent_call_id_stack
+      :value: []
+
+
+
+   .. py:attribute:: container
+
+
+   .. py:attribute:: config
+      :type:  dict
+
+
+   .. py:attribute:: service
+
+
+   .. py:attribute:: entrypoint
+
+
+   .. py:attribute:: service_name
+
+
+   .. py:attribute:: args
+      :type:  Tuple
+
+
+   .. py:attribute:: kwargs
+      :type:  Mapping
+
+
+   .. py:attribute:: data
+      :type:  dict
+
+
+   .. py:property:: call_id_stack
+
+
+   .. py:property:: call_id
+      调用ID
+
+
+
+   .. py:property:: context_data
+
+
+   .. py:property:: origin_call_id
+
+
+   .. py:property:: immediate_parent_call_id
+
+
+   .. py:method:: __repr__()
+
+
+.. py:class:: ServiceContainer(service_cls: Type, config: dict)
+
+   Bases: :py:obj:`object`
+
+
+   服务容器
+
+
+   .. py:attribute:: service_cls
+      :type:  Type[Any]
+
+
+   .. py:attribute:: config
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: service_name
+      :type:  str
+
+
+   .. py:attribute:: shared_extensions
+      :type:  dict
+
+
+   .. py:attribute:: max_workers
+      :type:  int
+
+
+   .. py:attribute:: entrypoints
+
+
+   .. py:attribute:: dependencies
+
+
+   .. py:attribute:: subextensions
+
+
+   .. py:attribute:: dependency_attrs
+      :type:  List[Tuple[str, nameko.extensions.DependencyProvider]]
+
+
+   .. py:attribute:: entrypoints_methods
+      :type:  List[Tuple[str, nameko.extensions.Entrypoint]]
+
+
+   .. py:attribute:: started
+      :value: False
+
+
+
+   .. py:attribute:: _worker_pool
+
+
+   .. py:attribute:: _worker_threads
+      :type:  Dict[WorkerContext, eventlet.greenthread.GreenThread]
+
+
+   .. py:attribute:: _managed_threads
+      :type:  Dict[eventlet.greenthread.GreenThread, Optional[str]]
+
+
+   .. py:attribute:: _being_killed
+      :type:  bool
+      :value: False
+
+
+
+   .. py:attribute:: _died
+
+
+   .. py:property:: extensions
+
+
+   .. py:property:: interface
+      一个供扩展使用的此容器的接口。
+
+
+
+   .. py:method:: start()
+
+      通过启动该容器的所有扩展来启动容器。
+
+
+
+   .. py:method:: stop()
+
+      优雅地停止容器。
+
+      首先，所有入口点都会被要求执行 `stop()`。这确保不会启动新的工作线程。
+
+      当对扩展调用 `stop()` 时，扩展有责任优雅地关闭，并且只有在它们停止后才返回。
+
+      在所有入口点停止后，容器会等待所有活跃的工作线程完成。
+
+      在所有活跃的工作线程停止后，容器会停止所有依赖提供者。
+
+      此时，应该不再有托管线程。如果仍然有托管线程，它们将被容器终止。
+
+
+
+   .. py:method:: kill(exc_info=None)
+
+      以半优雅的方式终止容器。
+
+      首先终止入口点，然后是任何活跃的工作线程。接下来，终止依赖项。最后，终止任何剩余的托管线程。
+
+      如果提供了 ``exc_info``，异常将由 :meth:`~wait` 引发。
+
+
+
+   .. py:method:: wait()
+
+      阻塞直到容器已停止。
+
+      如果容器因异常而停止，``wait()`` 将引发该异常。
+
+      在托管线程或工作生命周期（例如在 :meth:`DependencyProvider.worker_setup` 内部）
+      中引发的任何未处理异常将导致容器被 ``kill()``，并且在 ``wait()`` 中引发该异常。
+
+
+
+   .. py:method:: spawn_worker(entrypoint: nameko.extensions.Entrypoint, args: Iterable, kwargs: dict, context_data: Optional[Any] = None, handle_result: Optional[Callable[[WorkerContext, Any, Optional[_typeshed.OptExcInfo]]]] = None)
+
+      为运行由 `entrypoint` 装饰的服务方法生成一个工作线程。
+
+      ``args`` 和 ``kwargs`` 用作服务方法的参数。
+
+      ``context_data`` 用于初始化 ``WorkerContext``。
+
+      ``handle_result`` 是一个可选函数，可能由入口点传入。
+      它在服务方法返回的结果或引发的错误时被调用。
+      如果提供，则必须返回一个值用于 ``result`` 和 ``exc_info``，以便传播到依赖项；
+      这些值可能与服务方法返回的值不同。
+
+
+
+   .. py:method:: spawn_managed_thread(fn: Callable, identifier: Optional[str] = None)
+
+      生成一个托管线程以代表扩展来运行 ``fn``。
+      传入的 `identifier` 将包含在与该线程相关的日志中，默认情况下如果已设置则为 `fn.__name__`。
+
+      在 ``fn`` 内部引发的任何未捕获错误将导致容器被终止。
+
+      终止生成的线程的责任在于调用者。
+      如果在 :meth:`ServiceContainer.stop` 期间所有扩展停止后它们仍在运行，线程将自动被终止。
+
+      扩展应该将所有线程生成委托给容器。
+
+
+
+   .. py:method:: _run_worker(worker_ctx: WorkerContext, handle_result: Optional[Callable[[WorkerContext, Any, Optional[_typeshed.OptExcInfo]]]])
+
+
+   .. py:method:: _inject_dependencies(worker_ctx: WorkerContext)
+
+      注入依赖
+
+
+
+   .. py:method:: _worker_setup(worker_ctx)
+
+      调用提供者的 接口: worker_setup
+
+
+
+   .. py:method:: _worker_result(worker_ctx: WorkerContext, result, exc_info)
+
+      调用提供者的 接口: worker_result
+
+
+
+   .. py:method:: _worker_teardown(worker_ctx: WorkerContext)
+
+      调用提供者的 接口: worker_teardown
+
+
+
+   .. py:method:: _kill_worker_threads()
+
+      终止任何当前正在执行的工作线程。
+
+      参见 :meth:`ServiceContainer.spawn_worker`
+
+
+
+   .. py:method:: _kill_managed_threads()
+
+      终止任何当前正在执行的托管线程。
+
+      参见 :meth:`ServiceContainer.spawn_managed_thread`
+
+
+
+   .. py:method:: _handle_worker_thread_exited(gt: eventlet.greenthread.GreenThread, worker_ctx: WorkerContext)
+
+
+   .. py:method:: _handle_managed_thread_exited(gt: eventlet.greenthread.GreenThread, extension: Iterable[nameko.extensions.Extension])
+
+
+   .. py:method:: _handle_thread_exited(gt: eventlet.greenthread.GreenThread)
+
+
+   .. py:method:: __repr__()
+
+

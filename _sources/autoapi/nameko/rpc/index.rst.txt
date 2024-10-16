@@ -1,0 +1,368 @@
+nameko.rpc
+==========
+
+.. py:module:: nameko.rpc
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   nameko.rpc._log
+   nameko.rpc.RPC_QUEUE_TEMPLATE
+   nameko.rpc.RPC_REPLY_QUEUE_TEMPLATE
+   nameko.rpc.RPC_REPLY_QUEUE_TTL
+   nameko.rpc.rpc
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   nameko.rpc.RpcConsumer
+   nameko.rpc.Rpc
+   nameko.rpc.Responder
+   nameko.rpc.ReplyListener
+   nameko.rpc.RpcProxy
+   nameko.rpc.ServiceProxy
+   nameko.rpc.RpcReply
+   nameko.rpc.MethodProxy
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   nameko.rpc.get_rpc_exchange
+
+
+Module Contents
+---------------
+
+.. py:data:: _log
+
+.. py:data:: RPC_QUEUE_TEMPLATE
+   :value: 'rpc-{}'
+
+
+.. py:data:: RPC_REPLY_QUEUE_TEMPLATE
+   :value: 'rpc.reply-{}-{}'
+
+
+.. py:data:: RPC_REPLY_QUEUE_TTL
+   :value: 300000
+
+
+.. py:function:: get_rpc_exchange(config)
+
+.. py:class:: RpcConsumer
+
+   Bases: :py:obj:`nameko.extensions.SharedExtension`, :py:obj:`nameko.extensions.ProviderCollector`
+
+
+   请注意，`Extension.__init__` 在 `bind` 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 `setup`。
+
+   此外，`bind` 和 `iter_extensions` 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 `ServiceContainer.__init__` 和 `ServiceContainer.setup` 之间。
+
+   `Extension.container` 属性提供对绑定到该扩展的 `nameko.containers.ServiceContainer` 实例的访问，否则为 `None`。
+
+
+   .. py:attribute:: queue_consumer
+
+
+   .. py:attribute:: _unregistering_providers
+
+
+   .. py:attribute:: _unregistered_from_queue_consumer
+
+
+   .. py:attribute:: queue
+      :value: None
+
+
+
+   .. py:method:: setup()
+
+      在容器启动之前调用了绑定的扩展。
+
+      扩展应在此处进行任何必要的初始化。
+
+
+
+   .. py:method:: stop()
+
+      停止 RpcConsumer。
+
+      当最后一个 Rpc 子类从队列消费者中注销时，RpcConsumer 将正常注销。如果没有注册任何提供者，则我们应该在被请求停止时立即从队列消费者注销。
+
+
+
+   .. py:method:: unregister_provider(provider)
+
+      注销提供者。
+
+      阻塞直到此 RpcConsumer 从其队列消费者中注销，这只有在所有提供者都请求注销时才会发生。
+
+
+
+   .. py:method:: get_provider_for_method(routing_key)
+
+
+   .. py:method:: handle_message(body, message)
+
+
+   .. py:method:: handle_result(message, result, exc_info)
+
+
+   .. py:method:: requeue_message(message)
+
+
+.. py:class:: Rpc(expected_exceptions=(), sensitive_arguments=(), **kwargs)
+
+   Bases: :py:obj:`nameko.extensions.Entrypoint`, :py:obj:`nameko.messaging.HeaderDecoder`
+
+
+   入口点封装类
+
+   :Parameters:
+       expected_exceptions : 异常类或异常类元组
+           指定可能由调用者引起的异常（例如，通过提供错误的参数）。
+           保存在入口点实例中作为 ``entrypoint.expected_exceptions``，供其他扩展（例如监控系统）后续检查。
+       sensitive_arguments : 字符串或字符串元组
+           将参数或参数的一部分标记为敏感。保存在入口点实例中作为 ``entrypoint.sensitive_arguments``，
+           供其他扩展（例如日志系统）后续检查。
+
+           :seealso: :func:`nameko.utils.get_redacted_args`
+
+
+   .. py:attribute:: rpc_consumer
+
+
+   .. py:method:: setup()
+
+      在容器启动之前调用了绑定的扩展。
+
+      扩展应在此处进行任何必要的初始化。
+
+
+
+   .. py:method:: stop()
+
+      在服务容器开始关闭时调用。
+
+      扩展应在此处执行任何优雅的关闭操作。
+
+
+
+   .. py:method:: handle_message(body, message)
+
+
+   .. py:method:: handle_result(message, worker_ctx, result, exc_info)
+
+
+.. py:data:: rpc
+
+.. py:class:: Responder(amqp_uri, exchange, serializer, message, ssl=None, login_method=None)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: publisher_cls
+
+
+   .. py:attribute:: amqp_uri
+
+
+   .. py:attribute:: serializer
+
+
+   .. py:attribute:: message
+
+
+   .. py:attribute:: exchange
+
+
+   .. py:attribute:: ssl
+
+
+   .. py:attribute:: login_method
+
+
+   .. py:method:: send_response(result, exc_info)
+
+
+.. py:class:: ReplyListener(**kwargs)
+
+   Bases: :py:obj:`nameko.extensions.SharedExtension`
+
+
+   请注意，`Extension.__init__` 在 `bind` 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 `setup`。
+
+   此外，`bind` 和 `iter_extensions` 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 `ServiceContainer.__init__` 和 `ServiceContainer.setup` 之间。
+
+   `Extension.container` 属性提供对绑定到该扩展的 `nameko.containers.ServiceContainer` 实例的访问，否则为 `None`。
+
+
+   .. py:attribute:: queue_consumer
+
+
+   .. py:attribute:: _reply_events
+
+
+   .. py:method:: setup()
+
+      在容器启动之前调用了绑定的扩展。
+
+      扩展应在此处进行任何必要的初始化。
+
+
+
+   .. py:method:: stop()
+
+      在服务容器开始关闭时调用。
+
+      扩展应在此处执行任何优雅的关闭操作。
+
+
+
+   .. py:method:: get_reply_event(correlation_id)
+
+
+   .. py:method:: handle_message(body, message)
+
+
+.. py:class:: RpcProxy(target_service, **options)
+
+   Bases: :py:obj:`nameko.extensions.DependencyProvider`
+
+
+   请注意，`Extension.__init__` 在 `bind` 过程中以及实例化时都会被调用，因此请避免在此方法中产生副作用。请使用 `setup`。
+
+   此外，`bind` 和 `iter_extensions` 使用反射来查找扩展可能声明的任何子扩展。扩展上的任何描述符应该预计在反射过程中被调用，这发生在 `ServiceContainer.__init__` 和 `ServiceContainer.setup` 之间。
+
+   `Extension.container` 属性提供对绑定到该扩展的 `nameko.containers.ServiceContainer` 实例的访问，否则为 `None`。
+
+
+   .. py:attribute:: rpc_reply_listener
+
+
+   .. py:attribute:: target_service
+
+
+   .. py:attribute:: options
+
+
+   .. py:method:: get_dependency(worker_ctx)
+
+      在工作者执行之前调用。依赖提供者应返回一个对象，以便容器将其注入到工作者实例中。
+
+
+
+.. py:class:: ServiceProxy(worker_ctx, service_name, reply_listener: ReplyListener, **options)
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: worker_ctx
+
+
+   .. py:attribute:: service_name
+
+
+   .. py:attribute:: reply_listener
+
+
+   .. py:attribute:: options
+
+
+   .. py:method:: __getattr__(name)
+
+
+.. py:class:: RpcReply(reply_event: eventlet.event.Event)
+
+   Bases: :py:obj:`object`
+
+
+   解析RPC响应内容
+
+
+   .. py:attribute:: resp_body
+      :type:  Optional[dict]
+      :value: None
+
+
+
+   .. py:attribute:: reply_event
+
+
+   .. py:method:: result()
+
+
+.. py:class:: MethodProxy(worker_ctx, service_name, method_name, reply_listener: ReplyListener, **options)
+
+   Bases: :py:obj:`nameko.messaging.HeaderEncoder`
+
+
+   RPC 方法代理
+
+   请注意，抛出 `UnknownService` 异常的机制依赖于代理中启用发布确认。
+
+
+   .. py:attribute:: publisher_cls
+
+
+   .. py:attribute:: worker_ctx
+
+
+   .. py:attribute:: service_name
+
+
+   .. py:attribute:: method_name
+
+
+   .. py:attribute:: reply_listener
+
+
+   .. py:attribute:: compat_attrs
+      :value: ('retry', 'retry_policy', 'use_confirms')
+
+
+
+   .. py:property:: serializer
+      用于发布消息有效负载时的默认序列化器。
+
+      必须作为一个
+      `kombu 序列化器 <http://bit.do/kombu_serialization>`_ 注册。
+
+
+
+   .. py:attribute:: publisher
+
+
+   .. py:method:: __call__(*args, **kwargs)
+
+
+   .. py:property:: container
+
+
+   .. py:property:: amqp_uri
+
+
+   .. py:property:: ssl
+
+
+   .. py:property:: login_method
+
+
+   .. py:method:: call_async(*args, **kwargs)
+
+
+   .. py:method:: _call(*args, **kwargs)
+
+
+   .. py:method:: __repr__()
+
+

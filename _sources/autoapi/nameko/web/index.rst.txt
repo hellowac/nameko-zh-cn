@@ -1,0 +1,17 @@
+nameko.web
+==========
+
+.. py:module:: nameko.web
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/nameko/web/handlers/index
+   /autoapi/nameko/web/server/index
+   /autoapi/nameko/web/websocket/index
+
+
